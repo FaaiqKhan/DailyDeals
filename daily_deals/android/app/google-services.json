@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "937209823504",
+    "project_id": "daily-deals-app-a96f9",
+    "storage_bucket": "daily-deals-app-a96f9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:937209823504:android:9e4ff9a3de705566a9e595",
+        "android_client_info": {
+          "package_name": "com.example.daily_deals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "937209823504-q7h0rgoplnn5hund14dn3lh99e8ga5n3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.daily_deals",
+            "certificate_hash": "446ea90531be1bb04fa6dc45bb140da24d3629bd"
+          }
+        },
+        {
+          "client_id": "937209823504-ucn30h6e1ccepigl1g2f9pc2hp67gf6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgCt0ZkE2Fgog2Q3ZKU0yImLpjLhOgx64"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "937209823504-ucn30h6e1ccepigl1g2f9pc2hp67gf6c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
