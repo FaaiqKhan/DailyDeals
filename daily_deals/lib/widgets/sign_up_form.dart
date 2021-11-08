@@ -6,11 +6,12 @@ import 'package:flutter/material.dart';
 
 import 'app_button.dart';
 
+bool showPassword = false;
+bool showConfirmPassword = false;
+Function passwordState = () {};
+
 class SignUpForm extends StatelessWidget {
   static final GlobalKey<FormState> _form = GlobalKey<FormState>();
-  bool showPassword = false;
-  bool showConfirmPassword = false;
-  Function passwordState = () {};
 
   @override
   Widget build(BuildContext context) {
