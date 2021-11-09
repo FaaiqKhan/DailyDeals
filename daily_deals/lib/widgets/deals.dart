@@ -1,3 +1,4 @@
+import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -5,6 +6,7 @@ import 'package:hexcolor/hexcolor.dart';
 class Deals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
     return Card(
       elevation: 5,
       child: Stack(
@@ -13,6 +15,7 @@ class Deals extends StatelessWidget {
           Row(
             children: [
               Container(
+                width: cardWidth(screenWidth),
                 decoration: BoxDecoration(
                   color: HexColor("#F83615"),
                   borderRadius: BorderRadius.only(
@@ -48,6 +51,8 @@ class Deals extends StatelessWidget {
                     Text("Series 7"),
                     Image.asset(
                       "assets/images/deals_machine.png",
+                      width: 200,
+                      height: 200,
                     ),
                     Text("Buy a pencil Set and"),
                     Text("make it yours"),
@@ -112,6 +117,7 @@ class Deals extends StatelessWidget {
                 ),
               ),
               Container(
+                width: cardWidth(screenWidth),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
@@ -125,11 +131,81 @@ class Deals extends StatelessWidget {
                 child: Column(
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.share_outlined),
-                        Image.asset("assets/images/favorite_icon.png")
+                        Icon(
+                          Icons.share_outlined,
+                          size: 28,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                right: 12,
+                              ),
+                              child: Icon(
+                                Icons.favorite_outline_outlined,
+                                size: 28,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  "assets/images/timer_icon.png",
+                                  scale: 3,
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    color: HexColor("#303030"),
+                                    border: Border.all(
+                                      color: HexColor("#303030"),
+                                    ),
+                                    borderRadius: BorderRadius.circular(50),
+                                  ),
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(maxWidth: 35),
+                                    child: Text(
+                                      "End on 26 Nov",
+                                      style: TextStyle(
+                                          fontFamily: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2!
+                                              .fontFamily,
+                                          color: Colors.white,
+                                          fontSize: 10),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            )
+                          ],
+                        )
                       ],
-                    )
+                    ),
+                    Opacity(
+                      opacity: 0.25882352941176473,
+                      child: Image.asset(
+                        "assets/images/clock_icon.png",
+                        scale: 8,
+                      ),
+                    ),
+                    Text(
+                      "Closing in",
+                      style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.subtitle2!.fontFamily,
+                        color: HexColor("#5F5C5C"),
+                      ),
+                    ),
+                    ClosingTimer(),
                   ],
                 ),
               ),
@@ -142,5 +218,9 @@ class Deals extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  double cardWidth(double screenWidth) {
+    return screenWidth - (screenWidth * 0.3);
   }
 }

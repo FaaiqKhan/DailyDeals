@@ -236,6 +236,10 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(
                       height: elementsDistance,
                     ),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Deals(),
+                    ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: Image.asset("assets/images/Winner.png"),
