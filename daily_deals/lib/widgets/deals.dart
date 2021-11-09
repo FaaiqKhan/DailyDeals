@@ -117,7 +117,7 @@ class Deals extends StatelessWidget {
                 ),
               ),
               Container(
-                width: cardWidth(screenWidth),
+                // width: cardWidth(screenWidth),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -12,12 +13,16 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Timer(
-        Duration(seconds: 6),
-        () => {
-              _videoPlayerController.dispose().then((value) =>
-                  Navigator.pushReplacementNamed(
-                      context, WelcomeScreen.routeName)),
-            });
+      Duration(seconds: 6),
+      () => {
+        _videoPlayerController.dispose().then(
+              (value) => Navigator.pushReplacementNamed(
+                context,
+                LanguageSelection.routeName,
+              ),
+            ),
+      },
+    );
     return Scaffold(
       backgroundColor: Colors.red,
       body: FutureBuilder(

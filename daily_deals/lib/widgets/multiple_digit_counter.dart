@@ -8,18 +8,18 @@ class MultipleDigitCounter extends StatefulWidget {
   final int initialValue;
   final int numberOfDigits;
   final bool expandable;
-  final TextStyle textStyle;
-  final BoxDecoration boxDecoration;
 
-  MultipleDigitCounter(this.numberOfDigits, this.expandable, this.textStyle,
-      this.initialValue, this.boxDecoration,
+  MultipleDigitCounter(this.numberOfDigits, this.expandable, this.initialValue,
       {Key? key})
       : super(key: key);
 
   @override
   MultipleDigitCounterState createState() {
-    return MultipleDigitCounterState(this.numberOfDigits, this.expandable,
-        this.initialValue, this.textStyle, this.boxDecoration);
+    return MultipleDigitCounterState(
+      this.numberOfDigits,
+      this.expandable,
+      this.initialValue,
+    );
   }
 }
 
@@ -27,11 +27,8 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
   int numberOfDigits;
   bool expandable;
   int _value;
-  final TextStyle _textStyle;
-  final BoxDecoration _boxDecoration;
 
   List<SingleDigit> animatedDigits = [];
-  List<Widget> myWidgets = [];
 
   String _oldValue = "";
   String _newValue = "";
@@ -68,11 +65,12 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
     return val;
   }
 
-  MultipleDigitCounterState(this.numberOfDigits, this.expandable, this._value,
-      this._textStyle, this._boxDecoration);
+  MultipleDigitCounterState(this.numberOfDigits, this.expandable, this._value);
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> myWidgets = [];
+
     if (animatedDigits.isEmpty) {
       String newValue = getValueAsString();
 
@@ -97,13 +95,15 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
 
     for (int i = 2; i < animatedDigits.length - 2; i++) {
       if (i % 2 == 0) {
-        myWidgets.add(Padding(
-          padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-          child: Text(
-            ":",
-            style: TextStyle(color: Colors.white),
+        myWidgets.add(
+          Padding(
+            padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+            child: Text(
+              ":",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
-        ));
+        );
         myWidgets.add(animatedDigits[i]);
       } else {
         myWidgets.add(SizedBox(

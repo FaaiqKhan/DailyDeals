@@ -18,9 +18,8 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(
-                height: 20,
-              ),
+              // Top padding
+              SizedBox(height: screenWidth * 0.05),
               // Top right icons
               Padding(
                 padding: pagePadding,
@@ -31,9 +30,7 @@ class HomeScreen extends StatelessWidget {
                       child: Image.asset("assets/images/person_icon.png"),
                       onTap: () {},
                     ),
-                    const SizedBox(
-                      width: 20,
-                    ),
+                    SizedBox(width: 20),
                     GestureDetector(
                       child: Image.asset("assets/images/favorite_icon.png"),
                       onTap: () {},
@@ -41,9 +38,7 @@ class HomeScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(
-                height: elementsDistance,
-              ),
+              SizedBox(height: elementsDistance),
               // Top tab bar
               Container(
                 color: HexColor("#EAEAEA"),
@@ -61,8 +56,9 @@ class HomeScreen extends StatelessWidget {
                         ),
                         decoration: BoxDecoration(
                           color: Theme.of(context).primaryColor,
-                          border:
-                              Border.all(color: Theme.of(context).primaryColor),
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                          ),
                           borderRadius: BorderRadius.all(
                             Radius.circular(5),
                           ),

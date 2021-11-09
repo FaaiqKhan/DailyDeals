@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
+import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/screens/sign_in_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
@@ -65,6 +66,7 @@ class MyApp extends StatelessWidget {
         ),
         home: SplashScreen(),
         routes: {
+          LanguageSelection.routeName: (ctx) => LanguageSelection(),
           WelcomeScreen.routeName: (ctx) => WelcomeScreen(),
           SignInUpScreen.routeName: (ctx) => SignInUpScreen(),
           SignUpScreen.routeName: (ctx) => SignUpScreen(),

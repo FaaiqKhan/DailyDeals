@@ -84,7 +84,7 @@ class _SignInFormState extends State<SignInForm> {
             child: AppButton(
               context: context,
               text: "Sign In",
-              isSignIn: true,
+              lightBlackColor: true,
               functionality: () async {
                 if (SignInForm._form.currentState!.validate()) {
                   FocusScope.of(context).requestFocus(FocusNode());

@@ -8,14 +8,14 @@ class AppButton extends StatelessWidget {
   final BuildContext? context;
   final bool isFilled;
   final VoidCallback? functionality;
-  final bool isSignIn;
+  final bool lightBlackColor;
 
   AppButton({
     @required this.context,
     @required this.text,
     @required this.functionality,
     this.isFilled = true,
-    this.isSignIn = false,
+    this.lightBlackColor = false,
   });
 
   @override
@@ -41,13 +41,13 @@ class AppButton extends StatelessWidget {
               ? Colors.white
               : Theme.of(context).textTheme.bodyText1!.color,
           backgroundColor: isFilled
-              ? (isSignIn
+              ? (lightBlackColor
                   ? HexColor("#363637")
                   : Theme.of(context).primaryColor)
               : Colors.transparent,
           side: BorderSide(
             color:
-                isSignIn ? HexColor("#363637") : Theme.of(context).primaryColor,
+                lightBlackColor ? HexColor("#363637") : Theme.of(context).primaryColor,
           ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),

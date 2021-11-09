@@ -1,5 +1,6 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/screens/sign_in_up_screen.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/welcome_note.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       body: ColorfulSafeArea(
         child: Container(
@@ -37,17 +39,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    height: 30,
+                    height: Utils.pageHeight(screenHeight),
                     child: SmoothPageIndicator(
                       controller: _controller,
                       count: pages.length,
                       effect: ScrollingDotsEffect(
-                          fixedCenter: true,
-                          activeDotScale: 1.5,
-                          activeStrokeWidth: 2.2,
-                          activeDotColor: Theme.of(context).primaryColor,
-                          dotWidth: 12,
-                          dotHeight: 12
+                        fixedCenter: true,
+                        activeDotScale: 1.5,
+                        activeStrokeWidth: 2.2,
+                        activeDotColor: Theme.of(context).primaryColor,
+                        dotWidth: 12,
+                        dotHeight: 12,
                       ),
                     ),
                   ),

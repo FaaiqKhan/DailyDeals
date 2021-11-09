@@ -11,14 +11,8 @@ import 'multiple_digit_counter.dart';
 class ClosingTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final digitCounter = MultipleDigitCounter(
-      8,
-      false,
-      const TextStyle(color: Colors.grey, fontSize: 30),
-      253,
-      const BoxDecoration(color: Colors.black),
-      key: counterKey,
-    );
+    final MultipleDigitCounter digitCounter =
+        MultipleDigitCounter(8, false, 253, key: counterKey);
     return Container(
       padding: const EdgeInsets.only(
         left: 10.0,
@@ -55,13 +49,12 @@ class DigitDisplayDemo extends StatelessWidget {
             this.digitCounter,
             Consumer<TimerValueProvider>(
               builder: (_, sliderValueProvider, __) {
-                // return TextButton(
-                //   onPressed: () {
-                //     // startTimer(sliderValueProvider);
-                //   },
-                //   child: Text("Start timer"),
-                // );
-                return SizedBox.shrink();
+                return TextButton(
+                  onPressed: () {
+                    startTimer(sliderValueProvider);
+                  },
+                  child: Text("Start timer"),
+                );
               },
             ),
           ],
