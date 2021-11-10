@@ -1,0 +1,22 @@
+
+App Thinning Size Report for All Variants of Runner
+
+Variant: daily_deals-73BA455F-8F32-49B3-BFE1-8688A84D1541.ipa
+Supported variant descriptors: [device: iPhone10,4, os-version: 12.2], [device: iPhone10,1, os-version: 12.2], [device: iPhone9,3, os-version: 12.2], and [device: iPhone9,1, os-version: 12.2]
+App + On Demand Resources size: 10.2 MB compressed, 24.1 MB uncompressed
+App size: 10.2 MB compressed, 24.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: daily_deals-79A579C4-63F2-4DF9-974C-9E69228AF0BC.ipa
+Supported variant descriptors: [device: iPhone9,1, os-version: 15.0], [device: iPhone12,8, os-version: 15.0], [device: iPhone12,8, os-version: 13.0], [device: iPhone9,1, os-version: 14.0], [device: iPhone12,8, os-version: 14.0], [device: iPhone10,1, os-version: 15.0], [device: iPhone10,1, os-version: 13.0], [device: iPhone10,4, os-version: 15.0], [device: iPhone9,3, os-version: 13.0], [device: iPhone10,4, os-version: 13.0], [device: iPhone9,3, os-version: 14.0], [device: iPhone10,1, os-version: 14.0], [device: iPhone10,4, os-version: 14.0], [device: iPhone9,3, os-version: 15.0], and [device: iPhone9,1, os-version: 13.0]
+App + On Demand Resources size: 10.2 MB compressed, 24.1 MB uncompressed
+App size: 10.2 MB compressed, 24.1 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
+
+
+Variant: daily_deals-86916CFB-1F7C-48B6-89CF-7370CADA5122.ipa
+Supported variant descriptors: [device: iPhone10,1, os-version: 12.0], [device: iPhone9,3, os-version: 12.0], [device: iPhone9,1, os-version: 12.0], and [device: iPhone10,4, os-version: 12.0]
+App + On Demand Resources size: 12.7 MB compressed, 31.7 MB uncompressed
+App size: 12.7 MB compressed, 31.7 MB uncompressed
+On Demand Resources size: Zero KB compressed, Zero KB uncompressed
