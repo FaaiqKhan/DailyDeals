@@ -14,7 +14,7 @@ class Utils {
 
   static EdgeInsetsGeometry calculateScreenLeftRightPadding(
       double screenWidth) {
-    return const EdgeInsets.only(left: 40.0, right: 40.0);
+    return const EdgeInsets.only(left: 20.0, right: 20.0);
   }
 
   static EdgeInsetsGeometry calculateScreenLeftRightPaddingWithTop(

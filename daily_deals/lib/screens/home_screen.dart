@@ -13,6 +13,30 @@ class HomeScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     EdgeInsetsGeometry pagePadding =
         Utils.calculateScreenLeftRightPadding(screenWidth);
+    List<Widget> sliderData = [
+      Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Image.asset(
+          "assets/images/Slider.png",
+          scale: 1.5,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Image.asset(
+          "assets/images/Slider.png",
+          scale: 1.5,
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(right: 20),
+        child: Image.asset(
+          "assets/images/Slider.png",
+          scale: 1.5,
+        ),
+      ),
+    ];
+
     return Scaffold(
       body: ColorfulSafeArea(
         child: SingleChildScrollView(
@@ -125,87 +149,132 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(
-                height: elementsDistance,
-              ),
+              SizedBox(height: elementsDistance),
               // Slider
+              // Container(
+              //   width: screenWidth,
+              //   padding: Utils.calculateScreenLeftRightPadding(screenWidth),
+              //   child: Stack(
+              //     alignment: Alignment.center,
+              //     children: [
+              //       SingleChildScrollView(
+              //         child: Row(
+              //           children: sliderData,
+              //         ),
+              //       ),
+              //       Row(
+              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //         children: [
+              //           Container(
+              //             margin: const EdgeInsets.only(left: 15),
+              //             decoration: BoxDecoration(
+              //               border: Border.all(
+              //                 color: HexColor("#707070"),
+              //               ),
+              //               borderRadius: BorderRadius.circular(50),
+              //             ),
+              //             child: Icon(
+              //               Icons.arrow_back,
+              //               color: HexColor("#707070"),
+              //             ),
+              //           ),
+              //           Container(
+              //             margin: const EdgeInsets.only(right: 15),
+              //             decoration: BoxDecoration(
+              //               border: Border.all(
+              //                 color: HexColor("#707070"),
+              //               ),
+              //               borderRadius: BorderRadius.circular(50),
+              //             ),
+              //             child: Icon(
+              //               Icons.arrow_forward,
+              //               color: HexColor("#707070"),
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
               Container(
                 width: screenWidth,
-                padding: const EdgeInsets.only(left: 20),
+                padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Image.asset("assets/images/Slider.png"),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: sliderData,
+                      ),
                     ),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
+                    SizedBox(height: elementsDistance),
                     Text(
                       "Closing Soon",
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
+                    SizedBox(height: elementsDistance),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          Image.asset("assets/images/Closing-Deal.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          Image.asset(
+                            "assets/images/Closing-Deal.png",
+                            scale: 1.5,
                           ),
-                          Image.asset("assets/images/Closing-Deal02.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          SizedBox(width: elementsDistance),
+                          Image.asset(
+                            "assets/images/Closing-Deal02.png",
+                            scale: 1.5,
                           ),
-                          Image.asset("assets/images/Closing-Deal-03.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          SizedBox(width: elementsDistance),
+                          Image.asset(
+                            "assets/images/Closing-Deal-03.png",
+                            scale: 1.5,
                           ),
+                          SizedBox(width: elementsDistance),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
+                    SizedBox(height: elementsDistance),
                     Center(
-                      child: Image.asset("assets/images/Pagination.png"),
+                      child: Image.asset(
+                        "assets/images/Pagination.png",
+                        scale: 1.5,
+                      ),
                     ),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
+                    SizedBox(height: elementsDistance),
                     Text(
                       "Current Deals",
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
+                    SizedBox(height: elementsDistance),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          Image.asset("assets/images/Cuurent-Deal.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          Image.asset(
+                            "assets/images/Cuurent-Deal.png",
+                            scale: 1.5,
                           ),
-                          Image.asset("assets/images/Cuurent-Deal.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          SizedBox(width: elementsDistance),
+                          Image.asset(
+                            "assets/images/Cuurent-Deal.png",
+                            scale: 1.5,
                           ),
+                          SizedBox(width: elementsDistance),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: elementsDistance,
+                    SizedBox(height: elementsDistance),
+                    Center(
+                      child: Image.asset(
+                        "assets/images/Pagination.png",
+                        scale: 1.5,
+                      ),
                     ),
-                    Center(child: Image.asset("assets/images/Pagination.png")),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
+                    SizedBox(height: elementsDistance),
                     Text(
                       "GUESS & WIN",
                       style: Theme.of(context).textTheme.subtitle2,
@@ -214,31 +283,35 @@ class HomeScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          Image.asset("assets/images/Guesss-and-Win.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          Image.asset(
+                            "assets/images/Guesss-and-Win.png",
+                            scale: 1.5,
                           ),
-                          Image.asset("assets/images/Guesss-and-Win.png"),
-                          SizedBox(
-                            width: elementsDistance,
+                          SizedBox(width: elementsDistance),
+                          Image.asset(
+                            "assets/images/Guesss-and-Win.png",
+                            scale: 1.5,
                           ),
+                          SizedBox(width: elementsDistance),
                         ],
                       ),
                     ),
-                    SizedBox(
-                      height: elementsDistance,
+                    SizedBox(height: elementsDistance),
+                    Center(
+                      child: Image.asset("assets/images/Pagination.png",
+                          scale: 1.5),
                     ),
-                    Center(child: Image.asset("assets/images/Pagination.png")),
-                    SizedBox(
-                      height: elementsDistance,
-                    ),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Deals(),
-                    ),
+                    SizedBox(height: elementsDistance),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Deals(),
+                    // ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
-                      child: Image.asset("assets/images/Winner.png"),
+                      child: Image.asset(
+                        "assets/images/Winner.png",
+                        scale: 1.5,
+                      ),
                     ),
                   ],
                 ),
