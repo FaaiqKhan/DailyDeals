@@ -17,46 +17,38 @@ class LanguageSelection extends StatelessWidget {
         child: Padding(
           padding: Utils.calculateScreenLeftRightPadding(screenWidth),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Column(
-                children: [
-                  SizedBox(
-                    height: Utils.pageHeight(screenHeight),
-                  ),
-                  Text(
-                    "Select Your \n Language",
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  SizedBox(
-                    height: screenWidth * 0.3,
-                  ),
-                  AppButton(
-                    context: context,
-                    text: "Arabic",
-                    functionality: () {},
-                    lightBlackColor: true,
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  AppButton(
-                    context: context,
-                    text: "English",
-                    functionality: () {},
-                  ),
-                ],
+              Text(
+                "Select Your \n Language",
+                style: Theme.of(context).textTheme.headline6,
               ),
-              Padding(
-                padding: EdgeInsets.only(bottom: screenWidth * 0.1),
-                child: AppButton(
-                  context: context,
-                  text: "Continue",
-                  functionality: () => Navigator.pushReplacementNamed(
+              SizedBox(
+                height: screenWidth * 0.1,
+              ),
+              AppButton(
+                context: context,
+                text: "Arabic",
+                functionality: () {
+                  Navigator.pushReplacementNamed(
                     context,
                     WelcomeScreen.routeName,
-                  ),
-                ),
+                  );
+                },
+                lightBlackColor: true,
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              AppButton(
+                context: context,
+                text: "English",
+                functionality: () {
+                  Navigator.pushReplacementNamed(
+                    context,
+                    WelcomeScreen.routeName,
+                  );
+                },
               ),
             ],
           ),
