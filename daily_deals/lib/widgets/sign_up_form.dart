@@ -60,14 +60,14 @@ class SignUpForm extends StatelessWidget {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please enter you number";
-                } else if (value.length != 9) {
+                } else if (value.length != 8) {
                   return "Please enter a valid phone number";
                 }
                 return null;
               },
               onSaved: (value) => _userDetails.setNumber = value!,
               keyboardType: TextInputType.phone,
-              maxLength: 9,
+              maxLength: 8,
             ),
           ),
           StatefulBuilder(
@@ -134,7 +134,7 @@ class SignUpForm extends StatelessWidget {
               functionality: () async {
                 _form.currentState!.save();
                 if (_form.currentState!.validate()) {
-                  _userDetails.setNumber = "+971${_userDetails.getNumber}";
+                  _userDetails.setNumber = "+9715${_userDetails.getNumber}";
                   FocusScope.of(context).requestFocus(FocusNode());
                   Utils.requestOtp(
                     context,
