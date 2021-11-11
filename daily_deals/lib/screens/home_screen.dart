@@ -1,6 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
-import 'package:daily_deals/widgets/deals.dart';
+import 'package:daily_deals/widgets/closing_soon.dart';
+import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -13,29 +14,6 @@ class HomeScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     EdgeInsetsGeometry pagePadding =
         Utils.calculateScreenLeftRightPadding(screenWidth);
-    List<Widget> sliderData = [
-      Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Image.asset(
-          "assets/images/Slider.png",
-          scale: 1.5,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Image.asset(
-          "assets/images/Slider.png",
-          scale: 1.5,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.only(right: 20),
-        child: Image.asset(
-          "assets/images/Slider.png",
-          scale: 1.5,
-        ),
-      ),
-    ];
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -149,94 +127,53 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: elementsDistance),
               // Slider
-              // Container(
-              //   width: screenWidth,
-              //   padding: Utils.calculateScreenLeftRightPadding(screenWidth),
-              //   child: Stack(
-              //     alignment: Alignment.center,
-              //     children: [
-              //       SingleChildScrollView(
-              //         child: Row(
-              //           children: sliderData,
-              //         ),
-              //       ),
-              //       Row(
-              //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //         children: [
-              //           Container(
-              //             margin: const EdgeInsets.only(left: 15),
-              //             decoration: BoxDecoration(
-              //               border: Border.all(
-              //                 color: HexColor("#707070"),
-              //               ),
-              //               borderRadius: BorderRadius.circular(50),
-              //             ),
-              //             child: Icon(
-              //               Icons.arrow_back,
-              //               color: HexColor("#707070"),
-              //             ),
-              //           ),
-              //           Container(
-              //             margin: const EdgeInsets.only(right: 15),
-              //             decoration: BoxDecoration(
-              //               border: Border.all(
-              //                 color: HexColor("#707070"),
-              //               ),
-              //               borderRadius: BorderRadius.circular(50),
-              //             ),
-              //             child: Icon(
-              //               Icons.arrow_forward,
-              //               color: HexColor("#707070"),
-              //             ),
-              //           ),
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
+              Container(
+                width: screenWidth,
+                height: screenWidth * 0.73,
+                padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                child: HomeSlider(),
+              ),
               Container(
                 width: screenWidth,
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: sliderData,
-                      ),
-                    ),
                     SizedBox(height: elementsDistance),
                     Text(
                       "Closing Soon",
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                     SizedBox(height: elementsDistance),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/Closing-Deal.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Closing-Deal02.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Closing-Deal-03.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                        ],
+                    Container(
+                      child: ClosingSoon(
+                        "assets/images/temp_3.png",
+                        "907 SOLD OUT OF 1050",
                       ),
                     ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/Closing-Deal.png",
+                    //         scale: 1.5,
+                    //       ),
+                    //       SizedBox(width: elementsDistance),
+                    //       Image.asset(
+                    //         "assets/images/Closing-Deal02.png",
+                    //         scale: 1.5,
+                    //       ),
+                    //       SizedBox(width: elementsDistance),
+                    //       Image.asset(
+                    //         "assets/images/Closing-Deal-03.png",
+                    //         scale: 1.5,
+                    //       ),
+                    //       SizedBox(width: elementsDistance),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: elementsDistance),
                     Center(
                       child: Image.asset(

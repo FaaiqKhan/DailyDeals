@@ -1,14 +1,17 @@
 import 'dart:async';
 
+import 'package:daily_deals/providers/current_page.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
+import 'package:daily_deals/screens/home_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/screens/sign_in_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
 import 'package:daily_deals/screens/splash_screen.dart';
 import 'package:daily_deals/screens/welcome_screen.dart';
+import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,9 +30,7 @@ void main() {
       // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
       // HttpOverrides.global = new MyHttpOverrides();
       runApp(MyApp());
-    }, (e,s) {
-
-    });
+    }, (e, s) {});
   });
 }
 
@@ -40,6 +41,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: Auth(),
+        ),
+        ChangeNotifierProvider.value(
+          value: CurrentPage(),
         ),
       ],
       child: MaterialApp(
