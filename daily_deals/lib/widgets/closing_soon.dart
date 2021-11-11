@@ -13,58 +13,51 @@ class ClosingSoon extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Container(
-      width: screenWidth * 0.37,
-      height: screenWidth * 0.55,
       color: Colors.transparent,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Card(
-              color: HexColor("#F8F8F8"),
-              elevation: 5.0,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(4),
-                        decoration: BoxDecoration(
-                          color: HexColor("#303030"),
-                          border: Border.all(
-                            color: HexColor("#303030"),
-                          ),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child: Icon(
-                          Icons.favorite_outline_outlined,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                  Center(
-                    child: Image.asset(
-                      _imagePath,
-                      scale: 1,
+          Card(
+            color: HexColor("#F8F8F8"),
+            elevation: 5.0,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: HexColor("#303030"),
+                    border: Border.all(
+                      color: HexColor("#303030"),
                     ),
+                    borderRadius: BorderRadius.circular(5),
                   ),
-                  Column(
-                    children: [
-                      Text(
-                        "Get a change to win",
-                        style: TextStyle(
-                          fontFamily:
-                          Theme.of(context).textTheme.subtitle2!.fontFamily,
-                          fontStyle: FontStyle.italic,
-                          color: HexColor("#FF0000"),
-                          fontSize: 10,
-                        ),
+                  child: Icon(
+                    Icons.favorite_outline_outlined,
+                    color: Colors.white,
+                  ),
+                ),
+                Image.asset(
+                  _imagePath,
+                  scale: 1,
+                ),
+                SizedBox(height: screenWidth * 0.02),
+                Column(
+                  children: [
+                    Text(
+                      "Get a change to win",
+                      style: TextStyle(
+                        fontFamily:
+                        Theme.of(context).textTheme.subtitle2!.fontFamily,
+                        fontStyle: FontStyle.italic,
+                        color: HexColor("#FF0000"),
+                        fontSize: 10,
                       ),
-                      Text(
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: Text(
                         "AED 7.500 WORTH OF GOLD",
                         style: TextStyle(
                           fontFamily:
@@ -73,11 +66,11 @@ class ClosingSoon extends StatelessWidget {
                           fontSize: 9,
                         ),
                       ),
-                      SizedBox(height: screenWidth * 0.02),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                    SizedBox(height: screenWidth * 0.02),
+                  ],
+                ),
+              ],
             ),
           ),
           // Sold count
@@ -110,6 +103,7 @@ class ClosingSoon extends StatelessWidget {
               ),
             ),
             child: Row(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Image.asset(
                   "assets/images/clock_icon.png",

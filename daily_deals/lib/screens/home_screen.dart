@@ -146,10 +146,25 @@ class HomeScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                     SizedBox(height: elementsDistance),
-                    Container(
-                      child: ClosingSoon(
-                        "assets/images/temp_3.png",
-                        "907 SOLD OUT OF 1050",
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          ClosingSoon(
+                            "assets/images/temp_3.png",
+                            "907 SOLD OUT OF 1050",
+                          ),
+                          SizedBox(width: screenWidth * 0.02,),
+                          ClosingSoon(
+                            "assets/images/temp_3.png",
+                            "907 SOLD OUT OF 1050",
+                          ),
+                          SizedBox(width: screenWidth * 0.02,),
+                          ClosingSoon(
+                            "assets/images/temp_3.png",
+                            "907 SOLD OUT OF 1050",
+                          )
+                        ],
                       ),
                     ),
                     // SingleChildScrollView(
