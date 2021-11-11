@@ -1,5 +1,6 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -145,28 +146,34 @@ class HomeScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
                     SizedBox(height: elementsDistance),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/Closing-Deal.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Closing-Deal02.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Closing-Deal-03.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                        ],
+                    Container(
+                      child: ClosingSoon(
+                        "assets/images/temp_3.png",
+                        "907 SOLD OUT OF 1050",
                       ),
                     ),
+                    // SingleChildScrollView(
+                    //   scrollDirection: Axis.horizontal,
+                    //   child: Row(
+                    //     children: [
+                    //       Image.asset(
+                    //         "assets/images/Closing-Deal.png",
+                    //         scale: 1.5,
+                    //       ),
+                    //       SizedBox(width: elementsDistance),
+                    //       Image.asset(
+                    //         "assets/images/Closing-Deal02.png",
+                    //         scale: 1.5,
+                    //       ),
+                    //       SizedBox(width: elementsDistance),
+                    //       Image.asset(
+                    //         "assets/images/Closing-Deal-03.png",
+                    //         scale: 1.5,
+                    //       ),
+                    //       SizedBox(width: elementsDistance),
+                    //     ],
+                    //   ),
+                    // ),
                     SizedBox(height: elementsDistance),
                     Center(
                       child: Image.asset(
