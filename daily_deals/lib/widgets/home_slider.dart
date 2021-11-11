@@ -9,6 +9,9 @@ class HomeSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double iconSize = screenWidth * 0.09;
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -30,13 +33,11 @@ class HomeSlider extends StatelessWidget {
             // Back arrow
             GestureDetector(
               onTap: () {
-                if (_pageController.page != 0.0) {
-                  _pageController.animateToPage(
-                    _pageController.page!.toInt() - 1,
-                    duration: Duration(seconds: 1),
-                    curve: Curves.ease,
-                  );
-                }
+                _pageController.animateToPage(
+                  _pageController.page!.toInt() - 1,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.ease,
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -49,13 +50,18 @@ class HomeSlider extends StatelessWidget {
                 child: Icon(
                   Icons.arrow_back,
                   color: HexColor("#707070"),
+                  size: iconSize,
                 ),
               ),
             ),
             // Forward arrow
             GestureDetector(
               onTap: () {
-
+                _pageController.animateToPage(
+                  _pageController.page!.toInt() + 1,
+                  duration: Duration(seconds: 1),
+                  curve: Curves.ease,
+                );
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -68,6 +74,7 @@ class HomeSlider extends StatelessWidget {
                 child: Icon(
                   Icons.arrow_forward,
                   color: HexColor("#707070"),
+                  size: iconSize,
                 ),
               ),
             ),
