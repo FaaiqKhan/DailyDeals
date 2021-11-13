@@ -69,7 +69,8 @@ class SignUpForm extends StatelessWidget {
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please enter you number";
-                } else if (value.length != 10) {
+                } else if ((countryCode != "+971" && value.length != 10) ||
+                    (countryCode == "+971" && value.length != 9)) {
                   return "Please enter a valid phone number";
                 }
                 return null;
@@ -79,6 +80,8 @@ class SignUpForm extends StatelessWidget {
               maxLength: 10,
               onChanged: (value) {
                 if (value.length == 10) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                } else if (countryCode == "+971" && value.length == 9) {
                   FocusScope.of(context).requestFocus(FocusNode());
                 }
               },

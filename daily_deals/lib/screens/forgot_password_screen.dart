@@ -96,17 +96,21 @@ class ForgotPasswordScreen extends StatelessWidget {
                         ),
                         keyboardType: TextInputType.phone,
                         validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.length != 9) {
-                            return "Please enter valid mobile number";
+                          if (value == null || value.isEmpty) {
+                            return "Please enter you number";
+                          } else if ((countryCode != "+971" &&
+                                  value.length != 10) ||
+                              (countryCode == "+971" && value.length != 9)) {
+                            return "Please enter a valid phone number";
                           }
                           return null;
                         },
                         onSaved: (value) => _userDetails.setNumber = value!,
-                        maxLength: 9,
+                        maxLength: 10,
                         onChanged: (value) {
-                          if (value.length == 9) {
+                          if (value.length == 10) {
+                            FocusScope.of(context).requestFocus(FocusNode());
+                          } else if (countryCode == "+971" && value.length == 9) {
                             FocusScope.of(context).requestFocus(FocusNode());
                           }
                         },
