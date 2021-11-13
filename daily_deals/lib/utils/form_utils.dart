@@ -13,6 +13,7 @@ class TextFormUtils {
     bool isPassword = false,
     bool showPassword = false,
     Function? visibilityFunc,
+    Function? countryCodeFunc,
   }) {
     return InputDecoration(
       filled: true,
@@ -32,20 +33,13 @@ class TextFormUtils {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   children: [
-                    Image.asset(
-                      "assets/images/flag_icon.png",
-                      width: 20,
+                    CountryCodePicker(
+                      padding: const EdgeInsets.all(0.0),
+                      initialSelection: '+971',
+                      onChanged: (code) {
+                        countryCodeFunc!(code);
+                      },
                     ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text("+971"),
-                    Text(
-                      " 05",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ),
-                    )
                   ],
                 ),
               ),
