@@ -179,39 +179,36 @@ class CurrentDeals extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
-                      height: elementSpacing,
-                    ),
+                    SizedBox(height: elementSpacing),
                     // Share and favorite icons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(
-                          Icons.share_outlined,
-                          size: 28,
+                        Opacity(
+                          opacity: 0.1803921568627451,
+                          child: Icon(Icons.share_outlined, size: 28),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Padding(
-                              padding: const EdgeInsets.only(
-                                right: 12,
-                              ),
-                              child: Icon(
-                                Icons.favorite_outline_outlined,
-                                size: 28,
+                              padding: const EdgeInsets.only(right: 12),
+                              child: Opacity(
+                                opacity: 0.1803921568627451,
+                                child: Icon(
+                                  Icons.favorite_outline_outlined,
+                                  size: 28,
+                                ),
                               ),
                             ),
-                            SizedBox(
-                              height: 20,
-                            ),
+                            SizedBox(height: 20),
                             Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Image.asset(
                                   "assets/images/timer_icon.png",
-                                  scale: 3.9,
+                                  scale: 4,
                                 ),
                                 Container(
                                   padding: const EdgeInsets.all(8.0),
@@ -266,7 +263,10 @@ class CurrentDeals extends StatelessWidget {
               ),
             ],
           ),
-          RemainingProductCount(total: 1024, remaining: 305,)
+          RemainingProductCount(
+            total: 1024,
+            remaining: 305,
+          )
         ],
       ),
     );
