@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:daily_deals/screens/language_screen.dart';
-import 'package:daily_deals/screens/welcome_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';

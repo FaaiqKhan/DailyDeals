@@ -1,8 +1,5 @@
-import 'dart:async';
-
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
-import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
