@@ -32,6 +32,9 @@ class ClosingTimer extends StatelessWidget {
   }
 }
 
+Timer? _timer;
+int _start = 10;
+
 class DigitDisplayDemo extends StatelessWidget {
   final MultipleDigitCounter digitCounter;
 
@@ -62,9 +65,6 @@ class DigitDisplayDemo extends StatelessWidget {
       ),
     );
   }
-
-  Timer? _timer;
-  int _start = 10;
 
   void startTimer(var sliderValueProvider) {
     const oneSec = const Duration(seconds: 1);

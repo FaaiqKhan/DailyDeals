@@ -35,7 +35,6 @@ class _CreatePasswordState extends State<CreatePassword> {
   Widget build(BuildContext context) {
     String password = "";
     double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: ColorfulSafeArea(
