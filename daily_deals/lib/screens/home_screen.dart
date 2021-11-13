@@ -134,13 +134,13 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                 child: HomeSlider(),
               ),
+              // Other components
               Container(
                 width: screenWidth,
                 padding: const EdgeInsets.only(left: 20, right: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: elementsDistance),
                     Text(
                       "Closing Soon",
                       style: Theme.of(context).textTheme.subtitle2,
@@ -154,12 +154,12 @@ class HomeScreen extends StatelessWidget {
                             "assets/images/temp_3.png",
                             "907 SOLD OUT OF 1050",
                           ),
-                          SizedBox(width: screenWidth * 0.02,),
+                          SizedBox(width: screenWidth * 0.02),
                           ClosingSoon(
-                            "assets/images/temp_3.png",
+                            "assets/images/watch_icon.png",
                             "907 SOLD OUT OF 1050",
                           ),
-                          SizedBox(width: screenWidth * 0.02,),
+                          SizedBox(width: screenWidth * 0.02),
                           ClosingSoon(
                             "assets/images/temp_3.png",
                             "907 SOLD OUT OF 1050",

@@ -45,7 +45,11 @@ class ClosingSoon extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: screenWidth * 0.02),
-                  Image.asset(_imagePath, scale: 1),
+                  Image.asset(
+                    _imagePath,
+                    width: screenWidth * 0.6,
+                    height: screenWidth * 0.25,
+                  ),
                   SizedBox(height: screenWidth * 0.02),
                   Column(
                     children: [
