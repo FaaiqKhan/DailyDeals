@@ -17,65 +17,68 @@ class ClosingSoon extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Stack(
-            alignment: AlignmentDirectional.topEnd,
-            children: [
-              Card(
-                color: HexColor("#F8F8F8"),
-                elevation: 5.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Image.asset(
-                      _imagePath,
-                      scale: 1,
-                    ),
-                    SizedBox(height: screenWidth * 0.02),
-                    Column(
-                      children: [
-                        Text(
-                          "Get a change to win",
-                          style: TextStyle(
-                            fontFamily:
-                            Theme.of(context).textTheme.subtitle2!.fontFamily,
-                            fontStyle: FontStyle.italic,
-                            color: HexColor("#FF0000"),
-                            fontSize: 10,
+          Container(
+            width: screenWidth * 0.42,
+            child: Card(
+              color: HexColor("#F8F8F8"),
+              elevation: 5.0,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          color: HexColor("#303030"),
+                          border: Border.all(
+                            color: HexColor("#303030"),
                           ),
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                          child: Text(
-                            "AED 7.500 WORTH OF GOLD",
-                            style: TextStyle(
-                              fontFamily:
-                              Theme.of(context).textTheme.subtitle2!.fontFamily,
-                              fontStyle: FontStyle.italic,
-                              fontSize: 9,
-                            ),
-                          ),
+                        child: Icon(
+                          Icons.favorite_outline_outlined,
+                          color: Colors.white,
                         ),
-                        SizedBox(height: screenWidth * 0.02),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.all(4),
-                decoration: BoxDecoration(
-                  color: HexColor("#303030"),
-                  border: Border.all(
-                    color: HexColor("#303030"),
+                      ),
+                    ],
                   ),
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Icon(
-                  Icons.favorite_outline_outlined,
-                  color: Colors.white,
-                ),
+                  SizedBox(height: screenWidth * 0.02),
+                  Image.asset(_imagePath, scale: 1),
+                  SizedBox(height: screenWidth * 0.02),
+                  Column(
+                    children: [
+                      Text(
+                        "Get a change to win",
+                        style: TextStyle(
+                          fontFamily:
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
+                          fontStyle: FontStyle.italic,
+                          color: HexColor("#FF0000"),
+                          fontSize: 10,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: Text(
+                          "AED 7.500 WORTH OF GOLD",
+                          style: TextStyle(
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .fontFamily,
+                            fontStyle: FontStyle.italic,
+                            fontSize: 9,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: screenWidth * 0.02),
+                    ],
+                  ),
+                ],
               ),
-            ],
+            ),
           ),
           // Sold count
           Padding(
