@@ -1,4 +1,5 @@
 import 'package:daily_deals/widgets/closing_timer.dart';
+import 'package:daily_deals/widgets/remaining_product_count.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -178,7 +179,9 @@ class CurrentDeals extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(height: elementSpacing,),
+                    SizedBox(
+                      height: elementSpacing,
+                    ),
                     // Share and favorite icons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -255,16 +258,15 @@ class CurrentDeals extends StatelessWidget {
                         color: HexColor("#5F5C5C"),
                       ),
                     ),
-                    ClosingTimer(),
+                    ClosingTimer(
+                      Duration(days: 24, hours: 26, minutes: 25, seconds: 30),
+                    ),
                   ],
                 ),
               ),
             ],
           ),
-          Icon(
-            Icons.settings,
-            color: Colors.black,
-          ),
+          RemainingProductCount(total: 1024, remaining: 305,)
         ],
       ),
     );

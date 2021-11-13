@@ -9,23 +9,21 @@ import 'package:provider/provider.dart';
 import 'multiple_digit_counter.dart';
 
 class ClosingTimer extends StatelessWidget {
+  final Duration endingTime;
+
+  ClosingTimer(this.endingTime);
+
   @override
   Widget build(BuildContext context) {
     final MultipleDigitCounter digitCounter =
-        MultipleDigitCounter(8, false, 253);
+        MultipleDigitCounter(8, false, 253, endingTime);
     return Container(
-      padding: const EdgeInsets.only(
-        left: 10.0,
-        right: 10.0,
-        top: 8.0,
-        bottom: 8.0,
-      ),
+      padding:
+          const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0, bottom: 8.0),
       decoration: BoxDecoration(
         color: HexColor("#F22806"),
         border: Border.all(color: HexColor("#F22806")),
-        borderRadius: BorderRadius.all(
-          Radius.circular(5),
-        ),
+        borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
       child: DigitDisplayDemo(digitCounter),
     );

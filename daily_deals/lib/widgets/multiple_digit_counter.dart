@@ -8,18 +8,17 @@ class MultipleDigitCounter extends StatefulWidget {
   final int initialValue;
   final int numberOfDigits;
   final bool expandable;
+  final Duration endingTime;
 
-  MultipleDigitCounter(this.numberOfDigits, this.expandable, this.initialValue,
+  MultipleDigitCounter(
+      this.numberOfDigits, this.expandable, this.initialValue, this.endingTime,
       {Key? key})
       : super(key: key);
 
   @override
   MultipleDigitCounterState createState() {
     return MultipleDigitCounterState(
-      this.numberOfDigits,
-      this.expandable,
-      this.initialValue,
-    );
+        this.numberOfDigits, this.expandable, this.initialValue);
   }
 }
 
