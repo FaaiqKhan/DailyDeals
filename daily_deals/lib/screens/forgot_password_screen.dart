@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:country_code_picker/country_code.dart';
 import 'package:daily_deals/providers/auth.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/utils/form_utils.dart';
@@ -12,9 +13,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
+String countryCode = "+971";
+
 class ForgotPasswordScreen extends StatelessWidget {
   static const String routeName = "/forgot-password";
   static final GlobalKey<FormState> _form = GlobalKey<FormState>();
+
+  void updateCountryCode(CountryCode code) {
+    countryCode = code.dialCode!;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,20 +92,21 @@ class ForgotPasswordScreen extends StatelessWidget {
                           prefixIcon: "assets/images/mobile_icon.png",
                           title: "Number",
                           isNumberField: true,
+                          countryCodeFunc: updateCountryCode,
                         ),
                         keyboardType: TextInputType.phone,
                         validator: (value) {
                           if (value == null ||
                               value.isEmpty ||
-                              value.length != 8) {
+                              value.length != 9) {
                             return "Please enter valid mobile number";
                           }
                           return null;
                         },
                         onSaved: (value) => _userDetails.setNumber = value!,
-                        maxLength: 8,
+                        maxLength: 9,
                         onChanged: (value) {
-                          if (value.length == 8) {
+                          if (value.length == 9) {
                             FocusScope.of(context).requestFocus(FocusNode());
                           }
                         },
@@ -121,7 +129,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                           FocusScope.of(context).requestFocus(FocusNode());
                           Utils.showLoaderDialog(context, "Please wait...");
                           _userDetails.setNumber =
-                              "+9715${_userDetails.getNumber}";
+                              countryCode + _userDetails.getNumber;
                           Map result = await Provider.of<Auth>(
                             context,
                             listen: false,

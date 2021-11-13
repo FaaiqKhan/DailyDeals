@@ -1,3 +1,4 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -9,13 +10,19 @@ import 'app_button.dart';
 bool showPassword = false;
 bool showConfirmPassword = false;
 Function passwordState = () {};
+String countryCode = "+971";
 
 class SignUpForm extends StatelessWidget {
   static final GlobalKey<FormState> _form = GlobalKey<FormState>();
 
+  void updateCountryCode(CountryCode code) {
+    countryCode = code.dialCode!;
+  }
+
   @override
   Widget build(BuildContext context) {
     final UserDetails _userDetails = UserDetails("", "", "", "");
+
     return Form(
       key: _form,
       child: Column(
@@ -23,16 +30,17 @@ class SignUpForm extends StatelessWidget {
           Padding(
             padding: TextFormUtils.textFieldSpacing(),
             child: TextFormField(
-                decoration: TextFormUtils.textFieldDecoration(
-                  prefixIcon: "assets/images/user_name_icon.png",
-                  title: "Full Name",
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty)
-                    return "Please enter your name";
-                  return null;
-                },
-                onSaved: (value) => _userDetails.setFullName = value!),
+              decoration: TextFormUtils.textFieldDecoration(
+                prefixIcon: "assets/images/user_name_icon.png",
+                title: "Full Name",
+              ),
+              validator: (value) {
+                if (value == null || value.isEmpty)
+                  return "Please enter your name";
+                return null;
+              },
+              onSaved: (value) => _userDetails.setFullName = value!,
+            ),
           ),
           Padding(
             padding: TextFormUtils.textFieldSpacing(),
@@ -56,18 +64,19 @@ class SignUpForm extends StatelessWidget {
                 prefixIcon: "assets/images/mobile_icon.png",
                 title: "Number",
                 isNumberField: true,
+                countryCodeFunc: updateCountryCode,
               ),
               validator: (value) {
                 if (value == null || value.isEmpty) {
                   return "Please enter you number";
-                } else if (value.length != 8) {
+                } else if (value.length != 9) {
                   return "Please enter a valid phone number";
                 }
                 return null;
               },
               onSaved: (value) => _userDetails.setNumber = value!,
               keyboardType: TextInputType.phone,
-              maxLength: 8,
+              maxLength: 9,
             ),
           ),
           StatefulBuilder(
@@ -134,7 +143,7 @@ class SignUpForm extends StatelessWidget {
               functionality: () async {
                 _form.currentState!.save();
                 if (_form.currentState!.validate()) {
-                  _userDetails.setNumber = "+9715${_userDetails.getNumber}";
+                  _userDetails.setNumber = countryCode + _userDetails.getNumber;
                   FocusScope.of(context).requestFocus(FocusNode());
                   Utils.requestOtp(
                     context,
