@@ -77,6 +77,11 @@ class SignUpForm extends StatelessWidget {
               onSaved: (value) => _userDetails.setNumber = value!,
               keyboardType: TextInputType.phone,
               maxLength: 9,
+              onChanged: (value) {
+                if (value.length == 9) {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                }
+              },
             ),
           ),
           StatefulBuilder(
