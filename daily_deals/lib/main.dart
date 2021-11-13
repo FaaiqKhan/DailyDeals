@@ -21,17 +21,10 @@ import 'package:provider/provider.dart';
 import './screens/sign_in_up_screen.dart';
 import 'providers/auth.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp().whenComplete(() {
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    runZonedGuarded(() {
-      // FirebaseCrashlytics.instance.enableInDevMode = true;
-      // FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
-      // HttpOverrides.global = new MyHttpOverrides();
-      runApp(MyApp());
-    }, (e, s) {});
-  });
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
