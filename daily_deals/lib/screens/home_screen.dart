@@ -1,6 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
+import 'package:daily_deals/widgets/deals.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -182,20 +183,7 @@ class HomeScreen extends StatelessWidget {
                     SizedBox(height: elementsDistance),
                     SingleChildScrollView(
                       scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          Image.asset(
-                            "assets/images/Cuurent-Deal.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Cuurent-Deal.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                        ],
-                      ),
+                      child: Deals(),
                     ),
                     SizedBox(height: elementsDistance),
                     Center(
@@ -232,10 +220,6 @@ class HomeScreen extends StatelessWidget {
                           scale: 1.5),
                     ),
                     SizedBox(height: elementsDistance),
-                    // SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Deals(),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: Image.asset(
