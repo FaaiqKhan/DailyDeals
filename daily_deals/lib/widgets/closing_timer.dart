@@ -12,7 +12,7 @@ class ClosingTimer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MultipleDigitCounter digitCounter =
-        MultipleDigitCounter(8, false, 253, key: counterKey);
+        MultipleDigitCounter(8, false, 253);
     return Container(
       padding: const EdgeInsets.only(
         left: 10.0,
@@ -49,12 +49,13 @@ class DigitDisplayDemo extends StatelessWidget {
             this.digitCounter,
             Consumer<TimerValueProvider>(
               builder: (_, sliderValueProvider, __) {
-                return TextButton(
-                  onPressed: () {
-                    startTimer(sliderValueProvider);
-                  },
-                  child: Text("Start timer"),
-                );
+                return SizedBox.shrink();
+                // return TextButton(
+                //   onPressed: () {
+                //     startTimer(sliderValueProvider);
+                //   },
+                //   child: Text("Start timer"),
+                // );
               },
             ),
           ],
@@ -76,7 +77,7 @@ class DigitDisplayDemo extends StatelessWidget {
         } else {
           _start--;
           sliderValueProvider.setValue(_start);
-          (counterKey.currentState as MultipleDigitCounterState).value = _start;
+          // (counterKey.currentState as MultipleDigitCounterState).value = _start;
         }
       },
     );

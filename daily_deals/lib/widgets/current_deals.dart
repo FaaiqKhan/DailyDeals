@@ -3,19 +3,35 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class Deals extends StatelessWidget {
+class CurrentDeals extends StatelessWidget {
+  final String title, productName, productImage, dealOn, price, endingTime;
+  final String? remainingTime;
+
+  CurrentDeals({
+    this.title = "",
+    this.productName = "",
+    this.productImage = "",
+    this.dealOn = "",
+    this.price = "",
+    this.remainingTime,
+    this.endingTime = "",
+  });
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    double elementSpacing = screenWidth * 0.03;
     return Card(
-      elevation: 5,
+      color: Colors.transparent,
+      elevation: 2,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Row(
             children: [
+              // Right size (Product details)
               Container(
-                width: cardWidth(screenWidth),
+                // width: cardWidth(screenWidth),
                 decoration: BoxDecoration(
                   color: HexColor("#F83615"),
                   borderRadius: BorderRadius.only(
@@ -46,27 +62,60 @@ class Deals extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Text("Get at Chance To Win"),
-                    Text("Apple Watch"),
-                    Text("Series 7"),
-                    Image.asset(
-                      "assets/images/deals_machine.png",
-                      width: 200,
-                      height: 200,
-                    ),
-                    Text("Buy a pencil Set and"),
-                    Text("make it yours"),
                     Text(
-                      "AED 30.00",
+                      this.title,
+                      style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.bodyText1!.fontFamily,
+                        fontSize: 10,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.white,
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: screenWidth * 0.21),
+                      child: Text(
+                        this.productName,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily:
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
+                          fontSize: 10,
+                          fontStyle: FontStyle.italic,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Image.asset(
+                      this.productImage,
+                      width: screenWidth * 0.35,
+                    ),
+                    ConstrainedBox(
+                      constraints: BoxConstraints(maxWidth: screenWidth * 0.33),
+                      child: Text(
+                        this.dealOn,
+                        style: TextStyle(
+                          fontFamily:
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
+                          fontStyle: FontStyle.italic,
+                          fontSize: 10,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Text(
+                      "AED ${this.price}",
                       style: TextStyle(
                         fontFamily:
                             Theme.of(context).textTheme.subtitle2!.fontFamily,
-                        fontSize: 16,
+                        fontSize: 17,
                         color: Colors.white,
                       ),
                     ),
                     Row(
                       children: [
+                        SizedBox(width: elementSpacing + 10),
                         TextButton(
                           onPressed: () {},
                           child: Text(
@@ -86,9 +135,7 @@ class Deals extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 10,
-                        ),
+                        SizedBox(width: elementSpacing),
                         TextButton(
                           onPressed: () {},
                           child: Text(
@@ -108,16 +155,17 @@ class Deals extends StatelessWidget {
                             ),
                           ),
                         ),
+                        SizedBox(width: elementSpacing + 10),
                       ],
                     ),
                     SizedBox(
-                      height: 20,
+                      height: screenWidth * 0.03,
                     )
                   ],
                 ),
               ),
+              // Left size (Timing details)
               Container(
-                // width: cardWidth(screenWidth),
                 decoration: BoxDecoration(
                   color: Colors.white,
                   border: Border.all(
@@ -130,6 +178,8 @@ class Deals extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
+                    SizedBox(height: elementSpacing,),
+                    // Share and favorite icons
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +208,7 @@ class Deals extends StatelessWidget {
                               children: [
                                 Image.asset(
                                   "assets/images/timer_icon.png",
-                                  scale: 3,
+                                  scale: 3.9,
                                 ),
                                 Container(
                                   padding: const EdgeInsets.all(8.0),
@@ -194,7 +244,7 @@ class Deals extends StatelessWidget {
                       opacity: 0.25882352941176473,
                       child: Image.asset(
                         "assets/images/clock_icon.png",
-                        scale: 8,
+                        scale: 9,
                       ),
                     ),
                     Text(

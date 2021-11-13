@@ -2,7 +2,7 @@ import 'package:daily_deals/screens/single_digit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-final counterKey = GlobalKey();
+// final counterKey = GlobalKey();
 
 class MultipleDigitCounter extends StatefulWidget {
   final int initialValue;
