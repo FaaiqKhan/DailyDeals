@@ -167,28 +167,6 @@ class HomeScreen extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Row(
-                    //     children: [
-                    //       Image.asset(
-                    //         "assets/images/Closing-Deal.png",
-                    //         scale: 1.5,
-                    //       ),
-                    //       SizedBox(width: elementsDistance),
-                    //       Image.asset(
-                    //         "assets/images/Closing-Deal02.png",
-                    //         scale: 1.5,
-                    //       ),
-                    //       SizedBox(width: elementsDistance),
-                    //       Image.asset(
-                    //         "assets/images/Closing-Deal-03.png",
-                    //         scale: 1.5,
-                    //       ),
-                    //       SizedBox(width: elementsDistance),
-                    //     ],
-                    //   ),
-                    // ),
                     SizedBox(height: elementsDistance),
                     Center(
                       child: Image.asset(
