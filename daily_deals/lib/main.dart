@@ -1,3 +1,4 @@
+import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/providers/current_page.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
@@ -33,6 +34,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(
           value: CurrentPage(),
         ),
+        ChangeNotifierProvider.value(
+          value: ClosingSoonTimerProvider(),
+        ),
       ],
       child: MaterialApp(
         title: 'Daily Deals',
@@ -40,10 +44,9 @@ class MyApp extends StatelessWidget {
           primaryColor: HexColor("#F0603D"),
           textTheme: TextTheme(
             headline5: TextStyle(
-              fontFamily: 'Montserrat-ExtraBoldItalic',
-              color: HexColor("#ED4A2F"),
-              fontSize: 13
-            ),
+                fontFamily: 'Montserrat-ExtraBoldItalic',
+                color: HexColor("#ED4A2F"),
+                fontSize: 13),
             headline6: TextStyle(
               fontFamily: 'Montserrat-Bold',
               fontSize: 32,
