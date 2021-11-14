@@ -1,10 +1,14 @@
-import 'package:daily_deals/widgets/closing_timer.dart';
+import 'package:daily_deals/screens/single_digit_screen.dart';
 import 'package:daily_deals/widgets/remaining_product_count.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
+
+import 'closing_timer.dart';
 
 class CurrentDeals extends StatelessWidget {
+
   final String title, productName, productImage, dealOn, price, endingTime;
   final String? remainingTime;
 
@@ -17,7 +21,7 @@ class CurrentDeals extends StatelessWidget {
     this.remainingTime,
     this.endingTime = "",
   });
-
+  
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
