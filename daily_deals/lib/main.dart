@@ -39,6 +39,11 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: HexColor("#F0603D"),
           textTheme: TextTheme(
+            headline5: TextStyle(
+              fontFamily: 'Montserrat-ExtraBoldItalic',
+              color: HexColor("#ED4A2F"),
+              fontSize: 13
+            ),
             headline6: TextStyle(
               fontFamily: 'Montserrat-Bold',
               fontSize: 32,
