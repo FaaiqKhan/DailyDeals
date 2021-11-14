@@ -1,7 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
-import 'package:daily_deals/widgets/current_deals.dart';
+import 'package:daily_deals/views/current_deals_view.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

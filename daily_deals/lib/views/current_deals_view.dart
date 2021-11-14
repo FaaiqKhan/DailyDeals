@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
-import 'closing_timer.dart';
+import '../widgets/closing_timer.dart';
 
 class CurrentDeals extends StatelessWidget {
 
