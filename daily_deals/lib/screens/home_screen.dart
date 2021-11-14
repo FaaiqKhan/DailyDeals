@@ -1,6 +1,7 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
+import 'package:daily_deals/widgets/current_deals.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class HomeScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     EdgeInsetsGeometry pagePadding =
         Utils.calculateScreenLeftRightPadding(screenWidth);
+    double elementSpacing = screenWidth * 0.02;
 
     return Scaffold(
       body: ColorfulSafeArea(
@@ -154,12 +156,12 @@ class HomeScreen extends StatelessWidget {
                             "assets/images/temp_3.png",
                             "907 SOLD OUT OF 1050",
                           ),
-                          SizedBox(width: screenWidth * 0.02),
+                          SizedBox(width: elementSpacing),
                           ClosingSoon(
                             "assets/images/watch_icon.png",
                             "907 SOLD OUT OF 1050",
                           ),
-                          SizedBox(width: screenWidth * 0.02),
+                          SizedBox(width: elementSpacing),
                           ClosingSoon(
                             "assets/images/temp_3.png",
                             "907 SOLD OUT OF 1050",
@@ -184,16 +186,22 @@ class HomeScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          Image.asset(
-                            "assets/images/Cuurent-Deal.png",
-                            scale: 1.5,
+                          CurrentDeals(
+                            title: "Get a change to win",
+                            productName: "Apple Watch Series 7",
+                            productImage: "assets/images/watch_icon.png",
+                            dealOn: "Buy a pencil set and make it yours",
+                            price: "30.00",
                           ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Cuurent-Deal.png",
-                            scale: 1.5,
+                          SizedBox(width: elementSpacing),
+                          CurrentDeals(
+                            title: "Get a change to win",
+                            productName: "Apple Watch Series 7",
+                            productImage: "assets/images/watch_icon.png",
+                            dealOn: "Buy a pencil set and make it yours",
+                            price: "30.00",
+                            endingTime: "End on 26 Nov",
                           ),
-                          SizedBox(width: elementsDistance),
                         ],
                       ),
                     ),
@@ -232,10 +240,6 @@ class HomeScreen extends StatelessWidget {
                           scale: 1.5),
                     ),
                     SizedBox(height: elementsDistance),
-                    // SingleChildScrollView(
-                    //   scrollDirection: Axis.horizontal,
-                    //   child: Deals(),
-                    // ),
                     Padding(
                       padding: const EdgeInsets.only(right: 20),
                       child: Image.asset(
