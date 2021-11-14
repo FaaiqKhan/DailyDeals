@@ -83,6 +83,12 @@ flutter:
     - family: Montserrat-Regular
       fonts:
         - asset: fonts/Montserrat-Regular.ttf
+
+    - family: Montserrat-ExtraBoldItalic
+      fonts:
+        - asset: fonts/Montserrat-ExtraBoldItalic.ttf
+          style: italic
+          weight: 900
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:
