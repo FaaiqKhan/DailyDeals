@@ -1,7 +1,9 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/views/guess_and_win_view.dart';
+import 'package:daily_deals/views/winners_view.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
-import 'package:daily_deals/widgets/current_deals.dart';
+import 'package:daily_deals/views/current_deals_view.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -221,14 +223,14 @@ class HomeScreen extends StatelessWidget {
                       scrollDirection: Axis.horizontal,
                       child: Row(
                         children: [
-                          Image.asset(
-                            "assets/images/Guesss-and-Win.png",
-                            scale: 1.5,
-                          ),
-                          SizedBox(width: elementsDistance),
-                          Image.asset(
-                            "assets/images/Guesss-and-Win.png",
-                            scale: 1.5,
+                          GuessAndWin(
+                            tagLine:
+                                "Hurry Up and participate before it's End!",
+                            tagImage: "assets/images/runner_icon.png",
+                            dealOn: "Buy a pencil set and make it yours",
+                            price: "30.00",
+                            priceImage: "assets/images/gold_pen.png",
+                            winingItem: "Buy a pencil Set and make it yours!",
                           ),
                           SizedBox(width: elementsDistance),
                         ],
@@ -240,13 +242,7 @@ class HomeScreen extends StatelessWidget {
                           scale: 1.5),
                     ),
                     SizedBox(height: elementsDistance),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 20),
-                      child: Image.asset(
-                        "assets/images/Winner.png",
-                        scale: 1.5,
-                      ),
-                    ),
+                    Winners(),
                   ],
                 ),
               ),

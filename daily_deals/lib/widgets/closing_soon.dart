@@ -1,6 +1,8 @@
+import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 
 class ClosingSoon extends StatelessWidget {
   final String _imagePath;
@@ -98,6 +100,7 @@ class ClosingSoon extends StatelessWidget {
           ),
           // Timer view
           Container(
+            width: screenWidth * 0.43,
             padding: const EdgeInsets.only(
               left: 8.0,
               top: 4.0,
@@ -122,15 +125,18 @@ class ClosingSoon extends StatelessWidget {
                   color: Colors.white,
                 ),
                 SizedBox(width: screenWidth * 0.02),
-                Text(
-                  "23 Hours 52 min 45 sec",
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontFamily:
-                        Theme.of(context).textTheme.bodyText1!.fontFamily,
-                    color: Colors.white,
-                  ),
-                ),
+                Consumer<ClosingSoonTimerProvider>(
+                    builder: (_, ClosingSoonTimerProvider provider, __) {
+                  return Text(
+                    provider.time,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontFamily:
+                          Theme.of(context).textTheme.bodyText1!.fontFamily,
+                      color: Colors.white,
+                    ),
+                  );
+                }),
               ],
             ),
           )
