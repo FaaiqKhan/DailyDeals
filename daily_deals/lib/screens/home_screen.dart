@@ -2,8 +2,8 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/views/guess_and_win_view.dart';
 import 'package:daily_deals/views/winners_view.dart';
-import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:daily_deals/views/current_deals_view.dart';
+import 'package:daily_deals/widgets/closing_soon_slider.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -144,35 +144,7 @@ class HomeScreen extends StatelessWidget {
                       "Closing Soon",
                       style: Theme.of(context).textTheme.subtitle2,
                     ),
-                    SizedBox(height: elementsDistance),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          ClosingSoon(
-                            "assets/images/temp_3.png",
-                            "907 SOLD OUT OF 1050",
-                          ),
-                          SizedBox(width: elementSpacing),
-                          ClosingSoon(
-                            "assets/images/watch_icon.png",
-                            "907 SOLD OUT OF 1050",
-                          ),
-                          SizedBox(width: elementSpacing),
-                          ClosingSoon(
-                            "assets/images/temp_3.png",
-                            "907 SOLD OUT OF 1050",
-                          )
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: elementsDistance),
-                    Center(
-                      child: Image.asset(
-                        "assets/images/Pagination.png",
-                        scale: 1.5,
-                      ),
-                    ),
+                    ClosingSoonSlider(),
                     SizedBox(height: elementsDistance),
                     Text(
                       "Current Deals",

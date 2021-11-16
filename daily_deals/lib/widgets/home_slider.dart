@@ -1,4 +1,5 @@
 import 'package:daily_deals/providers/current_page.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -13,7 +14,12 @@ class HomeSlider extends StatelessWidget {
     double iconSize = screenWidth * 0.07;
 
     return Container(
-      padding: EdgeInsets.only(left: 20.0, top: 8.0, right: 20.0, bottom: 8.0),
+      padding: EdgeInsets.only(
+        left: Utils.screenPadding,
+        top: Utils.elementPadding,
+        right: Utils.screenPadding,
+        bottom: Utils.elementPadding,
+      ),
       width: screenWidth,
       height: screenWidth,
       child: Stack(
