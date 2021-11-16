@@ -10,77 +10,85 @@ class HomeSlider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double iconSize = screenWidth * 0.09;
+    double iconSize = screenWidth * 0.07;
 
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Consumer<CurrentPage>(
-          builder: (_, currentPage, __) {
-            return PageView(
-              onPageChanged: (int) {},
-              controller: _pageController,
-              scrollDirection: Axis.horizontal,
-              pageSnapping: true,
-              children: currentPage.allPages,
-              physics: NeverScrollableScrollPhysics(),
-            );
-          },
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Back arrow
-            GestureDetector(
-              onTap: () {
-                _pageController.animateToPage(
-                  _pageController.page!.toInt() - 1,
-                  duration: Duration(seconds: 1),
-                  curve: Curves.ease,
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: HexColor("#707070"),
+    return Container(
+      padding: EdgeInsets.only(left: 20.0, top: 8.0, right: 20.0, bottom: 8.0),
+      width: screenWidth,
+      height: screenWidth,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Consumer<CurrentPage>(
+            builder: (_, currentPage, __) {
+              return PageView(
+                onPageChanged: (int) {},
+                controller: _pageController,
+                scrollDirection: Axis.horizontal,
+                pageSnapping: true,
+                children: currentPage.allPages,
+                physics: NeverScrollableScrollPhysics(),
+              );
+            },
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Back arrow
+                GestureDetector(
+                  onTap: () {
+                    _pageController.animateToPage(
+                      _pageController.page!.toInt() - 1,
+                      duration: Duration(seconds: 1),
+                      curve: Curves.ease,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: HexColor("#707070"),
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white,
+                    ),
+                    child: Icon(
+                      Icons.arrow_back,
+                      color: HexColor("#707070"),
+                      size: iconSize,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.white,
                 ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: HexColor("#707070"),
-                  size: iconSize,
-                ),
-              ),
-            ),
-            // Forward arrow
-            GestureDetector(
-              onTap: () {
-                _pageController.animateToPage(
-                  _pageController.page!.toInt() + 1,
-                  duration: Duration(seconds: 1),
-                  curve: Curves.ease,
-                );
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: HexColor("#707070"),
+                // Forward arrow
+                GestureDetector(
+                  onTap: () {
+                    _pageController.animateToPage(
+                      _pageController.page!.toInt() + 1,
+                      duration: Duration(seconds: 1),
+                      curve: Curves.ease,
+                    );
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: HexColor("#707070"),
+                      ),
+                      borderRadius: BorderRadius.circular(50),
+                      color: Colors.white,
+                    ),
+                    child: Icon(
+                      Icons.arrow_forward,
+                      color: HexColor("#707070"),
+                      size: iconSize,
+                    ),
                   ),
-                  borderRadius: BorderRadius.circular(50),
-                  color: Colors.white,
                 ),
-                child: Icon(
-                  Icons.arrow_forward,
-                  color: HexColor("#707070"),
-                  size: iconSize,
-                ),
-              ),
+              ],
             ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
