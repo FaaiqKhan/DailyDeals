@@ -81,7 +81,6 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
         animatedDigits.add(
           SingleDigit(
             initialValue: initialDigit,
-            textStyle: TextStyle(color: Colors.white, fontSize: 20),
             boxDecoration: BoxDecoration(color: HexColor("#DA2B0E")),
           ),
         );

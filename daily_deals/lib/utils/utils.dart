@@ -5,6 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Utils {
+  static double screenPadding = 20.0;
+  static double elementPadding = 8.0;
+
   static double calculateButtonHeight(double screenWidth) {
     return 44;
   }

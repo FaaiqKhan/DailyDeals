@@ -24,22 +24,19 @@ class GuessAndWin extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double elementSpacing = screenWidth * 0.03;
+    double cardHeight = screenWidth * 0.89;
+    double elementSpacing = screenWidth * 0.028;
 
     // Left size (Product details)
-    Widget rightSize = Column(
+    Widget leftSide = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(
-          height: elementSpacing,
-        ),
         Image.asset(
           "assets/images/clock_icon.png",
-          scale: 10,
+          scale: screenWidth * 0.032,
           color: Colors.white,
         ),
-        SizedBox(
-          height: elementSpacing,
-        ),
+        SizedBox(height: elementSpacing),
         Container(
           padding: EdgeInsets.only(
             left: elementSpacing + 10,
@@ -49,9 +46,7 @@ class GuessAndWin extends StatelessWidget {
             Duration(days: 60, hours: 15, minutes: 39, seconds: 35),
           ),
         ),
-        SizedBox(
-          height: elementSpacing,
-        ),
+        SizedBox(height: elementSpacing),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: screenWidth * 0.42),
           child: Text(
@@ -132,23 +127,25 @@ class GuessAndWin extends StatelessWidget {
             ),
           ],
         ),
-        SizedBox(height: screenWidth * 0.03)
       ],
     );
     // Right size (Timing details)
-    Widget leftSize = Column(
+    Widget rightSide = Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        SizedBox(height: elementSpacing),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Guess & win",
-              style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontStyle: FontStyle.italic,
-                color: HexColor("#303030"),
-                fontSize: 24,
+            Padding(
+              padding: EdgeInsets.only(
+                  left: screenWidth * 0.08, right: screenWidth * 0.08),
+              child: Text(
+                "Guess & win",
+                style: TextStyle(
+                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                  fontStyle: FontStyle.italic,
+                  color: HexColor("#303030"),
+                  fontSize: 24,
+                ),
               ),
             ),
             Opacity(
@@ -176,11 +173,10 @@ class GuessAndWin extends StatelessWidget {
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-              left: elementSpacing + 50, right: elementSpacing + 50),
+          padding: EdgeInsets.only(left: elementSpacing, right: elementSpacing),
           child: Image.asset(
             priceImage,
-            width: screenWidth * 0.38,
+            scale: 4,
           ),
         ),
         ConstrainedBox(
@@ -206,19 +202,18 @@ class GuessAndWin extends StatelessWidget {
         ),
         SizedBox(height: screenWidth * 0.05),
         PriceDetailsAndAddToCartButtons(),
-        SizedBox(height: screenWidth * 0.03)
       ],
     );
 
-    List<Widget> data = [rightSize, leftSize];
-    return CardView(
-      data,
-      totalItems: 1024,
-      remainingItems: 800,
-    );
-  }
+    List<Widget> data = [leftSide, rightSide];
 
-  double cardWidth(double screenWidth) {
-    return screenWidth - (screenWidth * 0.3);
+    return Container(
+      height: cardHeight,
+      child: CardView(
+        data,
+        totalItems: 1024,
+        remainingItems: 800,
+      ),
+    );
   }
 }
