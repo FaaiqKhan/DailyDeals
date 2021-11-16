@@ -1,3 +1,4 @@
+import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -29,6 +30,12 @@ class ClosingSoonSlider extends StatelessWidget {
                   ClosingSoon(
                     "assets/images/temp_3.png",
                     "907 SOLD OUT OF 1050",
+                    function: () {
+                      Navigator.pushNamed(
+                        context,
+                        ProductDetails.routeName,
+                      );
+                    },
                   ),
                   ClosingSoon(
                     "assets/images/watch_icon.png",
