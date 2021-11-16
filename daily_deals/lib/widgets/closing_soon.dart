@@ -13,13 +13,12 @@ class ClosingSoon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
     return Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          width: screenWidth * 0.42,
+          width: screenWidth/2.28,
           child: Card(
             color: HexColor("#F8F8F8"),
             elevation: 5.0,

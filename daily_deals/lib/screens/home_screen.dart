@@ -175,13 +175,6 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: elementsDistance),
-                    Center(
-                      child: Image.asset(
-                        "assets/images/Pagination.png",
-                        scale: 1.5,
-                      ),
-                    ),
-                    SizedBox(height: elementsDistance),
                     Text(
                       "GUESS & WIN",
                       style: Theme.of(context).textTheme.subtitle2,
@@ -202,11 +195,6 @@ class HomeScreen extends StatelessWidget {
                           SizedBox(width: elementsDistance),
                         ],
                       ),
-                    ),
-                    SizedBox(height: elementsDistance),
-                    Center(
-                      child: Image.asset("assets/images/Pagination.png",
-                          scale: 1.5),
                     ),
                     SizedBox(height: elementsDistance),
                     Winners(),
