@@ -5,6 +5,7 @@ import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
+import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:daily_deals/screens/sign_in_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
 import 'package:daily_deals/screens/splash_screen.dart';
@@ -75,6 +76,7 @@ class MyApp extends StatelessWidget {
           ForgotPasswordScreen.routeName: (ctx) => ForgotPasswordScreen(),
           CreatePassword.routeName: (ctx) => CreatePassword(),
           ParentScreen.routeName: (ctx) => ParentScreen(),
+          ProductDetails.routeName: (ctx) => ProductDetails(),
         },
       ),
     );
