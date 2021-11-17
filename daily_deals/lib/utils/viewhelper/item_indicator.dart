@@ -67,7 +67,7 @@ class ItemIndicator extends StatelessWidget {
           Text(
             label,
             style: TextStyle(
-              fontSize: 10,
+              fontSize: 7,
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               color: Colors.white,
             ),

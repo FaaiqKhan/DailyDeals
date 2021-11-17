@@ -21,7 +21,7 @@ class HomeSlider extends StatelessWidget {
         bottom: Utils.elementPadding,
       ),
       width: screenWidth,
-      height: screenWidth,
+      height: screenWidth * 0.7,
       child: Stack(
         alignment: Alignment.center,
         children: [

@@ -31,14 +31,17 @@ class _ParentScreenState extends State<ParentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double bottomHeight = screenWidth * 0.2;
     return Scaffold(
       body: _screens.elementAt(_currentIndex),
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(
-            topLeft: const Radius.circular(25.0),
-            topRight: const Radius.circular(25.0)),
+          topLeft: const Radius.circular(25.0),
+          topRight: const Radius.circular(25.0),
+        ),
         child: Container(
-          height: 100,
+          height: bottomHeight,
           child: Theme(
             data: Theme.of(context).copyWith(canvasColor: Colors.black54),
             child: BottomNavigationBar(
@@ -48,6 +51,8 @@ class _ParentScreenState extends State<ParentScreen> {
                   label: "Home",
                   activeIcon: CustomBottomNavigationBar(
                     Icons.home_filled,
+                    screenWidth,
+                    0.11,
                     "Home",
                   ),
                 ),
@@ -56,6 +61,8 @@ class _ParentScreenState extends State<ParentScreen> {
                   label: "Coupons",
                   activeIcon: CustomBottomNavigationBar(
                     null,
+                    screenWidth,
+                    0.15,
                     "Coupons",
                     null,
                     "assets/images/coupon_icon.png",
@@ -66,6 +73,8 @@ class _ParentScreenState extends State<ParentScreen> {
                   label: "Notifications",
                   activeIcon: CustomBottomNavigationBar(
                     Icons.notifications,
+                    screenWidth,
+                    0.21,
                     "Notifications",
                   ),
                 ),
@@ -84,6 +93,8 @@ class _ParentScreenState extends State<ParentScreen> {
                   label: "Cart",
                   activeIcon: CustomBottomNavigationBar(
                     Icons.shopping_cart,
+                    screenWidth,
+                    0.11,
                     "Cart",
                     2,
                   ),
