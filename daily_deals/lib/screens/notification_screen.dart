@@ -14,6 +14,7 @@ class NotificationScreen extends StatelessWidget {
       appBar: AppBar(
         title: AppBarTitle("Notification"),
         actions: [AppBarProfileButton()],
+        backgroundColor: HexColor("#F83615"),
       ),
       body: SingleChildScrollView(
         child: Padding(

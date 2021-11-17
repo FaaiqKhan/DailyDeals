@@ -20,7 +20,7 @@ class CouponView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double elementSpacing = screenWidth * 0.02;
-    double containerHeight = screenWidth * 0.36;
+    double containerHeight = screenWidth * 0.4;
 
     return Container(
       height: containerHeight,
@@ -66,9 +66,11 @@ class CouponView extends StatelessWidget {
                 ),
                 // right side
                 Container(
+                  width: screenWidth * 0.55,
                   padding: EdgeInsets.only(
                     top: elementSpacing,
                     bottom: elementSpacing,
+                    left: screenWidth * 0.07,
                   ),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -79,24 +81,20 @@ class CouponView extends StatelessWidget {
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxWidth: 120
-                            ),
-                            child: Text(
-                              "You appear in $priceName",
-                              style: TextStyle(
-                                fontFamily: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .fontFamily,
-                                color: HexColor("#ACACAD"),
-                                fontSize: 9,
-                              ),
+                          Text(
+                            "You appear in $priceName",
+                            style: TextStyle(
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .fontFamily,
+                              color: HexColor("#ACACAD"),
+                              fontSize: 9,
                             ),
                           ),
                           Text(
@@ -134,92 +132,59 @@ class CouponView extends StatelessWidget {
                           ),
                         ],
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: screenWidth * 0.08),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Your sequence",
-                              style: TextStyle(
-                                fontFamily: Theme.of(context)
-                                    .textTheme
-                                    .bodyText1!
-                                    .fontFamily,
-                                color: HexColor("#ACACAD"),
-                                fontSize: 9,
-                              ),
+                      // Sequence
+                      Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Your sequence",
+                            style: TextStyle(
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1!
+                                  .fontFamily,
+                              color: HexColor("#ACACAD"),
+                              fontSize: 9,
                             ),
-                            Row(
-                              children: [
-                                DigitView("11", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("17", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("32", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("48", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("99", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("20", "#ACACAD", "#E4E4E4"),
-                              ],
-                            ),
-                            SizedBox(height: 5),
-                            Row(
-                              children: [
-                                DigitView("11", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("17", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("32", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("48", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("99", "#ACACAD", "#E4E4E4"),
-                                SizedBox(width: 5.0),
-                                DigitView("20", "#ACACAD", "#E4E4E4"),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              DigitView("11", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("17", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("32", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("48", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("99", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("20", "#ACACAD", "#E4E4E4"),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              DigitView("11", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("17", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("32", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("48", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("99", "#ACACAD", "#E4E4E4"),
+                              SizedBox(width: 5.0),
+                              DigitView("20", "#ACACAD", "#E4E4E4"),
+                            ],
+                          ),
+                        ],
                       ),
                     ],
                   ),
-                ),
-                // Lottery icon
-                Column(
-                  children: [
-                    SizedBox(height: screenWidth * 0.02),
-                    Image.asset("assets/images/lottery_icon.png"),
-                    Text(
-                      "Lucky Draw",
-                      style: TextStyle(
-                        fontSize: 7,
-                        color: HexColor("#ACACAD"),
-                        fontFamily:
-                            Theme.of(context).textTheme.bodyText1!.fontFamily,
-                      ),
-                    ),
-                    Text(
-                      date,
-                      style: TextStyle(
-                        fontSize: 7,
-                        color: HexColor("#4E4C4C"),
-                        fontFamily:
-                            Theme.of(context).textTheme.subtitle2!.fontFamily,
-                      ),
-                    ),
-                    Text(
-                      year,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: HexColor("#4E4C4C"),
-                        fontFamily:
-                            Theme.of(context).textTheme.subtitle2!.fontFamily,
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
@@ -231,7 +196,55 @@ class CouponView extends StatelessWidget {
                 width: screenWidth * 0.12,
                 height: screenWidth * 0.3,
               ),
-            )
+            ),
+            // Lottery icon
+            Container(
+              padding: EdgeInsets.only(top: screenWidth * 0.06, right: 10),
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(
+                    children: [
+                      Image.asset("assets/images/lottery_icon.png"),
+                      Text(
+                        "Lucky Draw",
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: HexColor("#ACACAD"),
+                          fontFamily: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
+                              .fontFamily,
+                        ),
+                      ),
+                      Text(
+                        date,
+                        style: TextStyle(
+                          fontSize: 7,
+                          color: HexColor("#4E4C4C"),
+                          fontFamily: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .fontFamily,
+                        ),
+                      ),
+                      Text(
+                        year,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: HexColor("#4E4C4C"),
+                          fontFamily: Theme.of(context)
+                              .textTheme
+                              .subtitle2!
+                              .fontFamily,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
       ),

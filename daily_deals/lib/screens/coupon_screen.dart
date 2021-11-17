@@ -4,6 +4,7 @@ import 'package:daily_deals/widgets/app_bar_back_button.dart';
 import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
 
 class CouponScreen extends StatelessWidget {
   @override
@@ -12,6 +13,7 @@ class CouponScreen extends StatelessWidget {
       appBar: AppBar(
         title: AppBarTitle("My Coupons"),
         actions: [AppBarProfileButton()],
+        backgroundColor: HexColor("#F83615"),
       ),
       body: SingleChildScrollView(
         child: Padding(
