@@ -11,7 +11,6 @@ class CouponScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitle("My Coupons"),
-        leading: AppBarBackButton(),
         actions: [AppBarProfileButton()],
       ),
       body: SingleChildScrollView(

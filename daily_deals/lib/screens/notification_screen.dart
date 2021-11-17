@@ -13,7 +13,6 @@ class NotificationScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitle("Notification"),
-        leading: AppBarBackButton(),
         actions: [AppBarProfileButton()],
       ),
       body: SingleChildScrollView(
