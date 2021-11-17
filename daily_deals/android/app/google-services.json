@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "937209823504-q7h0rgoplnn5hund14dn3lh99e8ga5n3.apps.googleusercontent.com",
+          "client_id": "937209823504-ia6go1kmhu7h5382e52em6bkntl7s6c4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.daily_deals",
-            "certificate_hash": "446ea90531be1bb04fa6dc45bb140da24d3629bd"
+            "certificate_hash": "41bbbc04d62a6b69eb240b183df1745d34723f5b"
           }
         },
         {
@@ -37,6 +37,13 @@
             {
               "client_id": "937209823504-ucn30h6e1ccepigl1g2f9pc2hp67gf6c.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "937209823504-nhavdta6e2jdvr02trrh4qb996c058bv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.dailyDeals"
+              }
             }
           ]
         }

@@ -29,7 +29,7 @@ class SignUpScreen extends StatelessWidget {
               child: Padding(
                 padding: pagePadding,
                 child: SingleChildScrollView(
-                  child: SignUpForm(),
+                  child: SignUpForm(screenWidth),
                 ),
               ),
             ),

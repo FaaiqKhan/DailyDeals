@@ -4,6 +4,7 @@ import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'app_button.dart';
 
@@ -14,9 +15,16 @@ String countryCode = "+971";
 
 class SignUpForm extends StatelessWidget {
   static final GlobalKey<FormState> _form = GlobalKey<FormState>();
+  final double screenWidth;
+
+  SignUpForm(this.screenWidth);
 
   void updateCountryCode(CountryCode code) {
     countryCode = code.dialCode!;
+  }
+
+  bool _isKeyboardVisible(BuildContext context) {
+    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
   }
 
   @override
@@ -160,6 +168,10 @@ class SignUpForm extends StatelessWidget {
                 }
               },
             ),
+          ),
+          Visibility(
+            visible: _isKeyboardVisible(context),
+            child: SizedBox(height: screenWidth * 0.2),
           ),
         ],
       ),
