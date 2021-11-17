@@ -66,7 +66,7 @@ class CouponView extends StatelessWidget {
                 ),
                 // right side
                 Container(
-                  width: screenWidth * 0.55,
+                  width: screenWidth * 0.53,
                   padding: EdgeInsets.only(
                     top: elementSpacing,
                     bottom: elementSpacing,
@@ -194,7 +194,7 @@ class CouponView extends StatelessWidget {
                 total: 100,
                 remaining: 20,
                 width: screenWidth * 0.12,
-                height: screenWidth * 0.3,
+                height: screenWidth * 0.35,
               ),
             ),
             // Lottery icon
