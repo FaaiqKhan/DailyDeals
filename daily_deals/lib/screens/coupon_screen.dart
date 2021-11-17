@@ -23,7 +23,7 @@ class CouponScreen extends StatelessWidget {
               CouponView(
                 "Guess & win",
                 "assets/images/temp_3.png",
-                "Mercedes benz MZ-66",
+                "Mercedes benz",
                 "Hoddy of CK",
                 "250.00",
                 "20th Nov",

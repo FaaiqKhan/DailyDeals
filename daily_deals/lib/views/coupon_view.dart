@@ -20,7 +20,7 @@ class CouponView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double elementSpacing = screenWidth * 0.02;
-    double containerHeight = screenWidth * 0.4;
+    double containerHeight = screenWidth * 0.5;
 
     return Container(
       height: containerHeight,
