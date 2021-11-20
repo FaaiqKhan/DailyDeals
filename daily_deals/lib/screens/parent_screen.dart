@@ -1,10 +1,15 @@
+import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/screens/cart_screen.dart';
 import 'package:daily_deals/screens/coupon_screen.dart';
 import 'package:daily_deals/screens/notification_screen.dart';
+import 'package:daily_deals/views/app_bar_title.dart';
+import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:daily_deals/widgets/bottom_navigation_bar_item.dart';
+import 'package:daily_deals/widgets/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/rendering.dart';
+import 'package:hexcolor/hexcolor.dart';
 import 'home_screen.dart';
 
 class ParentScreen extends StatefulWidget {
@@ -16,16 +21,23 @@ class ParentScreen extends StatefulWidget {
 
 class _ParentScreenState extends State<ParentScreen> {
   int _currentIndex = 0;
-  List<Widget> _screens = [];
+  Map<int, Widget> _screens = {};
+  Map<int, String> _titles = {};
 
   @override
   void initState() {
-    _screens = [
-      HomeScreen(),
-      CouponScreen(),
-      NotificationScreen(),
-      CartScreen()
-    ];
+    _screens = {
+      0: HomeScreen(),
+      1: CouponScreen(),
+      2: NotificationScreen(),
+      3: CartScreen()
+    };
+    _titles = {
+      0: "Home",
+      1: "My Coupons",
+      2: "Notifications",
+      3: "Cart",
+    };
     super.initState();
   }
 
@@ -33,8 +45,21 @@ class _ParentScreenState extends State<ParentScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double bottomHeight = screenWidth * 0.2;
+
     return Scaffold(
-      body: _screens.elementAt(_currentIndex),
+      backgroundColor: Colors.white,
+      body: _screens[_currentIndex],
+      appBar: _currentIndex != 0
+          ? AppBar(
+              title: AppBarTitle(_titles[_currentIndex]!),
+              actions: [AppBarProfileButton()],
+              backgroundColor: HexColor("#F83615"),
+              leading: Container(),
+            )
+          : null,
+      drawer: ColorfulSafeArea(
+        child: MyDrawer(screenWidth),
+      ),
       bottomNavigationBar: ClipRRect(
         borderRadius: BorderRadius.only(
           topLeft: const Radius.circular(25.0),

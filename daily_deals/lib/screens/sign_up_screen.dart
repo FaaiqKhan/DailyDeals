@@ -17,6 +17,7 @@ class SignUpScreen extends StatelessWidget {
     EdgeInsetsGeometry pagePadding =
         Utils.calculateScreenLeftRightPadding(screenWidth);
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: ColorfulSafeArea(
         child: Column(
