@@ -1,9 +1,6 @@
-import 'package:daily_deals/screens/single_digit_screen.dart';
-import 'package:daily_deals/widgets/remaining_product_count.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/closing_timer.dart';
 import 'card_view.dart';

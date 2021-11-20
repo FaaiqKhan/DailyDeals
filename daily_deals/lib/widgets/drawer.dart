@@ -1,6 +1,8 @@
+import 'package:daily_deals/screens/sign_in_up_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatelessWidget {
   final double screenWidth;
@@ -193,19 +195,31 @@ class MyDrawer extends StatelessWidget {
               ),
               SizedBox(height: elementHeight),
               // Log out
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/drawer/logout_icon.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                  SizedBox(width: drawerIconsDistance),
-                  Text(
-                    "Logout",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
+              GestureDetector(
+                onTap: () {
+                  SharedPreferences.getInstance().then((preferences) {
+                    preferences.clear().then((value) {
+                      if (value) {
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                            SignInUpScreen.routeName, (route) => false);
+                      }
+                    });
+                  });
+                },
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/drawer/logout_icon.png",
+                      width: 30,
+                      height: 30,
+                    ),
+                    SizedBox(width: drawerIconsDistance),
+                    Text(
+                      "Logout",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
               )
             ],
           ),
