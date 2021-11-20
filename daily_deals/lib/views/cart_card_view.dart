@@ -35,7 +35,7 @@ class CartCard extends StatelessWidget {
             children: [
               // Image and Text
               Container(
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.all(10.0),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey),
                   color: Colors.white,
@@ -53,7 +53,7 @@ class CartCard extends StatelessWidget {
                     ),
                     Image.asset(
                       "assets/images/gold_pen.png",
-                      scale: screenWidth * 0.012,
+                      scale: 6,
                     )
                   ],
                 ),
@@ -63,7 +63,7 @@ class CartCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: screenWidth * 0.2),
+                    constraints: BoxConstraints(maxWidth: screenWidth * 0.3),
                     child: Text(
                       "AED $price Cash",
                       style: TextStyle(
@@ -77,10 +77,11 @@ class CartCard extends StatelessWidget {
                   Text(
                     "Pencil set",
                     style: TextStyle(
-                        fontSize: 16,
-                        fontFamily:
-                            Theme.of(context).textTheme.bodyText1!.fontFamily,
-                        color: HexColor("#C4C1CA")),
+                      fontSize: 16,
+                      fontFamily:
+                          Theme.of(context).textTheme.bodyText1!.fontFamily,
+                      color: HexColor("#C4C1CA"),
+                    ),
                   ),
                   ConstrainedBox(
                     constraints: BoxConstraints(maxWidth: screenWidth * 0.25),
@@ -122,8 +123,8 @@ class CartCard extends StatelessWidget {
                           ),
                           // Items count
                           Container(
-                            margin: const EdgeInsets.only(
-                                left: 10.0, right: 10.0),
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
                             padding: const EdgeInsets.only(
                               left: 10.0,
                               top: 5.0,
@@ -170,10 +171,8 @@ class CartCard extends StatelessWidget {
                       Text(
                         "AED ${cartItems.items * 300.00}",
                         style: TextStyle(
-                          fontFamily: Theme.of(context)
-                              .textTheme
-                              .headline5!
-                              .fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.headline5!.fontFamily,
                           color: HexColor("#EE5335"),
                           fontSize: 16,
                         ),
