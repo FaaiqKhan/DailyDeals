@@ -46,6 +46,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Daily Deals',
         theme: ThemeData(
+          canvasColor: Colors.transparent,
           primaryColor: HexColor("#F0603D"),
           textTheme: TextTheme(
               headline5: TextStyle(

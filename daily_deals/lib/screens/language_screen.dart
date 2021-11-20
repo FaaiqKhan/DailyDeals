@@ -12,6 +12,7 @@ class LanguageSelection extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       body: ColorfulSafeArea(
         child: Padding(
           padding: Utils.calculateScreenLeftRightPadding(screenWidth),

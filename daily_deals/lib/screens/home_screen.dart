@@ -31,11 +31,15 @@ class HomeScreen extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
+                  // Profile icon
                   GestureDetector(
                     child: Image.asset("assets/images/person_icon.png"),
-                    onTap: () {},
+                    onTap: () {
+                      Scaffold.of(context).openDrawer();
+                    },
                   ),
                   SizedBox(width: 20),
+                  // Favorite icon
                   GestureDetector(
                     child: Image.asset("assets/images/favorite_icon.png"),
                     onTap: () {},
