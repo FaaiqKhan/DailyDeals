@@ -17,7 +17,7 @@ class ClosingSoonSlider extends StatelessWidget {
     return Column(
       children: [
         Container(
-          height: screenWidth * 0.65,
+          height: screenWidth * 0.7,
           child: PageView(
             onPageChanged: (int) {},
             controller: _pageController,

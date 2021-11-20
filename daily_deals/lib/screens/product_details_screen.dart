@@ -1,5 +1,8 @@
+import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
+import 'package:daily_deals/widgets/app_bar_back_button.dart';
+import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -18,38 +21,10 @@ class ProductDetails extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            "Product Details",
-            style: TextStyle(
-              fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-              fontSize: 25,
-            ),
-          ),
-        ),
-        leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            margin: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white, width: 2),
-              borderRadius: BorderRadius.circular(50),
-            ),
-            child: Icon(Icons.arrow_back),
-          ),
-        ),
+        title: AppBarTitle("Product Details"),
+        leading: AppBarBackButton(),
         actions: [
-          Container(
-            margin: const EdgeInsets.all(8),
-            decoration: BoxDecoration(
-                border: Border.all(color: HexColor("#E73E22"), width: 2),
-                borderRadius: BorderRadius.circular(50),
-                color: HexColor("#E73E22")),
-            child: Image.asset(
-              "assets/images/person_icon.png",
-              color: Colors.white,
-            ),
-          )
+          AppBarProfileButton()
         ],
       ),
       backgroundColor: HexColor("#FCF4F4"),
