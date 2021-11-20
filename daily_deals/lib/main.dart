@@ -22,10 +22,6 @@ import 'providers/auth.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark.copyWith(
-      statusBarColor: Colors.white, // Color for Android
-      statusBarBrightness: Brightness.dark // Dark == white status bar -- for IOS.
-  ));
   await Firebase.initializeApp();
   runApp(MyApp());
 }
