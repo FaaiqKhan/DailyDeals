@@ -18,6 +18,7 @@ class MyDrawer extends StatelessWidget {
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
+        margin: const EdgeInsets.only(top: 15.0),
         height: screenWidth * 1.38,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
@@ -137,6 +138,7 @@ class MyDrawer extends StatelessWidget {
                     "assets/images/drawer/terms_condition_icon.png",
                     width: 30,
                     height: 30,
+                    color: Colors.white.withOpacity(0.7),
                   ),
                   SizedBox(width: drawerIconsDistance),
                   Text(
@@ -201,7 +203,10 @@ class MyDrawer extends StatelessWidget {
                     preferences.clear().then((value) {
                       if (value) {
                         Navigator.of(context).pushNamedAndRemoveUntil(
-                            SignInUpScreen.routeName, (route) => false);
+                          SignInUpScreen.routeName,
+                          (route) => false,
+                          arguments: true,
+                        );
                       }
                     });
                   });
@@ -212,6 +217,7 @@ class MyDrawer extends StatelessWidget {
                       "assets/images/drawer/logout_icon.png",
                       width: 30,
                       height: 30,
+                      color: Colors.white.withOpacity(0.7),
                     ),
                     SizedBox(width: drawerIconsDistance),
                     Text(

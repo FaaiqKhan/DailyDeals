@@ -42,7 +42,7 @@ class CartCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Visibility(
                       visible: true,

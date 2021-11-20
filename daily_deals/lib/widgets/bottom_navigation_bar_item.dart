@@ -35,7 +35,8 @@ class CustomBottomNavigationBar extends StatelessWidget {
               else
                 Image.asset(
                   _imagePath,
-                  scale: 1.2,
+                  scale: 15,
+                  color: Colors.white,
                 ),
               Visibility(
                 visible: _cartItemsCount != null,

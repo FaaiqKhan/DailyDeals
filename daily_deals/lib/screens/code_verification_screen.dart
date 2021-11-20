@@ -53,6 +53,7 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: ColorfulSafeArea(
         child: Padding(
