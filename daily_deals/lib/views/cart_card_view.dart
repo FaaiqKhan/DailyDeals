@@ -63,21 +63,20 @@ class CartCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: screenWidth * 0.3),
+                    constraints: BoxConstraints(maxWidth: screenWidth * 0.25),
                     child: Text(
                       "AED $price Cash",
                       style: TextStyle(
                         fontFamily:
                             Theme.of(context).textTheme.bodyText2!.fontFamily,
                         color: HexColor("#303030"),
-                        fontSize: 18,
+                        fontSize: 16,
                       ),
                     ),
                   ),
                   Text(
                     "Pencil set",
                     style: TextStyle(
-                      fontSize: 16,
                       fontFamily:
                           Theme.of(context).textTheme.bodyText1!.fontFamily,
                       color: HexColor("#C4C1CA"),
