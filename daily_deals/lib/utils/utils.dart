@@ -118,13 +118,4 @@ class Utils {
   static double pageHeight(double screenHeight) {
     return screenHeight - (screenHeight * 0.9);
   }
-
-  static void updateStatusBarColor() {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      systemNavigationBarColor: Colors.black,
-      statusBarColor: Colors.black,
-      statusBarBrightness: Brightness.light,
-      statusBarIconBrightness: Brightness.dark,
-    ));
-  }
 }

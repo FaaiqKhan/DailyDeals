@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
-import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,9 +17,6 @@ class SplashScreen extends StatelessWidget {
     Timer(
       Duration(seconds: 6),
       () {
-        if (Platform.isIOS) {
-          Utils.updateStatusBarColor();
-        }
         String routeName = LanguageSelection.routeName;
         SharedPreferences.getInstance().then((preferences) {
           if (preferences.get("access_token") != null)
