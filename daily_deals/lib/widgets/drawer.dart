@@ -14,7 +14,9 @@ class MyDrawer extends StatelessWidget {
     double drawerIconsDistance = 25.0;
     double elementHeight = screenWidth * 0.05;
     double titleElementSpacing = screenWidth * 0.1;
-    double topSpacing = Scaffold.of(context).appBarMaxHeight! * 0.75;
+    double topSpacing = screenWidth * 0.15;
+    if (Scaffold.of(context).appBarMaxHeight != null)
+      topSpacing = Scaffold.of(context).appBarMaxHeight! * 0.75;
 
     return Align(
       alignment: Alignment.topLeft,
