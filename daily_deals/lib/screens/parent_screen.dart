@@ -60,15 +60,16 @@ class _ParentScreenState extends State<ParentScreen> {
       drawer: ColorfulSafeArea(
         child: MyDrawer(screenWidth),
       ),
-      bottomNavigationBar: ClipRRect(
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(25.0),
-          topRight: const Radius.circular(25.0),
-        ),
-        child: Container(
-          height: bottomHeight,
-          child: Theme(
-            data: Theme.of(context).copyWith(canvasColor: Colors.black54),
+      bottomNavigationBar: Container(
+        color: _currentIndex == 3 ? HexColor("#F83615") : Colors.white,
+        child: ClipRRect(
+          borderRadius: BorderRadius.only(
+            topLeft: const Radius.circular(25.0),
+            topRight: const Radius.circular(25.0),
+          ),
+          child: Container(
+            height: bottomHeight,
+            color: HexColor("#363636"),
             child: BottomNavigationBar(
               items: [
                 BottomNavigationBarItem(

@@ -13,7 +13,6 @@ import 'package:daily_deals/screens/splash_screen.dart';
 import 'package:daily_deals/screens/welcome_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
