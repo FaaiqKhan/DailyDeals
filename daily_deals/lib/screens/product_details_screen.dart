@@ -210,7 +210,9 @@ class ProductDetails extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         children: [
                           ProductDetailsView(screenWidth, "330.00", "3", "2"),
-                          AddToCartButton(screenWidth),
+                          AddToCartButton(screenWidth, "Add to cart", () {
+
+                          }),
                         ],
                       ),
                     ],

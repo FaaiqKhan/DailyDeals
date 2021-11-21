@@ -19,7 +19,7 @@ class ProductDetailsView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       width: this.screenWidth,
-      height: this.screenWidth * 0.48,
+      height: this.screenWidth * 0.35,
       decoration: BoxDecoration(
         color: HexColor("#313030"),
         borderRadius: BorderRadius.only(
@@ -29,20 +29,20 @@ class ProductDetailsView extends StatelessWidget {
       ),
       child: Column(
         children: [
-          SizedBox(height: 20),
+          SizedBox(height: 15),
           Text(
             "Total amount inclusive VAT",
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white, fontSize: 10),
           ),
           Text(
             "AED $productPrice",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               color: Colors.white,
-              fontSize: 23,
+              fontSize: 20,
             ),
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -50,13 +50,14 @@ class ProductDetailsView extends StatelessWidget {
                 turns: new AlwaysStoppedAnimation(150 / 360),
                 child: Image.asset(
                   "assets/images/coupon_icon.png",
-                  scale: 1.5,
+                  scale: 20,
+                  color: Colors.white,
                 ),
               ),
               SizedBox(width: 8),
               Text(
                 "$couponCount Coupons $productCount Products",
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 10),
               ),
             ],
           )

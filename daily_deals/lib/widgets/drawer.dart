@@ -14,11 +14,12 @@ class MyDrawer extends StatelessWidget {
     double drawerIconsDistance = 25.0;
     double elementHeight = screenWidth * 0.05;
     double titleElementSpacing = screenWidth * 0.1;
+    double topSpacing = Scaffold.of(context).appBarMaxHeight! * 0.75;
 
     return Align(
       alignment: Alignment.topLeft,
       child: Container(
-        margin: const EdgeInsets.only(top: 15.0),
+        margin: EdgeInsets.only(top: topSpacing),
         height: screenWidth * 1.38,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
