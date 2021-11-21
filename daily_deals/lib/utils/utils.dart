@@ -3,6 +3,7 @@ import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Utils {
   static double screenPadding = 20.0;
@@ -116,5 +117,14 @@ class Utils {
 
   static double pageHeight(double screenHeight) {
     return screenHeight - (screenHeight * 0.9);
+  }
+
+  static void updateStatusBarColor() {
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: Colors.black,
+      statusBarColor: Colors.black,
+      statusBarBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.dark,
+    ));
   }
 }

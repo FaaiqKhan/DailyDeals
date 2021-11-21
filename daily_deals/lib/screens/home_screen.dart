@@ -18,6 +18,7 @@ class HomeScreen extends StatelessWidget {
     EdgeInsetsGeometry pagePadding =
         Utils.calculateScreenLeftRightPadding(screenWidth);
     double elementSpacing = screenWidth * 0.02;
+    Utils.updateStatusBarColor();
 
     return ColorfulSafeArea(
       child: SingleChildScrollView(

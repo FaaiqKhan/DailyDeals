@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
@@ -19,12 +19,7 @@ class SplashScreen extends StatelessWidget {
       Duration(seconds: 6),
       () {
         if (Platform.isIOS) {
-          SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            systemNavigationBarColor: Colors.black,
-            statusBarColor: Colors.black,
-            statusBarBrightness: Brightness.light,
-            statusBarIconBrightness: Brightness.dark,
-          ));
+          Utils.updateStatusBarColor();
         }
         String routeName = LanguageSelection.routeName;
         SharedPreferences.getInstance().then((preferences) {
