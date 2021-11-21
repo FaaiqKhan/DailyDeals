@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/screens/cart_screen.dart';
 import 'package:daily_deals/screens/coupon_screen.dart';
@@ -9,6 +11,7 @@ import 'package:daily_deals/widgets/drawer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'home_screen.dart';
 
@@ -55,6 +58,8 @@ class _ParentScreenState extends State<ParentScreen> {
               actions: [AppBarProfileButton()],
               backgroundColor: HexColor("#F83615"),
               leading: Container(),
+              systemOverlayStyle:
+                  Platform.isIOS ? SystemUiOverlayStyle.dark : null,
             )
           : null,
       drawer: ColorfulSafeArea(
