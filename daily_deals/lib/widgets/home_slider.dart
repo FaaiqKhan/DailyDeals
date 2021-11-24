@@ -1,12 +1,30 @@
-import 'package:daily_deals/providers/current_page.dart';
+import 'package:daily_deals/modals/slider_modal.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
 
 class HomeSlider extends StatelessWidget {
+  final List<SliderModal> _modal;
   final PageController _pageController = PageController(initialPage: 0);
+
+  HomeSlider(this._modal);
+
+  List<Widget> prepareData() {
+    List<Widget> data = [];
+    for (SliderModal modal in _modal) {
+      data.add(
+        Padding(
+          padding: const EdgeInsets.only(left: 4.0, right: 4.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(modal.photo!, fit: BoxFit.fill),
+          ),
+        ),
+      );
+    }
+    return data;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,17 +43,13 @@ class HomeSlider extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          Consumer<CurrentPage>(
-            builder: (_, currentPage, __) {
-              return PageView(
-                onPageChanged: (int) {},
-                controller: _pageController,
-                scrollDirection: Axis.horizontal,
-                pageSnapping: true,
-                children: currentPage.allPages,
-                physics: NeverScrollableScrollPhysics(),
-              );
-            },
+          PageView(
+            onPageChanged: (int) {},
+            controller: _pageController,
+            scrollDirection: Axis.horizontal,
+            pageSnapping: true,
+            children: prepareData(),
+            physics: NeverScrollableScrollPhysics(),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10.0, right: 10.0),

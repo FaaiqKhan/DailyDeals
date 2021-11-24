@@ -1,6 +1,5 @@
 import 'package:daily_deals/providers/add_subtract_cart_item_provider.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
-import 'package:daily_deals/providers/current_page.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
@@ -32,9 +31,6 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider.value(
           value: Auth(),
-        ),
-        ChangeNotifierProvider.value(
-          value: CurrentPage(),
         ),
         ChangeNotifierProvider.value(
           value: ClosingSoonTimerProvider(),

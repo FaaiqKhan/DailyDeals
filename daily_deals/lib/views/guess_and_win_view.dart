@@ -1,3 +1,4 @@
+import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/views/card_view.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:daily_deals/widgets/price_details_and_add_to_cart.dart';
@@ -6,24 +7,30 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class GuessAndWin extends StatelessWidget {
-  final String tagLine, tagImage, dealOn, price, endingTime, priceImage;
-  final String winingItem;
-  final String? remainingTime;
+  // final String tagLine, tagImage, dealOn, price, endingTime, priceImage;
+  // final String winingItem;
+  // final String? remainingTime;
 
-  GuessAndWin({
-    this.tagLine = "",
-    this.tagImage = "",
-    this.dealOn = "",
-    this.price = "",
-    this.priceImage = "",
-    this.winingItem = "",
-    this.remainingTime,
-    this.endingTime = "",
-  });
+  // GuessAndWin({
+  //   this.tagLine = "",
+  //   this.tagImage = "",
+  //   this.dealOn = "",
+  //   this.price = "",
+  //   this.priceImage = "",
+  //   this.winingItem = "",
+  //   this.remainingTime,
+  //   this.endingTime = "",
+  // });
+  final ProductModal _modal;
+
+  GuessAndWin(this._modal);
 
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
+    double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
     double cardHeight = screenWidth * 0.89;
     double elementSpacing = screenWidth * 0.028;
 
@@ -50,10 +57,14 @@ class GuessAndWin extends StatelessWidget {
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: screenWidth * 0.42),
           child: Text(
-            this.tagLine,
+            "Hurry Up and participate before it's End!",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+              fontFamily: Theme
+                  .of(context)
+                  .textTheme
+                  .subtitle2!
+                  .fontFamily,
               fontSize: 10,
               fontStyle: FontStyle.italic,
               color: Colors.white,
@@ -61,7 +72,7 @@ class GuessAndWin extends StatelessWidget {
           ),
         ),
         SizedBox(height: elementSpacing),
-        Image.asset(this.tagImage, width: screenWidth * 0.15),
+        Image.asset("assets/images/runner_icon.png", width: screenWidth * 0.15),
         SizedBox(height: elementSpacing),
         Column(
           children: [
@@ -97,7 +108,11 @@ class GuessAndWin extends StatelessWidget {
             Text(
               "Select your Lucky Number",
               style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                fontFamily: Theme
+                    .of(context)
+                    .textTheme
+                    .subtitle2!
+                    .fontFamily,
                 fontStyle: FontStyle.italic,
                 fontSize: 10,
                 color: Colors.white,
@@ -112,7 +127,11 @@ class GuessAndWin extends StatelessWidget {
                   "Click Here",
                   style: TextStyle(
                     fontFamily:
-                        Theme.of(context).textTheme.subtitle2!.fontFamily,
+                    Theme
+                        .of(context)
+                        .textTheme
+                        .subtitle2!
+                        .fontFamily,
                     fontStyle: FontStyle.italic,
                     color: Colors.white,
                     fontSize: 10,
@@ -141,7 +160,11 @@ class GuessAndWin extends StatelessWidget {
               child: Text(
                 "Guess & win",
                 style: TextStyle(
-                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                  fontFamily: Theme
+                      .of(context)
+                      .textTheme
+                      .subtitle2!
+                      .fontFamily,
                   fontStyle: FontStyle.italic,
                   color: HexColor("#303030"),
                   fontSize: 24,
@@ -155,18 +178,26 @@ class GuessAndWin extends StatelessWidget {
           ],
         ),
         Text(
-          "worth of Gold",
+          _modal.title!,
           style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+            fontFamily: Theme
+                .of(context)
+                .textTheme
+                .subtitle2!
+                .fontFamily,
             color: HexColor("#ED4A2F"),
             fontSize: 9,
             fontStyle: FontStyle.italic,
           ),
         ),
         Text(
-          "AED $price",
+          "AED price",
           style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+            fontFamily: Theme
+                .of(context)
+                .textTheme
+                .subtitle2!
+                .fontFamily,
             color: HexColor("#ED4A2F"),
             fontSize: 18,
             fontStyle: FontStyle.italic,
@@ -174,18 +205,22 @@ class GuessAndWin extends StatelessWidget {
         ),
         Padding(
           padding: EdgeInsets.only(left: elementSpacing, right: elementSpacing),
-          child: Image.asset(
-            priceImage,
-            scale: 4,
-          ),
+          child: Image.network(
+              _modal.image!,
+              scale: 4
+          )
         ),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: screenWidth * 0.33),
           child: Text(
-            winingItem,
+            _modal.description!,
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+              fontFamily: Theme
+                  .of(context)
+                  .textTheme
+                  .subtitle2!
+                  .fontFamily,
               fontStyle: FontStyle.italic,
               fontSize: 10,
               color: HexColor("#303030"),
@@ -193,9 +228,13 @@ class GuessAndWin extends StatelessWidget {
           ),
         ),
         Text(
-          "AED $price",
+          "AED price",
           style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+            fontFamily: Theme
+                .of(context)
+                .textTheme
+                .subtitle2!
+                .fontFamily,
             fontSize: 18,
             color: HexColor("#707070"),
           ),
