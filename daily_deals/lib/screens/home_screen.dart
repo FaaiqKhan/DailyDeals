@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
