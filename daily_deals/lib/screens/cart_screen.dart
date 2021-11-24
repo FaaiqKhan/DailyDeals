@@ -1,5 +1,6 @@
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/views/cart_card_view.dart';
+import 'package:daily_deals/views/cart_address_details_view.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,12 +52,12 @@ class CartScreen extends StatelessWidget {
               builder: (ctx) {
                 return Container(
                   height: screenHeight - 100,
-                  child: Column(
+                  child: ListView(
                     children: [
                       SizedBox(height: elementSpacing),
                       ConstrainedBox(
                         constraints:
-                            BoxConstraints(maxWidth: screenWidth * 0.5),
+                        BoxConstraints(maxWidth: screenWidth * 0.5),
                         child: Text(
                           "What Do You Want To Do With Your Products",
                           textAlign: TextAlign.center,
@@ -69,6 +70,7 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: elementSpacing),
+                      CartAddressDetailsView(),
                     ],
                   ),
                 );
