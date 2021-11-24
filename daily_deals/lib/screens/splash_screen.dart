@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
