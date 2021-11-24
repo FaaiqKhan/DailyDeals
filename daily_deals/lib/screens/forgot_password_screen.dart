@@ -28,6 +28,7 @@ class ForgotPasswordScreen extends StatelessWidget {
     UserDetails _userDetails = UserDetails("", "", "", "");
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: ColorfulSafeArea(
         child: Column(

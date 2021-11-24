@@ -1,26 +1,15 @@
-import 'package:daily_deals/screens/single_digit_screen.dart';
-import 'package:daily_deals/widgets/remaining_product_count.dart';
+import 'package:daily_deals/modals/product_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
 
 import '../widgets/closing_timer.dart';
 import 'card_view.dart';
 
 class CurrentDeals extends StatelessWidget {
-  final String title, productName, productImage, dealOn, price, endingTime;
-  final String? remainingTime;
+  final ProductModal _modal;
 
-  CurrentDeals({
-    this.title = "",
-    this.productName = "",
-    this.productImage = "",
-    this.dealOn = "",
-    this.price = "",
-    this.remainingTime,
-    this.endingTime = "",
-  });
+  CurrentDeals(this._modal);
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +42,7 @@ class CurrentDeals extends StatelessWidget {
           ),
         ),
         Text(
-          this.title,
+          _modal.title!,
           style: TextStyle(
             fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
             fontSize: 10,
@@ -64,7 +53,7 @@ class CurrentDeals extends StatelessWidget {
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: screenWidth * 0.21),
           child: Text(
-            this.productName,
+            "ok",
             textAlign: TextAlign.center,
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
@@ -74,14 +63,14 @@ class CurrentDeals extends StatelessWidget {
             ),
           ),
         ),
-        Image.asset(
-          this.productImage,
+        Image.network(
+          _modal.image!,
           width: screenWidth * 0.35,
         ),
         ConstrainedBox(
           constraints: BoxConstraints(maxWidth: screenWidth * 0.33),
           child: Text(
-            this.dealOn,
+            _modal.description!,
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               fontStyle: FontStyle.italic,
@@ -92,7 +81,7 @@ class CurrentDeals extends StatelessWidget {
           ),
         ),
         Text(
-          "AED ${this.price}",
+          "AED price",
           style: TextStyle(
             fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
             fontSize: 17,
@@ -157,7 +146,9 @@ class CurrentDeals extends StatelessWidget {
               opacity: 0.1803921568627451,
               child: Icon(Icons.share_outlined, size: 28),
             ),
-            SizedBox(width: screenWidth * 0.45,),
+            SizedBox(
+              width: screenWidth * 0.45,
+            ),
             Opacity(
               opacity: 0.1803921568627451,
               child: Icon(
@@ -189,12 +180,11 @@ class CurrentDeals extends StatelessWidget {
                   child: Text(
                     "End on 26 Nov",
                     style: TextStyle(
-                        fontFamily: Theme.of(context)
-                            .textTheme
-                            .subtitle2!
-                            .fontFamily,
-                        color: Colors.white,
-                        fontSize: 10),
+                      fontFamily:
+                          Theme.of(context).textTheme.subtitle2!.fontFamily,
+                      color: Colors.white,
+                      fontSize: 10,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),

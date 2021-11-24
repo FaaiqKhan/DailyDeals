@@ -36,6 +36,7 @@ class _CreatePasswordState extends State<CreatePassword> {
     String password = "";
     double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: Colors.white,
       resizeToAvoidBottomInset: false,
       body: ColorfulSafeArea(
         child: Column(

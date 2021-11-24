@@ -16,7 +16,12 @@ class SignInUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    bool isTopPaddingRequired = false;
+    if (ModalRoute.of(context)!.settings.arguments != null)
+      isTopPaddingRequired = ModalRoute.of(context)!.settings.arguments as bool;
+
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,13 +30,15 @@ class SignInUpScreen extends StatelessWidget {
             padding: Utils.calculateScreenLeftRightPadding(screenWidth),
             child: Column(
               children: [
-                SizedBox(
-                  height: pageHeight(screenHeight),
+                Visibility(
+                  visible: isTopPaddingRequired,
+                  child: SizedBox(
+                    height: pageHeight(screenHeight) + 25.0,
+                  ),
                 ),
+                SizedBox(height: pageHeight(screenHeight)),
                 Text(title, style: Theme.of(context).textTheme.headline6),
-                SizedBox(
-                  height: 50,
-                ),
+                SizedBox(height: screenWidth * 0.07),
                 Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Text(
@@ -40,9 +47,7 @@ class SignInUpScreen extends StatelessWidget {
                     style: Theme.of(context).textTheme.bodyText1,
                   ),
                 ),
-                SizedBox(
-                  height: 70,
-                ),
+                SizedBox(height: screenWidth * 0.1),
                 AppButton(
                   context: context,
                   text: "Sign In",
@@ -51,9 +56,7 @@ class SignInUpScreen extends StatelessWidget {
                     Navigator.of(context).pushNamed(SignInScreen.routeName);
                   },
                 ),
-                SizedBox(
-                  height: 11,
-                ),
+                SizedBox(height: 11),
                 // Sign Up button
                 AppButton(
                   context: context,

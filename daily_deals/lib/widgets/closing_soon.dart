@@ -1,31 +1,27 @@
+import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
+import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 
 class ClosingSoon extends StatelessWidget {
-  final String _imagePath;
-  final String _countDetails;
-  final Function? function;
+  final ProductModal _modal;
 
-  ClosingSoon(this._imagePath, this._countDetails, {this.function});
+  ClosingSoon(this._modal);
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: () {
-        if (function != null) {
-          function!();
-        }
-      },
+      onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: screenWidth/2.28,
+            width: screenWidth / 2.28,
             child: Card(
               color: HexColor("#F8F8F8"),
               elevation: 5.0,
@@ -52,8 +48,8 @@ class ClosingSoon extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: screenWidth * 0.02),
-                  Image.asset(
-                    _imagePath,
+                  Image.network(
+                    _modal.image!,
                     width: screenWidth * 0.6,
                     height: screenWidth * 0.25,
                   ),
@@ -96,7 +92,7 @@ class ClosingSoon extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
             child: Text(
-              _countDetails,
+              "${_modal.soldOut} SOLD OUT OF ${_modal.total}",
               style: TextStyle(
                 fontSize: 10,
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,

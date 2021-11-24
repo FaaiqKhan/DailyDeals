@@ -8,24 +8,37 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-class ProductDetails extends StatelessWidget {
+class ProductDetails extends StatefulWidget {
   static const String routeName = "/product-details";
 
   @override
-  Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double sizeOfProduct = screenWidth * 0.25;
-    double countContainerWidth = screenWidth * 0.4;
-    double countContainerHeight = screenWidth * 0.15;
-    double elementSpacing = screenWidth * 0.04;
+  State<ProductDetails> createState() => _ProductDetailsState();
+}
 
+class _ProductDetailsState extends State<ProductDetails> {
+  double screenWidth = 0, sizeOfProduct = 0, countContainerWidth = 0;
+  double elementSpacing = 0, countContainerHeight = 0;
+
+  @override
+  void didChangeDependencies() {
+    if (screenWidth == 0) {
+      screenWidth = MediaQuery.of(context).size.width;
+      sizeOfProduct = screenWidth * 0.25;
+      countContainerWidth = screenWidth * 0.4;
+      countContainerHeight = screenWidth * 0.15;
+      elementSpacing = screenWidth * 0.04;
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: AppBarTitle("Product Details"),
         leading: AppBarBackButton(),
-        actions: [
-          AppBarProfileButton()
-        ],
+        actions: [AppBarProfileButton()],
+        backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: HexColor("#FCF4F4"),
       body: SingleChildScrollView(
@@ -109,13 +122,15 @@ class ProductDetails extends StatelessWidget {
                             width: countContainerWidth,
                             height: countContainerHeight,
                             decoration: BoxDecoration(
-                                color: HexColor("#303030"),
-                                borderRadius: BorderRadius.circular(10)),
+                              color: HexColor("#303030"),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
                             child: Text(
                               "01",
                               style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           Icon(Icons.add, color: Colors.red),
@@ -210,7 +225,7 @@ class ProductDetails extends StatelessWidget {
                         alignment: Alignment.bottomCenter,
                         children: [
                           ProductDetailsView(screenWidth, "330.00", "3", "2"),
-                          AddToCartButton(screenWidth),
+                          AddToCartButton(screenWidth, "Add to cart", () {}),
                         ],
                       ),
                     ],

@@ -1,3 +1,4 @@
+import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 class Utils {
   static double screenPadding = 20.0;
   static double elementPadding = 8.0;
+  static HomeDataModal? homeDataModal;
 
   static double calculateButtonHeight(double screenWidth) {
     return 44;

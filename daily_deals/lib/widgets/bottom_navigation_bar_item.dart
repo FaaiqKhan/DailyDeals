@@ -27,7 +27,17 @@ class CustomBottomNavigationBar extends StatelessWidget {
           Stack(
             alignment: Alignment.bottomRight,
             children: [
-              if (_icon != null) Icon(_icon, size: _dashWidth * 0.055,) else Image.asset(_imagePath),
+              if (_icon != null)
+                Icon(
+                  _icon,
+                  size: _dashWidth * 0.055,
+                )
+              else
+                Image.asset(
+                  _imagePath,
+                  scale: 15,
+                  color: Colors.white,
+                ),
               Visibility(
                 visible: _cartItemsCount != null,
                 child: CircleAvatar(

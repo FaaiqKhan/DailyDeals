@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:daily_deals/screens/language_screen.dart';
+import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:video_player/video_player.dart';
 
 class SplashScreen extends StatelessWidget {
@@ -13,13 +15,18 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Timer(
       Duration(seconds: 6),
-      () => {
-        _videoPlayerController.dispose().then(
-              (value) => Navigator.pushReplacementNamed(
-                context,
-                LanguageSelection.routeName,
-              ),
+      () {
+        String routeName = LanguageSelection.routeName;
+        SharedPreferences.getInstance().then((preferences) {
+          if (preferences.get("access_token") != null)
+            routeName = ParentScreen.routeName;
+          _videoPlayerController.dispose().then(
+                (value) => Navigator.pushReplacementNamed(
+              context,
+              routeName,
             ),
+          );
+        });
       },
     );
     return Scaffold(
