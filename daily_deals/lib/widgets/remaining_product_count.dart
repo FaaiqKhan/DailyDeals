@@ -18,7 +18,7 @@ class RemainingProductCount extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double containerHeight = (height == null ? (screenWidth * 0.34) : height!);
+    double containerHeight = (height == null ? (screenWidth * 0.25) : height!);
     return Container(
       width: width,
       height: containerHeight,
@@ -28,7 +28,7 @@ class RemainingProductCount extends StatelessWidget {
         borderRadius: BorderRadius.circular(50),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           ItemIndicator("Sold", remaining, total),
           ItemIndicator("Total", total, total)

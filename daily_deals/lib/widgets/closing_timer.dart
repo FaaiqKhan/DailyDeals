@@ -18,14 +18,18 @@ class ClosingTimer extends StatelessWidget {
     final MultipleDigitCounter digitCounter =
         MultipleDigitCounter(8, false, 253, endingTime);
     return Container(
-      padding:
-          const EdgeInsets.only(left: 10.0, right: 10.0, top: 8.0, bottom: 8.0),
+      padding: const EdgeInsets.only(left: 5.0, top: 5.0, right: 5.0, bottom: 5.0),
       decoration: BoxDecoration(
         color: HexColor("#F22806"),
         border: Border.all(color: HexColor("#F22806")),
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
-      child: DigitDisplayDemo(digitCounter),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          DigitDisplayDemo(digitCounter),
+        ],
+      ),
     );
   }
 }

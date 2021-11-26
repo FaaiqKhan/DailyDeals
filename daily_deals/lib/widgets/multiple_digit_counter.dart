@@ -88,14 +88,14 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
     }
 
     myWidgets.add(animatedDigits[0]);
-    myWidgets.add(SizedBox(width: 8));
+    myWidgets.add(SizedBox(width: 2));
     myWidgets.add(animatedDigits[1]);
 
     for (int i = 2; i < animatedDigits.length - 2; i++) {
       if (i % 2 == 0) {
         myWidgets.add(
           Padding(
-            padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+            padding: const EdgeInsets.only(left: 2.5, right: 2.5),
             child: Text(
               ":",
               style: TextStyle(color: Colors.white),
@@ -104,9 +104,7 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
         );
         myWidgets.add(animatedDigits[i]);
       } else {
-        myWidgets.add(SizedBox(
-          width: 10,
-        ));
+        myWidgets.add(SizedBox(width: 2));
         myWidgets.add(animatedDigits[i]);
       }
     }
