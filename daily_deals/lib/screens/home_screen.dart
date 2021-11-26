@@ -90,7 +90,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget showSelectedView(double screenWidth) {
     if (closingSoon) {
-      return Text("closingSoon");
+      return ClosingSoonSlider(
+        Utils.homeDataModal!.closingSoon!,
+        scrollDirection: Axis.vertical,
+      );
     } else if (todayDeal) {
       return CurrentDealsSlider(
         Utils.homeDataModal!.currentDeals!,
