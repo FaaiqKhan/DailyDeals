@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/winners_view.dart';
 import 'package:daily_deals/widgets/closing_soon_slider.dart';
 import 'package:daily_deals/widgets/current_deals_slider.dart';
@@ -166,19 +167,13 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: FutureBuilder(
-                future: WebService.fetchData(5),
+                future: WebService.fetchData(),
                 builder: (ctx, snapShot) {
                   if (snapShot.hasData) {
                     Utils.homeDataModal = snapShot.data as HomeDataModal;
                     return showSelectedView(screenWidth);
                   } else {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).primaryColor,
-                        ),
-                      ),
-                    );
+                    return WidgetUtils.progressIndicator(context);
                   }
                 },
               ),

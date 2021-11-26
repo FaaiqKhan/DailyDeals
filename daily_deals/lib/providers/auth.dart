@@ -50,6 +50,7 @@ class Auth extends ChangeNotifier {
       } else {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.setString("access_token", data['access_token']);
+        await preferences.setString("user_id", data['customer_id']);
       }
       return Future.value(data['success']);
     } else {
