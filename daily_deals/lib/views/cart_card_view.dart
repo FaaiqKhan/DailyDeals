@@ -21,6 +21,9 @@ class CartCard extends StatelessWidget {
       child: Card(
         color: HexColor("#F9F8F8"),
         elevation: 5,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0)
+        ),
         child: Padding(
           padding: EdgeInsets.only(
             left: leftRightPadding,
@@ -59,8 +62,9 @@ class CartCard extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 10.0),
+              // Text details
               Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   ConstrainedBox(
@@ -96,6 +100,7 @@ class CartCard extends StatelessWidget {
                   )
                 ],
               ),
+              // Delete and add items
               Consumer<AddSubtractCartItemProvider>(
                 builder: (ctx, cartItems, deleteIcon) {
                   return Column(
