@@ -5,12 +5,11 @@ import 'package:hexcolor/hexcolor.dart';
 class PriceDetailsAndAddToCartButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double elementSpacing = screenWidth * 0.03;
+    double fontSize = 11.0;
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        SizedBox(width: elementSpacing + 10),
         TextButton(
           onPressed: () {},
           child: Text(
@@ -22,6 +21,7 @@ class PriceDetailsAndAddToCartButtons extends StatelessWidget {
                   .fontFamily,
               color: Colors.white,
               fontStyle: FontStyle.italic,
+              fontSize: fontSize
             ),
           ),
           style: ButtonStyle(
@@ -30,7 +30,6 @@ class PriceDetailsAndAddToCartButtons extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: elementSpacing),
         TextButton(
           onPressed: () {},
           child: Text(
@@ -42,6 +41,7 @@ class PriceDetailsAndAddToCartButtons extends StatelessWidget {
                   .fontFamily,
               color: Colors.white,
               fontStyle: FontStyle.italic,
+              fontSize: fontSize
             ),
           ),
           style: ButtonStyle(
@@ -50,7 +50,6 @@ class PriceDetailsAndAddToCartButtons extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(width: elementSpacing + 10),
       ],
     );
   }

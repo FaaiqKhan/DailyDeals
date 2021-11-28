@@ -8,7 +8,7 @@ class CartAddressDetailsView extends StatefulWidget {
 }
 
 class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
-  final double elementSpacing = 10.0;
+  final double elementSpacing = 20.0;
   final List<int> addressType = [0, 1, 2];
   int selectedAddressType = 0;
   final Color selectedColor = Colors.white;

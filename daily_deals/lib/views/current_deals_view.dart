@@ -14,47 +14,34 @@ class CurrentDeals extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double elementSpacing = screenWidth * 0.03;
-    double cardHeight = screenWidth * 0.89;
+    double cardHeight = screenWidth * 0.8;
 
     // Left size (Product details)
-    Widget leftSide = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          padding: const EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 10,
-            bottom: 10,
-          ),
-          decoration: BoxDecoration(
-              border: Border.all(color: HexColor("#303030")),
-              color: HexColor("#303030"),
-              borderRadius: BorderRadius.circular(5)),
-          child: Text(
-            "WIN",
-            style: TextStyle(
-              fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-              fontSize: 20,
-              color: Colors.white,
+    Widget leftSide = Container(
+      width: (screenWidth / 2) - 5,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          // Win heading
+          Container(
+            padding:
+                const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+            decoration: BoxDecoration(
+                border: Border.all(color: HexColor("#303030")),
+                color: HexColor("#303030"),
+                borderRadius: BorderRadius.circular(5)),
+            child: Text(
+              "WIN",
+              style: TextStyle(
+                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                fontSize: 20,
+                color: Colors.white,
+              ),
             ),
           ),
-        ),
-        Text(
-          _modal.title!,
-          style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
-            fontSize: 10,
-            fontStyle: FontStyle.italic,
-            color: Colors.white,
-          ),
-        ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: screenWidth * 0.21),
-          child: Text(
-            "ok",
-            textAlign: TextAlign.center,
+          // Tag line
+          Text(
+            "Get a change to win",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               fontSize: 10,
@@ -62,110 +49,121 @@ class CurrentDeals extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-        ),
-        Image.network(
-          _modal.image!,
-          width: screenWidth * 0.35,
-        ),
-        ConstrainedBox(
-          constraints: BoxConstraints(maxWidth: screenWidth * 0.33),
-          child: Text(
-            _modal.description!,
+          // Product name
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: screenWidth * 0.35),
+            child: Text(
+              _modal.title!,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                fontSize: 15,
+                fontStyle: FontStyle.italic,
+                color: Colors.white,
+              ),
+            ),
+          ),
+          // Product Image
+          Image.network(_modal.image!, scale: 5),
+          // Product details
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: screenWidth * 0.33),
+            child: Text(
+              _modal.subTitle!,
+              style: TextStyle(
+                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                fontStyle: FontStyle.italic,
+                fontSize: 10,
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+          // Price
+          Text(
+            "AED ${_modal.price}",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-              fontStyle: FontStyle.italic,
-              fontSize: 10,
+              fontSize: 17,
               color: Colors.white,
             ),
-            textAlign: TextAlign.center,
           ),
-        ),
-        Text(
-          "AED price",
-          style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-            fontSize: 17,
-            color: Colors.white,
+          // Buttons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Prize Details",
+                  style: TextStyle(
+                    fontFamily:
+                        Theme.of(context).textTheme.subtitle2!.fontFamily,
+                    color: Colors.white,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 10,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    HexColor("#303030"),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: Text(
+                  "Add to Cart",
+                  style: TextStyle(
+                    fontFamily:
+                        Theme.of(context).textTheme.subtitle2!.fontFamily,
+                    color: Colors.white,
+                    fontStyle: FontStyle.italic,
+                    fontSize: 10,
+                  ),
+                ),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    HexColor("#DA2B0E"),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ),
-        Row(
-          children: [
-            SizedBox(width: elementSpacing + 10),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Prize Details",
-                style: TextStyle(
-                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                  color: Colors.white,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  HexColor("#303030"),
-                ),
-              ),
-            ),
-            SizedBox(width: elementSpacing),
-            TextButton(
-              onPressed: () {},
-              child: Text(
-                "Add to Cart",
-                style: TextStyle(
-                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                  color: Colors.white,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(
-                  HexColor("#DA2B0E"),
-                ),
-              ),
-            ),
-            SizedBox(width: elementSpacing + 10),
-          ],
-        ),
-        SizedBox(
-          height: screenWidth * 0.03,
-        )
-      ],
+        ],
+      ),
     );
     // Right size (Timing details)
-    Widget rightSide = Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        SizedBox(height: elementSpacing),
-        // Share and favorite icons
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            // Share option
-            Opacity(
-              opacity: 0.1803921568627451,
-              child: Icon(Icons.share_outlined, size: 28),
-            ),
-            SizedBox(
-              width: screenWidth * 0.45,
-            ),
-            Opacity(
-              opacity: 0.1803921568627451,
-              child: Icon(
-                Icons.favorite_outline_outlined,
-                size: 28,
+    Widget rightSide = Container(
+      width: (screenWidth / 2) - 5,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // Share and favorite icons
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Share option
+              Opacity(
+                opacity: 0.1803921568627451,
+                child: Icon(Icons.share_outlined, size: 28),
               ),
-            ),
-            SizedBox(width: screenWidth * 0.05),
-          ],
-        ),
-        Container(
-          width: screenWidth * 0.6,
-          child: Row(
+              Opacity(
+                opacity: 0.1803921568627451,
+                child: Icon(
+                  Icons.favorite_outline_outlined,
+                  size: 28,
+                ),
+              ),
+            ],
+          ),
+          // Runner image and date
+          Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset("assets/images/timer_icon.png", scale: 4),
+              Image.asset("assets/images/timer_icon.png", scale: 6),
+              SizedBox(width: 20),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
@@ -176,14 +174,14 @@ class CurrentDeals extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 35),
+                  constraints: BoxConstraints(maxWidth: 25),
                   child: Text(
                     "End on 26 Nov",
                     style: TextStyle(
                       fontFamily:
                           Theme.of(context).textTheme.subtitle2!.fontFamily,
                       color: Colors.white,
-                      fontSize: 10,
+                      fontSize: 7,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -191,35 +189,25 @@ class CurrentDeals extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        Opacity(
-          opacity: 0.25882352941176473,
-          child: Image.asset(
-            "assets/images/clock_icon.png",
-            scale: 9,
+          // Clock image
+          Opacity(
+            opacity: 0.25882352941176473,
+            child: Image.asset("assets/images/clock_icon.png", scale: 12),
           ),
-        ),
-        Text(
-          "Closing in",
-          style: TextStyle(
-            fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-            color: HexColor("#5F5C5C"),
-          ),
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SizedBox(width: elementSpacing + 10),
-            ClosingTimer(
-              Duration(days: 24, hours: 26, minutes: 25, seconds: 30),
+          // Closing in heading
+          Text(
+            "Closing in",
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+              color: HexColor("#5F5C5C"),
             ),
-            SizedBox(width: elementSpacing + 10),
-          ],
-        ),
-        SizedBox(
-          height: screenWidth * 0.03,
-        )
-      ],
+          ),
+          // Timer
+          ClosingTimer(
+            Duration(days: 24, hours: 26, minutes: 25, seconds: 30),
+          ),
+        ],
+      ),
     );
 
     List<Widget> data = [leftSide, rightSide];

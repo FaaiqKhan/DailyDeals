@@ -13,12 +13,12 @@ class ItemIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-    double size = screenWidth * 0.10;
-    double negativeSize = size - (screenWidth * 0.015);
+    double size = screenWidth * 0.076;
+    double negativeSize = size - (screenWidth * 0.01);
     double percent = remainingItems / totalItems;
 
     return Padding(
-      padding: const EdgeInsets.all(5.0),
+      padding: const EdgeInsets.all(3.0),
       child: Column(
         children: [
           Container(
@@ -56,7 +56,7 @@ class ItemIndicator extends StatelessWidget {
                     child: Center(
                       child: Text(
                         remainingItems.toString(),
-                        style: TextStyle(color: Colors.white, fontSize: 12),
+                        style: TextStyle(color: Colors.white, fontSize: 9),
                       ),
                     ),
                   ),

@@ -15,7 +15,11 @@ class ClosingSoon extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     return GestureDetector(
-      onTap: () => Navigator.pushNamed(context, ProductDetails.routeName),
+      onTap: () => Navigator.pushNamed(
+        context,
+        ProductDetails.routeName,
+        arguments: _modal.dealId,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         mainAxisSize: MainAxisSize.min,

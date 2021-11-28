@@ -1,6 +1,6 @@
 class ProductModal {
   final int? soldOut, total;
-  final String? dealId, image, title, subTitle, description;
+  final String? dealId, image, title, subTitle, description, price;
   var timeStamp;
 
   ProductModal({
@@ -12,6 +12,7 @@ class ProductModal {
     this.description,
     this.soldOut,
     this.total,
+    this.price,
   });
 
   factory ProductModal.fromJson(Map<String, dynamic> json) =>
@@ -28,5 +29,6 @@ ProductModal _$ClosingSoonFromJson(Map<String, dynamic> json) {
     description: json['description'],
     soldOut: json['sold_out'],
     total: json['total'],
+    price: json['price'],
   );
 }

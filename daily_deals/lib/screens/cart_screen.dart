@@ -1,8 +1,10 @@
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/views/cart_address_details_view.dart';
+import 'package:daily_deals/views/cart_item_view.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
+import 'package:daily_deals/widgets/delivery_modes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -55,9 +57,9 @@ class CartScreen extends StatelessWidget {
                   child: ListView(
                     children: [
                       SizedBox(height: elementSpacing),
-                      ConstrainedBox(
-                        constraints:
-                        BoxConstraints(maxWidth: screenWidth * 0.5),
+                      // Title
+                      Padding(
+                        padding: const EdgeInsets.only(left: 70.0, right: 70.0),
                         child: Text(
                           "What Do You Want To Do With Your Products",
                           textAlign: TextAlign.center,
@@ -66,10 +68,26 @@ class CartScreen extends StatelessWidget {
                                 .textTheme
                                 .subtitle2!
                                 .fontFamily,
+                            fontSize: 16,
+                            color: Colors.white,
                           ),
                         ),
                       ),
                       SizedBox(height: elementSpacing),
+                      // Product details
+                      CartItem(
+                        itemType: 0,
+                        sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          left: 40.0,
+                          right: 40.0,
+                          bottom: 10.0,
+                        ),
+                        child: Divider(thickness: 1, color: Colors.grey),
+                      ),
+                      CartItem(itemType: 1),
                       CartAddressDetailsView(),
                     ],
                   ),
