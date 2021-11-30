@@ -119,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(height: elementsDistance),
                 GuessAndWinSlider(Utils.homeDataModal!.guessAndWin!),
                 SizedBox(height: elementsDistance),
-                Winners(),
+                Winners(Utils.homeDataModal!.winners!),
               ],
             ),
           ),

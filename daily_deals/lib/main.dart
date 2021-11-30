@@ -1,4 +1,5 @@
-import 'package:daily_deals/providers/add_subtract_cart_item_provider.dart';
+import 'package:daily_deals/adapters/detailed_product_adapter.dart';
+import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
@@ -14,6 +15,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import './screens/sign_in_up_screen.dart';
 import 'providers/auth.dart';
@@ -21,6 +24,8 @@ import 'providers/auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+  Hive.registerAdapter(CartItemAdapter());
   runApp(MyApp());
 }
 
@@ -36,8 +41,8 @@ class MyApp extends StatelessWidget {
           value: ClosingSoonTimerProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: AddSubtractCartItemProvider(),
-        ),
+          value: CartCostProvider(),
+        )
       ],
       child: MaterialApp(
         title: 'Daily Deals',

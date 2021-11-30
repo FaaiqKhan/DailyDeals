@@ -1,11 +1,10 @@
 import 'package:daily_deals/modals/product_modal.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/views/current_deals_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import 'closing_soon.dart';
 
 class ClosingSoonSlider extends StatelessWidget {
   final List<ProductModal> _modal;
@@ -13,26 +12,6 @@ class ClosingSoonSlider extends StatelessWidget {
   final Axis scrollDirection;
 
   ClosingSoonSlider(this._modal, {this.scrollDirection = Axis.horizontal});
-
-  List<Widget> prepareData() {
-    List<Widget> data = [];
-    int dataLength = _modal.length;
-    int halfOfList = dataLength ~/ 2;
-    print(halfOfList);
-    int endIndex = dataLength - 1;
-    for (int i = 0; i <= halfOfList; i = i + 2) {
-      data.add(
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ClosingSoon(_modal[i]),
-            if (i != endIndex) ClosingSoon(_modal[i + 1]),
-          ],
-        ),
-      );
-    }
-    return data;
-  }
 
   List<Widget> prepareData1() {
     List<Widget> data = [];
@@ -46,8 +25,9 @@ class ClosingSoonSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     bool titleAndNavigatorRequired = scrollDirection == Axis.horizontal;
-    List<Widget> data =
-        titleAndNavigatorRequired ? prepareData() : prepareData1();
+    List<Widget> data = titleAndNavigatorRequired
+        ? Utils.prepareListDataForView(_modal, false)
+        : prepareData1();
     double dotWidth = screenWidth * 0.08;
     double dotHeight = screenWidth * 0.03;
     return Column(

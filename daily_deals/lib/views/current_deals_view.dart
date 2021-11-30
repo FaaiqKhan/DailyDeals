@@ -34,7 +34,7 @@ class CurrentDeals extends StatelessWidget {
               "WIN",
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontSize: 20,
+                fontSize: 18,
                 color: Colors.white,
               ),
             ),
@@ -51,20 +51,20 @@ class CurrentDeals extends StatelessWidget {
           ),
           // Product name
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: screenWidth * 0.35),
+            constraints: BoxConstraints(maxWidth: screenWidth * 0.30),
             child: Text(
               _modal.title!,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontSize: 15,
+                fontSize: 12,
                 fontStyle: FontStyle.italic,
                 color: Colors.white,
               ),
             ),
           ),
           // Product Image
-          Image.network(_modal.image!, scale: 5),
+          Image.network(_modal.image!, scale: 4.5),
           // Product details
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: screenWidth * 0.33),
@@ -84,7 +84,7 @@ class CurrentDeals extends StatelessWidget {
             "AED ${_modal.price}",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-              fontSize: 17,
+              fontSize: 16,
               color: Colors.white,
             ),
           ),

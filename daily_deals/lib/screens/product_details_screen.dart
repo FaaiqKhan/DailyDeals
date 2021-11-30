@@ -1,3 +1,4 @@
+import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -9,7 +10,9 @@ import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:hive/hive.dart';
 
 class ProductDetails extends StatefulWidget {
   static const String routeName = "/product-details";
@@ -24,6 +27,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   String productId = "0";
   bool isPriceDetailsSelected = true;
   int productCount = 1;
+  DetailedProductModal? _modal;
+  double productPrice = 0.0;
 
   @override
   void didChangeDependencies() {
@@ -49,10 +54,13 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       backgroundColor: HexColor("#FCF4F4"),
       body: FutureBuilder(
-        future: WebService.fetchProductDetails(productId),
+        future: _modal == null
+            ? WebService.fetchProductDetails(productId)
+            : Future.value(_modal),
         builder: (ctx, snapShot) {
           if (snapShot.hasData) {
-            DetailedProductModal modal = snapShot.data as DetailedProductModal;
+            _modal = snapShot.data as DetailedProductModal;
+            productPrice = double.parse(_modal!.price!);
             return SingleChildScrollView(
               child: Column(
                 children: [
@@ -98,8 +106,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                             borderRadius: BorderRadius.circular(20),
                             child: Image.network(
                               isPriceDetailsSelected
-                                  ? modal.productImage!
-                                  : modal.bannerImage!,
+                                  ? _modal!.productImage!
+                                  : _modal!.bannerImage!,
                               fit: BoxFit.fill,
                             ),
                           ),
@@ -109,17 +117,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                   // Banner image
                   Image.network(
-                      isPriceDetailsSelected
-                          ? modal.bannerImage!
-                          : modal.productImage!,
-                      scale: 5),
+                    isPriceDetailsSelected
+                        ? _modal!.bannerImage!
+                        : _modal!.productImage!,
+                    scale: 5,
+                  ),
                   // Timer image
                   Opacity(
                     opacity: 0.25882352941176473,
-                    child: Image.asset(
-                      'assets/images/clock_icon.png',
-                      scale: 10,
-                    ),
+                    child:
+                        Image.asset('assets/images/clock_icon.png', scale: 10),
                   ),
                   // Watch tag line
                   Text(
@@ -180,12 +187,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 SizedBox(width: 40),
                                 InkWell(
                                   onTap: () => setState(() {
-                                    productCount++;
+                                    if (productCount < 3) productCount++;
                                   }),
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.red,
-                                  ),
+                                  child: Icon(Icons.add, color: Colors.red),
                                 ),
                               ],
                             ),
@@ -278,8 +282,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         BoxConstraints(maxWidth: screenWidth),
                                     child: Text(
                                       isPriceDetailsSelected
-                                          ? modal.priceDescription!
-                                          : modal.description!,
+                                          ? _modal!.priceDescription!
+                                          : _modal!.description!,
                                       style: TextStyle(
                                         fontFamily: Theme.of(context)
                                             .textTheme
@@ -297,14 +301,34 @@ class _ProductDetailsState extends State<ProductDetails> {
                               children: [
                                 ProductDetailsView(
                                   screenWidth,
-                                  modal.price!,
+                                  productCount * productPrice,
                                   "3",
                                   "2",
                                 ),
                                 AddToCartButton(
                                   screenWidth,
                                   "Add to cart",
-                                  () {},
+                                  () async {
+                                    CartItemModal cartModal = CartItemModal(
+                                      _modal!.dealId!,
+                                      _modal!.productImage!,
+                                      _modal!.price!,
+                                      _modal!.description!,
+                                      productCount,
+                                      _modal!.price!,
+                                    );
+                                    var cartItemBox =
+                                        await Hive.openBox<CartItemModal>(
+                                            'cartItem');
+                                    await cartItemBox.put(
+                                        _modal!.dealId, cartModal);
+                                    await cartItemBox.close();
+                                    Fluttertoast.showToast(
+                                      msg: "Product added into cart",
+                                      gravity: ToastGravity.BOTTOM,
+                                      toastLength: Toast.LENGTH_LONG,
+                                    );
+                                  },
                                 ),
                               ],
                             ),

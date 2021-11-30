@@ -1,6 +1,10 @@
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/modals/product_modal.dart';
+import 'package:daily_deals/modals/winner_modal.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
+import 'package:daily_deals/views/winner_card_view.dart';
+import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -118,5 +122,30 @@ class Utils {
 
   static double pageHeight(double screenHeight) {
     return screenHeight - (screenHeight * 0.9);
+  }
+
+  static List<Widget> prepareListDataForView(
+      List<Object> modal, bool isForWinner) {
+    List<Widget> data = [];
+    int dataLength = modal.length;
+    int halfOfList = dataLength ~/ 2;
+    int endIndex = dataLength - 1;
+    for (int i = 0; i <= halfOfList; i = i + 2) {
+      data.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            isForWinner
+                ? WinnerCard(modal.elementAt(i) as WinnerModal)
+                : ClosingSoon(modal.elementAt(i) as ProductModal),
+            if (i != endIndex)
+              isForWinner
+                  ? WinnerCard(modal[i + 1] as WinnerModal)
+                  : ClosingSoon(modal.elementAt(i + 1) as ProductModal),
+          ],
+        ),
+      );
+    }
+    return data;
   }
 }

@@ -3,13 +3,13 @@ import 'package:hexcolor/hexcolor.dart';
 
 class ProductDetailsView extends StatelessWidget {
   final double screenWidth;
-  final String productPrice;
+  final double totalPrice;
   final String couponCount;
   final String productCount;
 
   ProductDetailsView(
     this.screenWidth,
-    this.productPrice,
+    this.totalPrice,
     this.couponCount,
     this.productCount,
   );
@@ -35,7 +35,7 @@ class ProductDetailsView extends StatelessWidget {
             style: TextStyle(color: Colors.white, fontSize: 10),
           ),
           Text(
-            "AED $productPrice",
+            "AED $totalPrice",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               color: Colors.white,

@@ -1,0 +1,25 @@
+class CartItemModal {
+  String productId, productImage, price, prize, description;
+  int itemCount;
+
+  CartItemModal(
+    this.productId,
+    this.productImage,
+    this.price,
+    this.description,
+    this.itemCount,
+    this.prize,
+  );
+
+  Map<dynamic, dynamic> toJson() => _$CartItemModalToJson(this);
+}
+
+Map<dynamic, dynamic> _$CartItemModalToJson(CartItemModal instance) =>
+    <dynamic, dynamic>{
+      'deal_id': instance.productId,
+      'product_image': instance.productImage,
+      'price': instance.price,
+      'description': instance.description,
+      'item_count': instance.itemCount,
+      'prize': instance.prize,
+    };

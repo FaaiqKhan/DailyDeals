@@ -1,12 +1,18 @@
-import 'package:daily_deals/views/winner_card_view.dart';
+import 'package:daily_deals/modals/winner_modal.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class Winners extends StatelessWidget {
+  final List<WinnerModal> _modal;
+  final PageController _pageController = PageController(initialPage: 0);
+
+  Winners(this._modal);
+
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
-
+    List<Widget> viewData = Utils.prepareListDataForView(_modal, true);
     return Container(
       width: screenWidth,
       child: Stack(
@@ -28,18 +34,24 @@ class Winners extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 20.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
+                  GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(
+                        _pageController.page!.toInt() - 1,
+                        duration: Duration(seconds: 1),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 20.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.4588235294117647),
+                        ),
+                        shape: BoxShape.circle,
                         color: Colors.white.withOpacity(0.4588235294117647),
                       ),
-                      shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.4588235294117647),
-                    ),
-                    child: Icon(
-                      Icons.arrow_back,
-                      color: Colors.white,
+                      child: Icon(Icons.arrow_back, color: Colors.white),
                     ),
                   ),
                   Column(
@@ -53,7 +65,7 @@ class Winners extends StatelessWidget {
                         "WINNERS",
                         style: TextStyle(
                           fontFamily:
-                          Theme.of(context).textTheme.subtitle2!.fontFamily,
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
                           fontSize: 35,
                           fontStyle: FontStyle.italic,
                           color: Colors.white,
@@ -61,43 +73,39 @@ class Winners extends StatelessWidget {
                       )
                     ],
                   ),
-                  Container(
-                    margin: const EdgeInsets.only(top: 20.0),
-                    decoration: BoxDecoration(
-                      border: Border.all(
+                  GestureDetector(
+                    onTap: () {
+                      _pageController.animateToPage(
+                        _pageController.page!.toInt() + 1,
+                        duration: Duration(seconds: 1),
+                        curve: Curves.ease,
+                      );
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(top: 20.0),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.white.withOpacity(0.4588235294117647),
+                        ),
+                        shape: BoxShape.circle,
                         color: Colors.white.withOpacity(0.4588235294117647),
                       ),
-                      shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.4588235294117647),
-                    ),
-                    child: Icon(
-                      Icons.arrow_forward,
-                      color: Colors.white,
+                      child: Icon(Icons.arrow_forward, color: Colors.white),
                     ),
                   ),
                 ],
               ),
               // Winner cards view
               Container(
+                height: screenWidth * 0.6,
                 color: Colors.transparent,
-                child: SingleChildScrollView(
+                child: PageView(
+                  onPageChanged: (int) {},
+                  controller: _pageController,
                   scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      WinnerCard(
-                        prizeImage: "assets/images/gold_pen.png",
-                        winnerName: "Mr. Khalid Ahmed",
-                        reward: "Gold",
-                        price: "50,000",
-                      ),
-                      WinnerCard(
-                        prizeImage: "assets/images/gold_pen.png",
-                        winnerName: "Mr. Khalid Ahmed",
-                        reward: "Gold",
-                        price: "50,000",
-                      )
-                    ],
-                  ),
+                  pageSnapping: true,
+                  children: viewData,
+                  physics: NeverScrollableScrollPhysics(),
                 ),
               )
             ],
