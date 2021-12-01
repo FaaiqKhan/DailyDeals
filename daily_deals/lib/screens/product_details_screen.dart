@@ -1,12 +1,12 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
+import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
-import 'package:daily_deals/widgets/app_bar_back_button.dart';
-import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -47,9 +47,9 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: AppBarTitle("Product Details"),
-        leading: AppBarBackButton(),
-        actions: [AppBarProfileButton()],
+        leading: Container(),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: HexColor("#FCF4F4"),
@@ -64,70 +64,78 @@ class _ProductDetailsState extends State<ProductDetails> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  // Top features
-                  Padding(
-                    padding: const EdgeInsets.only(
-                      left: 8.0,
-                      right: 8.0,
-                      top: 20.0,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Banner image with share and favorites icons
+                  Container(
+                    width: screenWidth,
+                    child: Stack(
                       children: [
-                        Column(
-                          children: [
-                            // Shared and favorite icons
-                            Opacity(
-                              opacity: 0.6509803921568628,
-                              child: Icon(Icons.share_outlined, size: 28),
-                            ),
-                            SizedBox(height: screenWidth * 0.04),
-                            Opacity(
-                              opacity: 0.6509803921568628,
-                              child: Icon(Icons.favorite_outline_outlined,
-                                  size: 28),
-                            ),
-                          ],
+                        Image.network(
+                          isPriceDetailsSelected
+                              ? _modal!.bannerImage!
+                              : _modal!.productImage!,
+                          fit: BoxFit.fitHeight,
                         ),
-                        // Dubai logo
-                        Image.asset("assets/images/dubai_jubilee_icon.png"),
-                        // Top right image
-                        Container(
-                          width: sizeOfProduct,
-                          height: sizeOfProduct,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                            ),
-                            borderRadius: BorderRadius.circular(20),
-                            color: Colors.white,
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              // Top features
+                              Column(
+                                children: [
+                                  // Shared and favorite icons
+                                  Opacity(
+                                    opacity: 0.6509803921568628,
+                                    child: Icon(Icons.share_outlined, size: 28),
+                                  ),
+                                  SizedBox(height: screenWidth * 0.04),
+                                  Opacity(
+                                    opacity: 0.6509803921568628,
+                                    child: Icon(
+                                      Icons.favorite_outline_outlined,
+                                      size: 28,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              // Top right image
+                              Container(
+                                width: sizeOfProduct,
+                                height: sizeOfProduct,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.grey,
+                                  ),
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: Colors.white,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: Image.network(
+                                    isPriceDetailsSelected
+                                        ? _modal!.productImage!
+                                        : _modal!.bannerImage!,
+                                    fit: BoxFit.fill,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Image.network(
-                              isPriceDetailsSelected
-                                  ? _modal!.productImage!
-                                  : _modal!.bannerImage!,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                        ),
+                        )
                       ],
                     ),
                   ),
-                  // Banner image
-                  Image.network(
-                    isPriceDetailsSelected
-                        ? _modal!.bannerImage!
-                        : _modal!.productImage!,
-                    scale: 5,
-                  ),
+                  SizedBox(height: 10.0),
                   // Timer image
                   Opacity(
                     opacity: 0.25882352941176473,
-                    child:
-                        Image.asset('assets/images/clock_icon.png', scale: 10),
+                    child: Image.asset(
+                      'assets/images/clock_icon.png',
+                      scale: 10,
+                    ),
                   ),
+                  SizedBox(height: 10.0),
                   // Watch tag line
                   Text(
                     "Closing in",
@@ -138,6 +146,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       fontStyle: FontStyle.italic,
                     ),
                   ),
+                  SizedBox(height: 10.0),
                   Stack(
                     alignment: Alignment.topCenter,
                     children: [
@@ -302,8 +311,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ProductDetailsView(
                                   screenWidth,
                                   productCount * productPrice,
-                                  "3",
-                                  "2",
                                 ),
                                 AddToCartButton(
                                   screenWidth,
@@ -328,6 +335,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       gravity: ToastGravity.BOTTOM,
                                       toastLength: Toast.LENGTH_LONG,
                                     );
+                                    Utils.moveToNextScreenAfterCertainTime(3,
+                                        () {
+                                      Fluttertoast.cancel();
+                                      Navigator.pushNamedAndRemoveUntil(
+                                        context,
+                                        ParentScreen.routeName,
+                                        (route) => false,
+                                        arguments: 3,
+                                      );
+                                    });
                                   },
                                 ),
                               ],

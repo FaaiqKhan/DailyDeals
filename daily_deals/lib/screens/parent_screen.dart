@@ -45,6 +45,14 @@ class _ParentScreenState extends State<ParentScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      _currentIndex = ModalRoute.of(context)!.settings.arguments as int;
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double bottomHeight = screenWidth * 0.2;

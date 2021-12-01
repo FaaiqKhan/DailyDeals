@@ -4,22 +4,15 @@ import 'package:hexcolor/hexcolor.dart';
 class ProductDetailsView extends StatelessWidget {
   final double screenWidth;
   final double totalPrice;
-  final String couponCount;
-  final String productCount;
 
-  ProductDetailsView(
-    this.screenWidth,
-    this.totalPrice,
-    this.couponCount,
-    this.productCount,
-  );
+  ProductDetailsView(this.screenWidth, this.totalPrice);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
       width: this.screenWidth,
-      height: this.screenWidth * 0.35,
+      height: this.screenWidth * 0.32,
       decoration: BoxDecoration(
         color: HexColor("#313030"),
         borderRadius: BorderRadius.only(
@@ -34,6 +27,7 @@ class ProductDetailsView extends StatelessWidget {
             "Total amount inclusive VAT",
             style: TextStyle(color: Colors.white, fontSize: 10),
           ),
+          SizedBox(height: 5.0),
           Text(
             "AED $totalPrice",
             style: TextStyle(
@@ -41,25 +35,6 @@ class ProductDetailsView extends StatelessWidget {
               color: Colors.white,
               fontSize: 20,
             ),
-          ),
-          SizedBox(height: 10),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              RotationTransition(
-                turns: new AlwaysStoppedAnimation(150 / 360),
-                child: Image.asset(
-                  "assets/images/coupon_icon.png",
-                  scale: 25,
-                  color: Colors.white,
-                ),
-              ),
-              SizedBox(width: 8),
-              Text(
-                "$couponCount Coupons $productCount Products",
-                style: TextStyle(color: Colors.white, fontSize: 10),
-              ),
-            ],
           ),
         ],
       ),

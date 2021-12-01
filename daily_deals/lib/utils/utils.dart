@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/modals/winner_modal.dart';
@@ -147,5 +149,11 @@ class Utils {
       );
     }
     return data;
+  }
+
+  static void moveToNextScreenAfterCertainTime(int duration, Function move) {
+    Timer(Duration(seconds: duration), () {
+      move();
+    });
   }
 }

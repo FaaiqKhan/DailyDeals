@@ -125,7 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
           HomeSlider(Utils.homeDataModal!.slider!),
           // Other components
           Container(
-            padding: const EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.all(10.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

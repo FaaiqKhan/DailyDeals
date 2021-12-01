@@ -98,7 +98,7 @@ class _CartScreenState extends State<CartScreen> {
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  ProductDetailsView(screenWidth, totalPrice, "3", "2"),
+                  ProductDetailsView(screenWidth, totalPrice),
                   AddToCartButton(
                     screenWidth,
                     "Checkout",
