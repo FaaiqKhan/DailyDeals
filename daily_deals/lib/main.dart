@@ -22,6 +22,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import './screens/sign_in_up_screen.dart';
 import 'providers/auth.dart';
+import 'providers/cart_item_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: CartCostProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: CartItems(),
         )
       ],
       child: MaterialApp(

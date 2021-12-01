@@ -1,5 +1,8 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
+import 'package:daily_deals/providers/cart_cost_provider.dart';
+import 'package:daily_deals/providers/cart_item_provider.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/views/cart_address_details_view.dart';
 import 'package:daily_deals/views/cart_item_view.dart';
@@ -10,102 +13,110 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
-class CartScreen extends StatefulWidget {
-  @override
-  State<CartScreen> createState() => _CartScreenState();
-}
-
-class _CartScreenState extends State<CartScreen> {
+class CartScreen extends StatelessWidget {
   double totalPrice = 0.0;
   int productCount = 0;
+  CartCostProvider? cartCost;
+  CartItems? cartItems;
 
-  Future<List<CartItemModal>> getCartItem() async {
+  Future<Map<String, Widget>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
     List<CartItemModal> items = cartItemBox.values.toList();
     await cartItemBox.close();
-    productCount = items.length;
-    return items;
+    return prepareView(items);
   }
 
-  List<Widget> prepareView(List<CartItemModal> items) {
-    double price = 0.0;
-    List<Widget> data = [];
-    int itemCount = items.length - 1;
-    for (int i = 0; i < itemCount + 1; i++) {
-      data.add(
-        CartCardView(
-          items[i],
-          deleteItem,
-          addPrice,
-          minusPrice,
-          i != 1 ? true : false,
-        ),
+  Map<String, Widget> prepareView(List<CartItemModal> items) {
+    totalPrice = 0.0;
+    productCount = 0;
+    Map<String, Widget> data = {};
+    productCount = items.length - 1;
+    for (int i = 0; i < productCount + 1; i++) {
+      CartItemModal m = items[i];
+      data[m.productId] = CartCardView(
+        items[i],
+        deleteItem,
+        addPrice,
+        minusPrice,
+        i != 1 ? true : false,
       );
-      if (itemCount != i)
-        data.add(SizedBox(width: 300, child: Divider(thickness: 1)));
+      if (productCount != i)
+        data[m.productId + "d"] = SizedBox(width: 300, child: Divider(thickness: 1));
       else
-        data.add(SizedBox(height: 10));
-      price = price + double.parse(items[i].price);
+        data[m.productId + "d"] = SizedBox(height: 10);
+      totalPrice = totalPrice + (double.parse(m.price) * m.itemCount);
     }
-    if (totalPrice == 0.0 && items.isNotEmpty)
-      totalPrice = price;
-    else
-      totalPrice = 0.0;
     return data;
   }
 
   void addPrice(double price) {
-    setState(() {
-      this.totalPrice = this.totalPrice + price;
-    });
+    if (cartCost == null) return;
+    this.totalPrice = this.totalPrice + price;
+    cartCost!.updateCartValue(this.totalPrice, 0, 0);
   }
 
   void minusPrice(double price) {
-    setState(() {
-      this.totalPrice = this.totalPrice - price;
-    });
+    if (cartCost == null) return;
+    this.totalPrice = this.totalPrice - price;
+    cartCost!.updateCartValue(this.totalPrice, 0, 0);
   }
 
   void deleteItem(String itemId, double totalPrice) async {
+    if (cartCost == null || cartItems == null) return;
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
     await cartItemBox.delete(itemId);
     await cartItemBox.close();
-    setState(() {
-      this.totalPrice = this.totalPrice - totalPrice;
-    });
+    this.totalPrice = this.totalPrice - totalPrice;
+    cartCost!.updateCartValue(this.totalPrice, 0, 0);
+    cartItems!.deleteItem(itemId);
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
+    final double screenWidth = MediaQuery
+        .of(context)
+        .size
+        .width;
 
     return FutureBuilder(
       future: getCartItem(),
       builder: (ctx, snapShot) {
         if (snapShot.hasData) {
-          List<Widget> dataView =
-              prepareView(snapShot.data as List<CartItemModal>);
           return Column(
             children: [
               Expanded(
-                child: SingleChildScrollView(
-                  child: Padding(
-                    padding: Utils.calculateScreenLeftRightPaddingWithTop(10),
-                    child: Column(children: dataView),
-                  ),
+                child: Consumer<CartItems>(
+                  builder: (_, items, __) {
+                    items.initItems(snapShot.data as Map<String, Widget>);
+                    cartItems = items;
+                    return SingleChildScrollView(
+                      child: Padding(
+                        padding: Utils.calculateScreenLeftRightPaddingWithTop(
+                            10),
+                        child: Column(children: cartItems!.items.values
+                            .toList()),
+                      ),
+                    );
+                  },
                 ),
               ),
               Stack(
                 alignment: Alignment.bottomCenter,
                 children: [
-                  ProductDetailsView(screenWidth, totalPrice),
+                  Consumer<CartCostProvider>(
+                    builder: (_, cartCost, __) {
+                      cartCost.initValue(totalPrice);
+                      this.cartCost = cartCost;
+                      return ProductDetailsView(screenWidth, cartCost.cartCost);
+                    },
+                  ),
                   AddToCartButton(
                     screenWidth,
                     "Checkout",
-                    () {
-                      cartFunctionality(screenWidth, screenHeight);
+                        () {
+                      cartFunctionality(context, screenWidth);
                     },
                   ),
                 ],
@@ -113,18 +124,17 @@ class _CartScreenState extends State<CartScreen> {
             ],
           );
         } else {
-          return SizedBox.shrink();
+          return WidgetUtils.progressIndicator(context);
         }
       },
     );
   }
 
-  void cartFunctionality(double screenWidth, double screenHeight) {
+  void cartFunctionality(BuildContext context, double screenWidth) {
     double elementSpacing = screenWidth * 0.05;
     showModalBottomSheet(
       context: context,
-      backgroundColor:
-      HexColor("#313030").withOpacity(0.9490196078431372),
+      backgroundColor: HexColor("#313030").withOpacity(0.9490196078431372),
       isScrollControlled: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -134,19 +144,23 @@ class _CartScreenState extends State<CartScreen> {
       ),
       builder: (ctx) {
         return Container(
-          height: screenHeight - 100,
+          height: MediaQuery
+              .of(context)
+              .size
+              .height - 100,
           child: ListView(
             children: [
               SizedBox(height: elementSpacing),
               // Title
               Padding(
-                padding: const EdgeInsets.only(
-                    left: 70.0, right: 70.0),
+                padding: const EdgeInsets.only(left: 70.0, right: 70.0),
                 child: Text(
                   "What Do You Want To Do With Your Products",
                   textAlign: TextAlign.center,
                   style: TextStyle(
-                    fontFamily: Theme.of(context)
+                    fontFamily:
+                    Theme
+                        .of(context)
                         .textTheme
                         .subtitle2!
                         .fontFamily,
@@ -167,8 +181,7 @@ class _CartScreenState extends State<CartScreen> {
                   right: 40.0,
                   bottom: 10.0,
                 ),
-                child:
-                Divider(thickness: 1, color: Colors.grey),
+                child: Divider(thickness: 1, color: Colors.grey),
               ),
               CartItemView(itemType: 1),
               CartAddressDetailsView(),
