@@ -14,6 +14,7 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
   final Color selectedColor = Colors.white;
   final Color unSelectedColor = HexColor("#383838");
   bool saveAddress = false;
+  final double imageScale = 5.0;
 
   InputDecoration fieldDecoration(String label) {
     return InputDecoration(
@@ -60,6 +61,7 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
                             color: selectedAddressType == 0
                                 ? selectedColor
                                 : unSelectedColor,
+                            scale: imageScale,
                           ),
                         ),
                         Text(
@@ -107,6 +109,7 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
                             color: selectedAddressType == 1
                                 ? selectedColor
                                 : unSelectedColor,
+                            scale: imageScale,
                           ),
                         ),
                         Text(
@@ -140,7 +143,7 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
                     Column(
                       children: [
                         Container(
-                          padding: const EdgeInsets.all(11.5),
+                          padding: const EdgeInsets.all(6.5),
                           margin: const EdgeInsets.only(bottom: 10.0),
                           decoration: BoxDecoration(
                             color: selectedAddressType == 2
@@ -153,6 +156,7 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
                             color: selectedAddressType == 2
                                 ? selectedColor
                                 : unSelectedColor,
+                            scale: imageScale,
                           ),
                         ),
                         Text(

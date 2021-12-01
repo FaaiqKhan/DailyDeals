@@ -62,6 +62,7 @@ class _ParentScreenState extends State<ParentScreen> {
       body: _screens[_currentIndex],
       appBar: _currentIndex != 0
           ? AppBar(
+              centerTitle: true,
               title: AppBarTitle(_titles[_currentIndex]!),
               actions: [AppBarProfileButton()],
               backgroundColor: HexColor("#F83615"),

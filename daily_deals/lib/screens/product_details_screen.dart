@@ -73,7 +73,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                           isPriceDetailsSelected
                               ? _modal!.bannerImage!
                               : _modal!.productImage!,
-                          fit: BoxFit.fitHeight,
+                          fit: BoxFit.fitWidth,
+                          loadingBuilder: (ctx, widget, progress) {
+                            if (progress == null) {
+                              return widget;
+                            } else {
+                              return Container(
+                                width: screenWidth,
+                                height: screenWidth / 2,
+                                child: WidgetUtils.progressIndicator(context),
+                              );
+                            }
+                          },
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -113,11 +124,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Image.network(
-                                    isPriceDetailsSelected
-                                        ? _modal!.productImage!
-                                        : _modal!.bannerImage!,
-                                    fit: BoxFit.fill,
-                                  ),
+                                      isPriceDetailsSelected
+                                          ? _modal!.productImage!
+                                          : _modal!.bannerImage!,
+                                      fit: BoxFit.fill,
+                                      loadingBuilder: (ctx, widget, progress) {
+                                    if (progress == null) {
+                                      return widget;
+                                    } else {
+                                      return WidgetUtils.progressIndicator(
+                                          context);
+                                    }
+                                  }),
                                 ),
                               ),
                             ],
