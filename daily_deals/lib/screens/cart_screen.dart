@@ -91,10 +91,7 @@ class _CartScreenState extends State<CartScreen> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: Utils.calculateScreenLeftRightPaddingWithTop(10),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children: dataView,
-                    ),
+                    child: Column(children: dataView),
                   ),
                 ),
               ),

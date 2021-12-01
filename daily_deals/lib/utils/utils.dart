@@ -25,7 +25,7 @@ class Utils {
 
   static EdgeInsetsGeometry calculateScreenLeftRightPaddingWithTop(
       double screenWidth) {
-    return const EdgeInsets.only(left: 10.0, top: 20.0, right: 10.0);
+    return const EdgeInsets.only(left: 5.0, top: 10.0, right: 5.0);
   }
 
   static double buttonBorderRadius() {

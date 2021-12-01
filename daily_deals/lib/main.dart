@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:daily_deals/adapters/detailed_product_adapter.dart';
 import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
@@ -26,6 +28,7 @@ void main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   Hive.registerAdapter(CartItemAdapter());
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 
@@ -91,5 +94,14 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

@@ -50,7 +50,7 @@ class ProductDetailsView extends StatelessWidget {
                 turns: new AlwaysStoppedAnimation(150 / 360),
                 child: Image.asset(
                   "assets/images/coupon_icon.png",
-                  scale: 20,
+                  scale: 25,
                   color: Colors.white,
                 ),
               ),
@@ -60,7 +60,7 @@ class ProductDetailsView extends StatelessWidget {
                 style: TextStyle(color: Colors.white, fontSize: 10),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
