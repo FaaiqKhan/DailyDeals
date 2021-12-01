@@ -7,6 +7,7 @@ import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 
@@ -17,11 +18,13 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   double totalPrice = 0.0;
+  int productCount = 0;
 
   Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
     List<CartItemModal> items = cartItemBox.values.toList();
     await cartItemBox.close();
+    productCount = items.length;
     return items;
   }
 
@@ -77,7 +80,6 @@ class _CartScreenState extends State<CartScreen> {
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
     final double screenHeight = MediaQuery.of(context).size.height;
-    final double elementSpacing = screenWidth * 0.05;
 
     return FutureBuilder(
       future: getCartItem(),
@@ -103,61 +105,7 @@ class _CartScreenState extends State<CartScreen> {
                     screenWidth,
                     "Checkout",
                     () {
-                      showModalBottomSheet(
-                        context: context,
-                        backgroundColor: HexColor("#313030"),
-                        isScrollControlled: true,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(30.0),
-                            topRight: Radius.circular(30.0),
-                          ),
-                        ),
-                        builder: (ctx) {
-                          return Container(
-                            height: screenHeight - 100,
-                            child: ListView(
-                              children: [
-                                SizedBox(height: elementSpacing),
-                                // Title
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 70.0, right: 70.0),
-                                  child: Text(
-                                    "What Do You Want To Do With Your Products",
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      fontFamily: Theme.of(context)
-                                          .textTheme
-                                          .subtitle2!
-                                          .fontFamily,
-                                      fontSize: 16,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: elementSpacing),
-                                // Product details
-                                CartItemView(
-                                  itemType: 0,
-                                  sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 40.0,
-                                    right: 40.0,
-                                    bottom: 10.0,
-                                  ),
-                                  child:
-                                      Divider(thickness: 1, color: Colors.grey),
-                                ),
-                                CartItemView(itemType: 1),
-                                CartAddressDetailsView(),
-                              ],
-                            ),
-                          );
-                        },
-                      );
+                      cartFunctionality(screenWidth, screenHeight);
                     },
                   ),
                 ],
@@ -167,6 +115,75 @@ class _CartScreenState extends State<CartScreen> {
         } else {
           return SizedBox.shrink();
         }
+      },
+    );
+  }
+
+  void cartFunctionality(double screenWidth, double screenHeight) {
+    double elementSpacing = screenWidth * 0.05;
+    showModalBottomSheet(
+      context: context,
+      backgroundColor:
+      HexColor("#313030").withOpacity(0.9490196078431372),
+      isScrollControlled: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(30.0),
+          topRight: Radius.circular(30.0),
+        ),
+      ),
+      builder: (ctx) {
+        return Container(
+          height: screenHeight - 100,
+          child: ListView(
+            children: [
+              SizedBox(height: elementSpacing),
+              // Title
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 70.0, right: 70.0),
+                child: Text(
+                  "What Do You Want To Do With Your Products",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontFamily: Theme.of(context)
+                        .textTheme
+                        .subtitle2!
+                        .fontFamily,
+                    fontSize: 16,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+              SizedBox(height: elementSpacing),
+              // Product details
+              CartItemView(
+                itemType: 0,
+                sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 40.0,
+                  right: 40.0,
+                  bottom: 10.0,
+                ),
+                child:
+                Divider(thickness: 1, color: Colors.grey),
+              ),
+              CartItemView(itemType: 1),
+              CartAddressDetailsView(),
+              ProductDetailsView(
+                screenWidth,
+                totalPrice,
+                color: HexColor("#1D1C1C"),
+                productCount: productCount,
+              ),
+              AddToCartButton(screenWidth, "Checkout", () {
+                Fluttertoast.showToast(msg: "Coming soon");
+              })
+            ],
+          ),
+        );
       },
     );
   }

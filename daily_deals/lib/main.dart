@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(
               fontFamily: 'Montserrat-ExtraBoldItalic',
               color: HexColor("#ED4A2F"),
-              fontSize: 13,
+              fontSize: 12,
             ),
             headline6: TextStyle(
               fontFamily: 'Montserrat-Bold',

@@ -25,7 +25,7 @@ class GuessAndWin extends StatelessWidget {
         children: [
           Image.asset(
             "assets/images/clock_icon.png",
-            scale: screenWidth * 0.032,
+            scale: 20,
             color: Colors.white,
           ),
           SizedBox(height: elementSpacing),
@@ -40,7 +40,7 @@ class GuessAndWin extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontSize: 10,
+                fontSize: 8,
                 fontStyle: FontStyle.italic,
                 color: Colors.white,
               ),
@@ -48,7 +48,7 @@ class GuessAndWin extends StatelessWidget {
           ),
           SizedBox(height: elementSpacing),
           Image.asset("assets/images/runner_icon.png",
-              width: screenWidth * 0.15),
+              width: screenWidth * 0.13),
           SizedBox(height: elementSpacing),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -56,23 +56,23 @@ class GuessAndWin extends StatelessWidget {
               SizedBox(width: 5),
               Image.asset(
                 "assets/images/guess_win_box.png",
-                scale: 0.7,
+                scale: 0.9,
               ),
               Image.asset(
                 "assets/images/guess_win_box.png",
-                scale: 0.7,
+                scale: 0.9,
               ),
               Image.asset(
                 "assets/images/guess_win_box.png",
-                scale: 0.7,
+                scale: 0.9,
               ),
               Image.asset(
                 "assets/images/guess_win_box.png",
-                scale: 0.7,
+                scale: 0.9,
               ),
               Image.asset(
                 "assets/images/guess_win_box.png",
-                scale: 0.7,
+                scale: 0.9,
               ),
               SizedBox(width: 5),
             ],
@@ -90,23 +90,18 @@ class GuessAndWin extends StatelessWidget {
           SizedBox(height: elementSpacing),
           TextButton(
             onPressed: () {},
-            child: Padding(
-              padding: const EdgeInsets.only(left: 10, right: 10),
-              child: Text(
-                "Click Here",
-                style: TextStyle(
-                  fontFamily:
-                  Theme.of(context).textTheme.subtitle2!.fontFamily,
-                  fontStyle: FontStyle.italic,
-                  color: Colors.white,
-                  fontSize: 10,
-                ),
+            child: Text(
+              "Click Here",
+              style: TextStyle(
+                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                fontStyle: FontStyle.italic,
+                color: Colors.white,
+                fontSize: 10,
               ),
             ),
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(
-                HexColor("#E62302"),
-              ),
+              backgroundColor: MaterialStateProperty.all(HexColor("#E62302")),
+              padding: MaterialStateProperty.all(EdgeInsets.all(8.0)),
             ),
           ),
         ],

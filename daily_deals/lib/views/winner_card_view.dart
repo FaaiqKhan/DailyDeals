@@ -19,17 +19,8 @@ class WinnerCard extends StatelessWidget {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
         child: Column(
           children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                Image.asset(
-                  "assets/images/party_items.png",
-                  scale: 4,
-                  fit: BoxFit.fitWidth,
-                ),
-                Image.network(modal.image, scale: 4.5),
-              ],
-            ),
+            SizedBox(height: 5.0),
+            Image.network(modal.image, scale: 5),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: Text(
@@ -43,9 +34,10 @@ class WinnerCard extends StatelessWidget {
                 fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
                 fontStyle: FontStyle.italic,
                 color: HexColor("#303030"),
+                fontSize: 12,
               ),
             ),
-            SizedBox(height: screenWidth * 0.02),
+            SizedBox(height: 5.0),
             Text(
               "On winning",
               style: TextStyle(
@@ -54,6 +46,7 @@ class WinnerCard extends StatelessWidget {
                 color: HexColor("#303030"),
               ),
             ),
+            SizedBox(height: 5.0),
             Text(
               // "AED ${modal.amount}" + " ${modal.productName}",
               "AED ${modal.amount}",
@@ -63,7 +56,6 @@ class WinnerCard extends StatelessWidget {
                 color: HexColor("#303030"),
               ),
             ),
-            SizedBox(height: screenWidth * 0.09)
           ],
         ),
       ),
