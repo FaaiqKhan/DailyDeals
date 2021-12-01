@@ -32,7 +32,11 @@ class _HomeScreenState extends State<HomeScreen> {
     Color textColor = isSelected ? Colors.white : HexColor("#C6BFBF");
     return Container(
       padding: const EdgeInsets.all(8),
-      child: Text(title, style: TextStyle(color: textColor)),
+      child: Text(
+        title,
+        style: TextStyle(color: textColor, fontSize: 12),
+        textAlign: TextAlign.center,
+      ),
       decoration: BoxDecoration(
         color: decorColor,
         border: Border.all(color: decorColor),
@@ -45,45 +49,57 @@ class _HomeScreenState extends State<HomeScreen> {
     return Container(
       padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
       color: HexColor("#EAEAEA"),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      child: Flex(
+        direction: Axis.horizontal,
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          GestureDetector(
-            onTap: () => setState(() {
-              products = true;
-              closingSoon = false;
-              todayDeal = false;
-              winner = false;
-            }),
-            child: buttonContainer("Products", products),
+          SizedBox(width: 5.0),
+          Flexible(
+            child: GestureDetector(
+              onTap: () => setState(() {
+                products = true;
+                closingSoon = false;
+                todayDeal = false;
+                winner = false;
+              }),
+              child: buttonContainer("Products", products),
+            ),
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              products = false;
-              closingSoon = true;
-              todayDeal = false;
-              winner = false;
-            }),
-            child: buttonContainer("Closing Soon", closingSoon),
+          Flexible(
+            child: GestureDetector(
+              onTap: () => setState(() {
+                products = false;
+                closingSoon = true;
+                todayDeal = false;
+                winner = false;
+              }),
+              child: buttonContainer("Closing Soon", closingSoon),
+            ),
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              products = false;
-              closingSoon = false;
-              todayDeal = true;
-              winner = false;
-            }),
-            child: buttonContainer("Today's Deal", todayDeal),
+          Flexible(
+            child: GestureDetector(
+              onTap: () => setState(() {
+                products = false;
+                closingSoon = false;
+                todayDeal = true;
+                winner = false;
+              }),
+              child: buttonContainer("Today's Deal", todayDeal),
+            ),
           ),
-          GestureDetector(
-            onTap: () => setState(() {
-              products = false;
-              closingSoon = false;
-              todayDeal = false;
-              winner = true;
-            }),
-            child: buttonContainer("Winner", winner),
+          Flexible(
+            child: GestureDetector(
+              onTap: () => setState(() {
+                products = false;
+                closingSoon = false;
+                todayDeal = false;
+                winner = true;
+              }),
+              child: buttonContainer("Winner", winner),
+            ),
           ),
+          SizedBox(width: 5.0),
         ],
       ),
     );

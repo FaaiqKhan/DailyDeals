@@ -27,14 +27,15 @@ class CurrentDeals extends StatelessWidget {
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
             decoration: BoxDecoration(
-                border: Border.all(color: HexColor("#303030")),
-                color: HexColor("#303030"),
-                borderRadius: BorderRadius.circular(5)),
+              border: Border.all(color: HexColor("#303030")),
+              color: HexColor("#303030"),
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: Text(
               "WIN",
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontSize: 18,
+                fontSize: 15,
                 color: Colors.white,
               ),
             ),
