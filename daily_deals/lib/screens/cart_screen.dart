@@ -19,7 +19,7 @@ class CartScreen extends StatelessWidget {
   double totalPrice = 0.0;
   int productCount = 0;
   CartCostProvider? cartCost;
-  CartItems? cartItems;
+  CartItemsProvider? cartItems;
 
   Future<Map<String, Widget>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
@@ -43,7 +43,8 @@ class CartScreen extends StatelessWidget {
         i != 1 ? true : false,
       );
       if (productCount != i)
-        data[m.productId + "d"] = SizedBox(width: 300, child: Divider(thickness: 1));
+        data[m.productId + "d"] =
+            SizedBox(width: 300, child: Divider(thickness: 1));
       else
         data[m.productId + "d"] = SizedBox(height: 10);
       totalPrice = totalPrice + (double.parse(m.price) * m.itemCount);
@@ -87,7 +88,7 @@ class CartScreen extends StatelessWidget {
           return Column(
             children: [
               Expanded(
-                child: Consumer<CartItems>(
+                child: Consumer<CartItemsProvider>(
                   builder: (_, items, __) {
                     items.initItems(snapShot.data as Map<String, Widget>);
                     cartItems = items;
@@ -131,6 +132,20 @@ class CartScreen extends StatelessWidget {
   }
 
   void cartFunctionality(BuildContext context, double screenWidth) {
+    if (cartItems == null || cartCost == null || cartItems!.items.isEmpty)
+      return;
+
+    List<Widget> items = [];
+    cartItems!.items.forEach((key, value) {
+      if (!key.contains("d")) {
+        items.add(value);
+        items.add(CartItemView(
+          itemType: 0,
+          sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
+        ));
+      }
+    });
+
     double elementSpacing = screenWidth * 0.05;
     showModalBottomSheet(
       context: context,
@@ -171,9 +186,8 @@ class CartScreen extends StatelessWidget {
               ),
               SizedBox(height: elementSpacing),
               // Product details
-              CartItemView(
-                itemType: 0,
-                sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
+              Column(
+                children: items,
               ),
               Padding(
                 padding: const EdgeInsets.only(
