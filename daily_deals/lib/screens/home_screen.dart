@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/screens/winners_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -117,7 +118,10 @@ class _HomeScreenState extends State<HomeScreen> {
         scrollDirection: Axis.vertical,
       );
     } else if (winner) {
-      return Text("winner");
+      return WinnersScreen(
+        screenWidth,
+        Utils.homeDataModal!.winners,
+      );
     } else {
       return Column(
         children: [
