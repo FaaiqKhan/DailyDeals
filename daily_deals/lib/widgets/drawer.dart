@@ -1,3 +1,4 @@
+import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/screens/sign_in_up_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -134,56 +135,6 @@ class MyDrawer extends StatelessWidget {
                 ],
               ),
               SizedBox(height: elementHeight),
-              // Terms and conditions
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    "assets/images/drawer/terms_condition_icon.png",
-                    width: 30,
-                    height: 30,
-                    color: Colors.white.withOpacity(0.7),
-                  ),
-                  SizedBox(width: drawerIconsDistance),
-                  Text(
-                    "Terms and Conditions",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-              SizedBox(height: elementHeight),
-              // Privacy policy
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/drawer/privacy_policy_icon.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                  SizedBox(width: drawerIconsDistance),
-                  Text(
-                    "Privacy Policy",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-              SizedBox(height: elementHeight),
-              // FAQs
-              Row(
-                children: [
-                  Image.asset(
-                    "assets/images/drawer/faq_icon.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                  SizedBox(width: drawerIconsDistance),
-                  Text(
-                    "FAQs",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
-              ),
-              SizedBox(height: elementHeight),
               // Products
               Row(
                 children: [
@@ -198,6 +149,26 @@ class MyDrawer extends StatelessWidget {
                     style: TextStyle(color: Colors.white),
                   )
                 ],
+              ),
+              SizedBox(height: elementHeight),
+              // Help
+              GestureDetector(
+                onTap: () => Navigator.pushNamed(context, HelpScreen.route),
+                child: Row(
+                  children: [
+                    Image.asset(
+                      "assets/images/drawer/help_icon.png",
+                      width: 30,
+                      height: 30,
+                      color: Colors.white.withOpacity(0.7),
+                    ),
+                    SizedBox(width: drawerIconsDistance),
+                    Text(
+                      "Help",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: elementHeight),
               // Log out

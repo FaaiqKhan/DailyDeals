@@ -15,6 +15,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 
+// ignore: must_be_immutable
 class CartScreen extends StatelessWidget {
   double totalPrice = 0.0;
   int productCount = 0;

@@ -6,6 +6,7 @@ import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
+import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
@@ -95,6 +96,7 @@ class MyApp extends StatelessWidget {
           CreatePassword.routeName: (ctx) => CreatePassword(),
           ParentScreen.routeName: (ctx) => ParentScreen(),
           ProductDetails.routeName: (ctx) => ProductDetails(),
+          HelpScreen.route: (ctx) => HelpScreen(),
         },
       ),
     );
