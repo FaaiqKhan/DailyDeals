@@ -99,7 +99,7 @@ class _ParentScreenState extends State<ParentScreen> {
                 BottomNavigationBarItem(
                   icon: Image.asset(
                     "assets/images/cart/coupon_icon.png",
-                    scale: 15,
+                    scale: 17.5,
                     color: Colors.white,
                   ),
                   label: "Coupons",
