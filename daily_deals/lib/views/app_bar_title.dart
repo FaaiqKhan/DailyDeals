@@ -7,13 +7,11 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: TextStyle(
-          fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-          fontSize: 20,
-        ),
+    return Text(
+      title,
+      style: TextStyle(
+        fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+        fontSize: 20,
       ),
     );
   }

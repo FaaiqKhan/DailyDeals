@@ -3,15 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import 'cart_card_view.dart';
-
-class CartItem extends StatelessWidget {
+class CartItemView extends StatelessWidget {
   final int itemType;
   final List<int>? sequenceOfNumbers;
   final String guessAndWin = "Guess and win";
   final String closingDeal = "You pick this from closing deal";
 
-  CartItem({this.itemType = 0, this.sequenceOfNumbers});
+  CartItemView({this.itemType = 0, this.sequenceOfNumbers});
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +30,10 @@ class CartItem extends StatelessWidget {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: CartCard("100.0"),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(10.0),
+        //   child: CartCardView("100.0"),
+        // ),
         Visibility(
           visible: itemType == 0,
           child: Column(

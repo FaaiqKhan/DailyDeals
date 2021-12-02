@@ -1,3 +1,4 @@
+import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/views/digit_view.dart';
 import 'package:daily_deals/widgets/remaining_product_count.dart';
 import 'package:flutter/cupertino.dart';
@@ -5,22 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class CouponView extends StatelessWidget {
-  final String title;
-  final String productImage;
-  final String priceName;
-  final String productName;
-  final String price;
-  final String date;
-  final String year;
+  final CouponModal modal;
 
-  CouponView(this.title, this.productImage, this.priceName, this.productName,
-      this.price, this.date, this.year);
+  CouponView(this.modal);
+
+  List<Widget> digitsView(List<String> numbers) {
+    List<Widget> view = [];
+    for (String number in numbers) {
+      view.add(DigitView(number, "#ACACAD", "#E4E4E4"));
+      view.add(SizedBox(width: 5.0));
+    }
+    return view;
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double elementSpacing = screenWidth * 0.02;
     double containerHeight = screenWidth * 0.5;
+    List<String> date = modal.date!.split(" ");
 
     return Container(
       height: containerHeight,
@@ -50,7 +54,7 @@ class CouponView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        title,
+                        modal.couponType == null ? "" : modal.couponType!,
                         style: TextStyle(
                           fontFamily:
                               Theme.of(context).textTheme.subtitle2!.fontFamily,
@@ -59,7 +63,7 @@ class CouponView extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(right: 10.0),
-                        child: Image.asset(productImage),
+                        child: Image.network(modal.image!, scale: 4.5),
                       )
                     ],
                   ),
@@ -87,7 +91,7 @@ class CouponView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "You appear in $priceName",
+                            "You appear in ${modal.title!}",
                             style: TextStyle(
                               fontFamily: Theme.of(context)
                                   .textTheme
@@ -109,7 +113,7 @@ class CouponView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            productName,
+                            modal.title!,
                             style: TextStyle(
                               fontFamily: Theme.of(context)
                                   .textTheme
@@ -120,7 +124,7 @@ class CouponView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "AED $price",
+                            "AED 50.0",
                             style: TextStyle(
                               fontFamily: Theme.of(context)
                                   .textTheme
@@ -150,36 +154,7 @@ class CouponView extends StatelessWidget {
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.min,
-                            children: [
-                              DigitView("11", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("17", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("32", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("48", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("99", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("20", "#ACACAD", "#E4E4E4"),
-                            ],
-                          ),
-                          SizedBox(height: 5),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              DigitView("11", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("17", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("32", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("48", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("99", "#ACACAD", "#E4E4E4"),
-                              SizedBox(width: 5.0),
-                              DigitView("20", "#ACACAD", "#E4E4E4"),
-                            ],
+                            children: digitsView(modal.shuffleNumbers!)
                           ),
                         ],
                       ),
@@ -219,7 +194,7 @@ class CouponView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        date,
+                        date[2] + " " + date[1],
                         style: TextStyle(
                           fontSize: 7,
                           color: HexColor("#4E4C4C"),
@@ -230,7 +205,7 @@ class CouponView extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        year,
+                        date[0],
                         style: TextStyle(
                           fontSize: 14,
                           color: HexColor("#4E4C4C"),

@@ -96,7 +96,7 @@ class _SingleDigitState extends State<SingleDigit>
             child: Column(
               children: <Widget>[
                 for (var i = 0; i < 10; i++)
-                  Text(i.toString(), style: _textStyle, textAlign: TextAlign.center,)
+                  Text(i.toString(), style: _textStyle)
                 // ADD STYLE TO THE TEXT
               ],
             ),
@@ -114,7 +114,7 @@ class _SingleDigitState extends State<SingleDigit>
     painter.text = TextSpan(style: _textStyle, text: '0');
     painter.textDirection = TextDirection.ltr;
     painter.textAlign = TextAlign.center;
-    painter.textScaleFactor = 0.8;
+    painter.textScaleFactor = 0.5;
     painter.layout();
     return painter.size;
   }

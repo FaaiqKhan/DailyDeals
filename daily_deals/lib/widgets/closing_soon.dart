@@ -118,9 +118,7 @@ class ClosingSoon extends StatelessWidget {
               border: Border.all(
                 color: HexColor("#F83615"),
               ),
-              borderRadius: BorderRadius.all(
-                Radius.circular(5),
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(5)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -130,16 +128,18 @@ class ClosingSoon extends StatelessWidget {
                   scale: 25,
                   color: Colors.white,
                 ),
-                SizedBox(width: screenWidth * 0.02),
                 Consumer<ClosingSoonTimerProvider>(
                     builder: (_, ClosingSoonTimerProvider provider, __) {
-                  return Text(
-                    provider.time,
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontFamily:
-                          Theme.of(context).textTheme.bodyText1!.fontFamily,
-                      color: Colors.white,
+                  return FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      provider.time,
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontFamily:
+                            Theme.of(context).textTheme.bodyText1!.fontFamily,
+                        color: Colors.white,
+                      ),
                     ),
                   );
                 }),

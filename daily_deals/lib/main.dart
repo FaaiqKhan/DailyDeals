@@ -1,4 +1,7 @@
-import 'package:daily_deals/providers/add_subtract_cart_item_provider.dart';
+import 'dart:io';
+
+import 'package:daily_deals/adapters/detailed_product_adapter.dart';
+import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
@@ -14,13 +17,19 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import './screens/sign_in_up_screen.dart';
 import 'providers/auth.dart';
+import 'providers/cart_item_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await Hive.initFlutter();
+  Hive.registerAdapter(CartItemAdapter());
+  HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
 }
 
@@ -36,8 +45,11 @@ class MyApp extends StatelessWidget {
           value: ClosingSoonTimerProvider(),
         ),
         ChangeNotifierProvider.value(
-          value: AddSubtractCartItemProvider(),
+          value: CartCostProvider(),
         ),
+        ChangeNotifierProvider.value(
+          value: CartItemsProvider(),
+        )
       ],
       child: MaterialApp(
         title: 'Daily Deals',
@@ -48,7 +60,7 @@ class MyApp extends StatelessWidget {
             headline5: TextStyle(
               fontFamily: 'Montserrat-ExtraBoldItalic',
               color: HexColor("#ED4A2F"),
-              fontSize: 13,
+              fontSize: 12,
             ),
             headline6: TextStyle(
               fontFamily: 'Montserrat-Bold',
@@ -86,5 +98,14 @@ class MyApp extends StatelessWidget {
         },
       ),
     );
+  }
+}
+
+class MyHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
   }
 }

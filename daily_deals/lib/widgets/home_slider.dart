@@ -34,7 +34,6 @@ class HomeSlider extends StatelessWidget {
     return Container(
       padding: EdgeInsets.only(
         left: Utils.screenPadding,
-        top: Utils.elementPadding,
         right: Utils.screenPadding,
         bottom: Utils.elementPadding,
       ),
@@ -52,7 +51,7 @@ class HomeSlider extends StatelessWidget {
             physics: NeverScrollableScrollPhysics(),
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0),
+            padding: const EdgeInsets.only(left: 5.0, right: 5.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

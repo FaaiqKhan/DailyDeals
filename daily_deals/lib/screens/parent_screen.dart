@@ -45,6 +45,14 @@ class _ParentScreenState extends State<ParentScreen> {
   }
 
   @override
+  void didChangeDependencies() {
+    if (ModalRoute.of(context)!.settings.arguments != null) {
+      _currentIndex = ModalRoute.of(context)!.settings.arguments as int;
+    }
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double bottomHeight = screenWidth * 0.2;
@@ -54,6 +62,7 @@ class _ParentScreenState extends State<ParentScreen> {
       body: _screens[_currentIndex],
       appBar: _currentIndex != 0
           ? AppBar(
+              centerTitle: true,
               title: AppBarTitle(_titles[_currentIndex]!),
               actions: [AppBarProfileButton()],
               backgroundColor: HexColor("#F83615"),
@@ -89,7 +98,7 @@ class _ParentScreenState extends State<ParentScreen> {
                 ),
                 BottomNavigationBarItem(
                   icon: Image.asset(
-                    "assets/images/coupon_icon.png",
+                    "assets/images/cart/coupon_icon.png",
                     scale: 15,
                     color: Colors.white,
                   ),
@@ -100,7 +109,7 @@ class _ParentScreenState extends State<ParentScreen> {
                     0.15,
                     "Coupons",
                     null,
-                    "assets/images/coupon_icon.png",
+                    "assets/images/cart/coupon_icon.png",
                   ),
                 ),
                 BottomNavigationBarItem(

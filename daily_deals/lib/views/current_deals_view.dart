@@ -27,14 +27,15 @@ class CurrentDeals extends StatelessWidget {
             padding:
                 const EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
             decoration: BoxDecoration(
-                border: Border.all(color: HexColor("#303030")),
-                color: HexColor("#303030"),
-                borderRadius: BorderRadius.circular(5)),
+              border: Border.all(color: HexColor("#303030")),
+              color: HexColor("#303030"),
+              borderRadius: BorderRadius.circular(5),
+            ),
             child: Text(
               "WIN",
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontSize: 20,
+                fontSize: 15,
                 color: Colors.white,
               ),
             ),
@@ -44,20 +45,20 @@ class CurrentDeals extends StatelessWidget {
             "Get a change to win",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-              fontSize: 10,
+              fontSize: 8,
               fontStyle: FontStyle.italic,
               color: Colors.white,
             ),
           ),
           // Product name
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: screenWidth * 0.35),
+            constraints: BoxConstraints(maxWidth: screenWidth * 0.30),
             child: Text(
               _modal.title!,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-                fontSize: 15,
+                fontSize: 10,
                 fontStyle: FontStyle.italic,
                 color: Colors.white,
               ),
@@ -73,7 +74,7 @@ class CurrentDeals extends StatelessWidget {
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
                 fontStyle: FontStyle.italic,
-                fontSize: 10,
+                fontSize: 8,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
@@ -84,7 +85,6 @@ class CurrentDeals extends StatelessWidget {
             "AED ${_modal.price}",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
-              fontSize: 17,
               color: Colors.white,
             ),
           ),
@@ -162,8 +162,8 @@ class CurrentDeals extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Image.asset("assets/images/timer_icon.png", scale: 6),
-              SizedBox(width: 20),
+              Image.asset("assets/images/timer_icon.png", scale: 7),
+              SizedBox(width: 10),
               Container(
                 padding: const EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
@@ -174,14 +174,14 @@ class CurrentDeals extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                 ),
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 25),
+                  constraints: BoxConstraints(maxWidth: 20),
                   child: Text(
                     "End on 26 Nov",
                     style: TextStyle(
                       fontFamily:
                           Theme.of(context).textTheme.subtitle2!.fontFamily,
                       color: Colors.white,
-                      fontSize: 7,
+                      fontSize: 6,
                     ),
                     textAlign: TextAlign.center,
                   ),
