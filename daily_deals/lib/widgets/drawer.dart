@@ -153,7 +153,10 @@ class MyDrawer extends StatelessWidget {
               SizedBox(height: elementHeight),
               // Help
               GestureDetector(
-                onTap: () => Navigator.pushNamed(context, HelpScreen.route),
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, HelpScreen.route);
+                },
                 child: Row(
                   children: [
                     Image.asset(
