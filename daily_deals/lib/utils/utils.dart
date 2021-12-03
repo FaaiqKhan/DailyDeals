@@ -156,4 +156,8 @@ class Utils {
       move();
     });
   }
+
+  static bool isKeyboardVisible(BuildContext context) {
+    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
+  }
 }

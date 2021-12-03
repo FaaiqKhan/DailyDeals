@@ -1,3 +1,4 @@
+import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/viewhelper/dropdown_action.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,12 @@ class HelpScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double buttonHeight = 50.0;
     Color textFieldBorderColor = HexColor("#E4E6E8");
+    Color textAndIconColor = HexColor("#A8B2BD");
+    TextEditingController nameController = TextEditingController();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController phoneController = TextEditingController();
+    TextEditingController subjectController = TextEditingController();
+    TextEditingController messageController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
@@ -31,6 +38,7 @@ class HelpScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SingleChildScrollView(
@@ -252,52 +260,136 @@ class HelpScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.0),
-              CustomDropdown<int>(
-                child: iconAndText(
-                  context,
-                  "assets/images/inquiry_form_icon.png",
-                  "Inquiry Form",
-                  17,
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
-                onChange: (int value, int index) => print(value),
-                dropdownButtonStyle: DropdownButtonStyle(
-                  width: screenWidth,
-                  height: 50,
-                  elevation: 1,
-                  backgroundColor: [
-                    Theme.of(context).primaryColor,
-                    HexColor("#313030")
-                  ],
-                ),
-                dropdownStyle: DropdownStyle(padding: EdgeInsets.all(5)),
-                items: [
-                  const SizedBox(height: 20.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 300),
-                        child: Text(
-                          "Have an inquiry? Fill the form below to contact us",
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontFamily: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .fontFamily,
-                          ),
-                        ),
-                      ),
+                child: CustomDropdown<int>(
+                  child: iconAndText(
+                    context,
+                    "assets/images/inquiry_form_icon.png",
+                    "Inquiry Form",
+                    17,
+                  ),
+                  onChange: (int value, int index) => print(value),
+                  dropdownButtonStyle: DropdownButtonStyle(
+                    width: screenWidth,
+                    height: 50,
+                    elevation: 1,
+                    backgroundColor: [
+                      Theme.of(context).primaryColor,
+                      HexColor("#313030")
                     ],
                   ),
-                  const SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: Form(
+                  dropdownStyle: DropdownStyle(padding: EdgeInsets.all(5)),
+                  items: [
+                    const SizedBox(height: 20.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        ConstrainedBox(
+                          constraints: BoxConstraints(maxWidth: 300),
+                          child: Text(
+                            "Have an inquiry? Fill the form below to contact us",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontFamily: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .fontFamily,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: EdgeInsets.only(left: 20.0, right: 20.0),
                       child: Column(
                         children: [
+                          // Name
                           TextFormField(
+                            controller: nameController,
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: textFieldBorderColor,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: textFieldBorderColor,
+                                ),
+                              ),
+                              hintText: "Name",
+                              hintStyle: TextStyle(color: textAndIconColor),
+                              prefixIcon: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(width: 10.0),
+                                  Opacity(
+                                    opacity: 0.0,
+                                    child: Icon(
+                                      Icons.email_outlined,
+                                      color: textAndIconColor,
+                                    ),
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                    ),
+                                    width: 2,
+                                    height: buttonHeight - 10,
+                                    color: textFieldBorderColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                            cursorColor: textAndIconColor,
+                          ),
+                          SizedBox(height: 10.0),
+                          // Email
+                          TextFormField(
+                            controller: emailController,
+                            decoration: InputDecoration(
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: textFieldBorderColor,
+                                ),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: textFieldBorderColor,
+                                ),
+                              ),
+                              prefixIcon: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  SizedBox(width: 10.0),
+                                  Icon(
+                                    Icons.email_outlined,
+                                    color: textAndIconColor,
+                                  ),
+                                  Container(
+                                    margin: const EdgeInsets.only(
+                                      left: 10.0,
+                                      right: 10.0,
+                                    ),
+                                    width: 2,
+                                    height: buttonHeight - 10,
+                                    color: textFieldBorderColor,
+                                  )
+                                ],
+                              ),
+                            ),
+                            cursorColor: textAndIconColor,
+                          ),
+                          SizedBox(height: 10.0),
+                          // Phone
+                          TextFormField(
+                            controller: phoneController,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -312,7 +404,10 @@ class HelpScreen extends StatelessWidget {
                               prefixIcon: Row(
                                 children: [
                                   SizedBox(width: 10.0),
-                                  Icon(Icons.six_ft_apart),
+                                  Opacity(
+                                    opacity: 0.0,
+                                    child: Icon(Icons.email),
+                                  ),
                                   Container(
                                     margin: const EdgeInsets.only(
                                       left: 10.0,
@@ -325,9 +420,12 @@ class HelpScreen extends StatelessWidget {
                                 ],
                               ),
                             ),
+                            cursorColor: textAndIconColor,
                           ),
                           SizedBox(height: 10.0),
+                          // Subject
                           TextFormField(
+                            controller: subjectController,
                             decoration: InputDecoration(
                               focusedBorder: OutlineInputBorder(
                                 borderSide: BorderSide(
@@ -338,84 +436,71 @@ class HelpScreen extends StatelessWidget {
                                 borderSide: BorderSide(
                                   color: textFieldBorderColor,
                                 ),
+                              ),
+                              hintText: "Subject",
+                              hintStyle: TextStyle(color: textAndIconColor),
+                            ),
+                            cursorColor: textAndIconColor,
+                          ),
+                          SizedBox(height: 10.0),
+                          // Message
+                          Container(
+                            height: 200,
+                            padding:
+                                const EdgeInsets.only(left: 8.0, right: 8.0),
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: textFieldBorderColor,
+                                width: 1.0,
                               ),
                             ),
-                          ),
-                          SizedBox(height: 10.0),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
+                            child: TextFormField(
+                              controller: messageController,
+                              decoration: InputDecoration(
+                                border: InputBorder.none,
+                                hintText: "Write your Message",
+                                hintStyle: TextStyle(color: textAndIconColor),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 10.0),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
+                              keyboardType: TextInputType.multiline,
+                              maxLines: null,
+                              cursorColor: textAndIconColor,
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                    child: TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        "Send Message",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontFamily:
-                              Theme.of(context).textTheme.bodyText2!.fontFamily,
-                          fontSize: 15,
+                    const SizedBox(height: 20.0),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          "Send Message",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .fontFamily,
+                            fontSize: 15,
+                          ),
                         ),
-                      ),
-                      style: ButtonStyle(
-                        minimumSize: MaterialStateProperty.all(
-                          Size(screenWidth, buttonHeight),
-                        ),
-                        backgroundColor: MaterialStateProperty.all(
-                          HexColor("#313030"),
+                        style: ButtonStyle(
+                          minimumSize: MaterialStateProperty.all(
+                            Size(screenWidth, buttonHeight),
+                          ),
+                          backgroundColor: MaterialStateProperty.all(
+                            HexColor("#313030"),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 30.0),
-                ],
+                    Visibility(
+                      visible: Utils.isKeyboardVisible(context),
+                      child: SizedBox(height: screenWidth * 0.17),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

@@ -66,7 +66,7 @@ class _ParentScreenState extends State<ParentScreen> {
               title: AppBarTitle(_titles[_currentIndex]!),
               actions: [AppBarProfileButton()],
               backgroundColor: HexColor("#F83615"),
-              leading: Container(),
+              automaticallyImplyLeading: false,
               systemOverlayStyle:
                   Platform.isIOS ? SystemUiOverlayStyle.dark : null,
             )

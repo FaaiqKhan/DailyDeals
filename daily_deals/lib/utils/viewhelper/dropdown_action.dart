@@ -10,7 +10,6 @@ class CustomDropdown<T> extends StatefulWidget {
   final void Function(T, int)? onChange;
 
   /// list of DropdownItems
-  // final List<DropdownItem<T>>? items;
   final List<Widget>? items;
   final DropdownStyle dropdownStyle;
 
@@ -128,61 +127,46 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
     var offset = renderBox.localToGlobal(Offset.zero);
     var topOffset = offset.dy + size.height + 5;
     return OverlayEntry(
-      // full screen GestureDetector to register when a
-      // user has clicked away from the dropdown
-      builder: (context) => GestureDetector(
-        onTap: () => _toggleDropdown(close: true),
-        behavior: HitTestBehavior.translucent,
-        // full screen container to register taps anywhere and close drop down
-        child: Container(
-          height: MediaQuery.of(context).size.height,
-          width: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              Positioned(
-                left: offset.dx,
-                top: topOffset,
-                width: widget.dropdownStyle.width ?? size.width,
-                child: CompositedTransformFollower(
-                  offset:
-                      widget.dropdownStyle.offset ?? Offset(0, size.height + 5),
-                  link: this._layerLink,
-                  showWhenUnlinked: false,
-                  child: Material(
-                    elevation: widget.dropdownStyle.elevation,
-                    borderRadius: widget.dropdownStyle.borderRadius,
-                    color: widget.dropdownStyle.color,
-                    child: SizeTransition(
-                      axisAlignment: 1,
-                      sizeFactor: _expandAnimation!,
-                      child: ConstrainedBox(
-                        constraints: widget.dropdownStyle.constraints ??
-                            BoxConstraints(
-                              maxHeight: MediaQuery.of(context).size.height -
-                                  topOffset -
-                                  15,
-                            ),
-                        child: ListView(
-                          padding:
-                              widget.dropdownStyle.padding ?? EdgeInsets.zero,
-                          shrinkWrap: true,
-                          children: widget.items!.asMap().entries.map((item) {
-                            return InkWell(
-                              onTap: () {
-                                setState(() => _currentIndex = item.key);
-                                _toggleDropdown();
-                              },
-                              child: item.value,
-                            );
-                          }).toList(),
-                        ),
+      builder: (context) => Container(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Stack(
+          children: [
+            Positioned(
+              left: offset.dx,
+              top: topOffset,
+              width: widget.dropdownStyle.width ?? size.width,
+              child: CompositedTransformFollower(
+                offset:
+                    widget.dropdownStyle.offset ?? Offset(0, size.height + 5),
+                link: this._layerLink,
+                showWhenUnlinked: false,
+                child: Material(
+                  elevation: widget.dropdownStyle.elevation,
+                  borderRadius: widget.dropdownStyle.borderRadius,
+                  color: widget.dropdownStyle.color,
+                  child: SizeTransition(
+                    axisAlignment: 1,
+                    sizeFactor: _expandAnimation!,
+                    child: ConstrainedBox(
+                      constraints: widget.dropdownStyle.constraints ??
+                          BoxConstraints(
+                            maxHeight: MediaQuery.of(context).size.height -
+                                topOffset -
+                                15,
+                          ),
+                      child: ListView(
+                        padding:
+                            widget.dropdownStyle.padding ?? EdgeInsets.zero,
+                        shrinkWrap: true,
+                        children: widget.items!,
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -201,20 +185,6 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>>
       setState(() => _isOpen = true);
       _animationController!.forward();
     }
-  }
-}
-
-/// DropdownItem is just a wrapper for each child in the dropdown list.\n
-/// It holds the value of the item.
-class DropdownItem<T> extends StatelessWidget {
-  final T? value;
-  final Widget? child;
-
-  const DropdownItem({Key? key, this.value, this.child}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return child!;
   }
 }
 

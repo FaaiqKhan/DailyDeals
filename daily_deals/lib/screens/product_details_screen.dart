@@ -49,7 +49,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       appBar: AppBar(
         centerTitle: true,
         title: AppBarTitle("Product Details"),
-        leading: Container(),
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: HexColor("#FCF4F4"),
