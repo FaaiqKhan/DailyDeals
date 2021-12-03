@@ -1,13 +1,14 @@
 class DetailedProductModal {
-  final String? dealId, productImage, bannerImage, title, subTitle, description;
+  final String? dealId, productImage, title, subTitle, description;
   final String? priceDescription, price;
   final int? soldOut, total;
+  final List<String> bannerImages;
   int timeStamp;
 
   DetailedProductModal({
     this.dealId,
     this.productImage,
-    this.bannerImage,
+    this.bannerImages = const [],
     this.title,
     this.subTitle,
     this.priceDescription,
@@ -25,7 +26,7 @@ DetailedProductModal _$DetailedProductModal(Map<String, dynamic> json) {
   return DetailedProductModal(
     dealId: json['deal_id'],
     productImage: json['image'],
-    bannerImage: json['banner_image'],
+    bannerImages: (json['banner_image'] as List).map((e) => e as String).toList(),
     title: json['title'],
     subTitle: json['sub_title'],
     priceDescription: json['price_description'],

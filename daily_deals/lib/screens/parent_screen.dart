@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/screens/cart_screen.dart';
 import 'package:daily_deals/screens/coupon_screen.dart';
 import 'package:daily_deals/screens/notification_screen.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:provider/provider.dart';
 import 'home_screen.dart';
 
 class ParentScreen extends StatefulWidget {
@@ -108,7 +110,6 @@ class _ParentScreenState extends State<ParentScreen> {
                     screenWidth,
                     0.15,
                     "Coupons",
-                    null,
                     "assets/images/cart/coupon_icon.png",
                   ),
                 ),
@@ -123,16 +124,27 @@ class _ParentScreenState extends State<ParentScreen> {
                   ),
                 ),
                 BottomNavigationBarItem(
-                  icon: Stack(
-                    alignment: Alignment.bottomRight,
-                    children: [
-                      Icon(Icons.shopping_cart),
-                      CircleAvatar(
-                        radius: 8.0,
-                        backgroundColor: Colors.red,
-                        child: Text("1"),
-                      )
-                    ],
+                  icon: Consumer<CartCostProvider>(
+                    builder: (_, cartProvider, iconWidget) {
+                      return Stack(
+                        alignment: Alignment.bottomRight,
+                        children: [
+                          iconWidget!,
+                          Visibility(
+                            visible: cartProvider.itemCount > 0,
+                            child: CircleAvatar(
+                              radius: 7.0,
+                              backgroundColor: Theme.of(context).primaryColor,
+                              child: Text(
+                                "${cartProvider.itemCount}",
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ),
+                          )
+                        ],
+                      );
+                    },
+                    child: Icon(Icons.shopping_cart),
                   ),
                   label: "Cart",
                   activeIcon: CustomBottomNavigationBar(
@@ -140,7 +152,6 @@ class _ParentScreenState extends State<ParentScreen> {
                     screenWidth,
                     0.11,
                     "Cart",
-                    2,
                   ),
                 ),
               ],

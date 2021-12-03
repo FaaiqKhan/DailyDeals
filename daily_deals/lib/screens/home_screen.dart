@@ -193,7 +193,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     Utils.homeDataModal = snapShot.data as HomeDataModal;
                     return showSelectedView(screenWidth);
                   } else {
-                    return WidgetUtils.progressIndicator(context);
+                    return Container(
+                      height: screenWidth,
+                      child: WidgetUtils.progressIndicator(context),
+                    );
                   }
                 },
               ),
