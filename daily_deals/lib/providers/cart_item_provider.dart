@@ -11,6 +11,10 @@ class CartItemsProvider with ChangeNotifier {
     return _items;
   }
 
+  int get count {
+    return _items.length;
+  }
+
   void deleteItem(String id) {
     _items.remove(id);
     _items.remove(id + "d");
