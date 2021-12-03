@@ -19,6 +19,7 @@ import 'package:provider/provider.dart';
 class CartScreen extends StatelessWidget {
   double totalPrice = 0.0;
   int productCount = 0;
+  int itemCount = 0;
   CartCostProvider? cartCost;
   CartItemsProvider? cartItems;
 
@@ -32,6 +33,7 @@ class CartScreen extends StatelessWidget {
   Map<String, Widget> prepareView(List<CartItemModal> items) {
     totalPrice = 0.0;
     productCount = 0;
+    itemCount = 0;
     Map<String, Widget> data = {};
     productCount = items.length - 1;
     for (int i = 0; i < productCount + 1; i++) {
@@ -49,6 +51,7 @@ class CartScreen extends StatelessWidget {
       else
         data[m.productId + "d"] = SizedBox(height: 10);
       totalPrice = totalPrice + (double.parse(m.price) * m.itemCount);
+      itemCount = itemCount + m.itemCount;
     }
     return data;
   }
@@ -56,75 +59,40 @@ class CartScreen extends StatelessWidget {
   void addPrice(double price) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice + price;
-    cartCost!.updateCartValue(this.totalPrice, 0, 0);
+    itemCount++;
+    cartCost!.updateCartValue(this.totalPrice, 0, itemCount);
   }
 
   void minusPrice(double price) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice - price;
-    cartCost!.updateCartValue(this.totalPrice, 0, 0);
+    itemCount--;
+    cartCost!.updateCartValue(this.totalPrice, 0, itemCount);
   }
 
-  void deleteItem(String itemId, double totalPrice) async {
+  void deleteItem(CartItemModal item, double totalPrice) async {
     if (cartCost == null || cartItems == null) return;
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
-    await cartItemBox.delete(itemId);
+    await cartItemBox.delete(item.productId);
     await cartItemBox.close();
     this.totalPrice = this.totalPrice - totalPrice;
-    cartCost!.updateCartValue(this.totalPrice, 0, 0);
-    cartItems!.deleteItem(itemId);
+    itemCount = itemCount - item.itemCount;
+    cartItems!.deleteItem(item.productId);
+    cartCost!.updateCartValue(this.totalPrice, 0, itemCount);
   }
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery
-        .of(context)
-        .size
-        .width;
+    final double screenWidth = MediaQuery.of(context).size.width;
 
     return FutureBuilder(
       future: getCartItem(),
       builder: (ctx, snapShot) {
         if (snapShot.hasData) {
-          return Column(
-            children: [
-              Expanded(
-                child: Consumer<CartItemsProvider>(
-                  builder: (_, items, __) {
-                    items.initItems(snapShot.data as Map<String, Widget>);
-                    cartItems = items;
-                    return SingleChildScrollView(
-                      child: Padding(
-                        padding: Utils.calculateScreenLeftRightPaddingWithTop(
-                            10),
-                        child: Column(children: cartItems!.items.values
-                            .toList()),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              Stack(
-                alignment: Alignment.bottomCenter,
-                children: [
-                  Consumer<CartCostProvider>(
-                    builder: (_, cartCost, __) {
-                      cartCost.initValue(totalPrice);
-                      this.cartCost = cartCost;
-                      return ProductDetailsView(screenWidth, cartCost.cartCost);
-                    },
-                  ),
-                  AddToCartButton(
-                    screenWidth,
-                    "Checkout",
-                        () {
-                      cartFunctionality(context, screenWidth);
-                    },
-                  ),
-                ],
-              ),
-            ],
-          );
+          Map<String, Widget> data = snapShot.data as Map<String, Widget>;
+          return data.isEmpty
+              ? emptyCartView(context, screenWidth)
+              : cartView(context, screenWidth, data);
         } else {
           return WidgetUtils.progressIndicator(context);
         }
@@ -160,10 +128,7 @@ class CartScreen extends StatelessWidget {
       ),
       builder: (ctx) {
         return Container(
-          height: MediaQuery
-              .of(context)
-              .size
-              .height - 100,
+          height: MediaQuery.of(context).size.height - 100,
           child: ListView(
             children: [
               SizedBox(height: elementSpacing),
@@ -175,11 +140,7 @@ class CartScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily:
-                    Theme
-                        .of(context)
-                        .textTheme
-                        .subtitle2!
-                        .fontFamily,
+                        Theme.of(context).textTheme.subtitle2!.fontFamily,
                     fontSize: 16,
                     color: Colors.white,
                   ),
@@ -187,9 +148,7 @@ class CartScreen extends StatelessWidget {
               ),
               SizedBox(height: elementSpacing),
               // Product details
-              Column(
-                children: items,
-              ),
+              Column(children: items),
               Padding(
                 padding: const EdgeInsets.only(
                   left: 40.0,
@@ -213,6 +172,86 @@ class CartScreen extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+
+  Widget cartView(
+    BuildContext context,
+    double screenWidth,
+    Map<String, Widget> data,
+  ) {
+    return Column(
+      children: [
+        Expanded(
+          child: Consumer<CartItemsProvider>(
+            builder: (_, items, __) {
+              items.initItems(data);
+              cartItems = items;
+              return cartItems!.items.isEmpty
+                  ? emptyCartView(context, screenWidth)
+                  : SingleChildScrollView(
+                      child: Padding(
+                        padding:
+                            Utils.calculateScreenLeftRightPaddingWithTop(10),
+                        child:
+                            Column(children: cartItems!.items.values.toList()),
+                      ),
+                    );
+            },
+          ),
+        ),
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Consumer<CartCostProvider>(
+              builder: (_, cartCost, __) {
+                cartCost.initValue(totalPrice, itemCount);
+                this.cartCost = cartCost;
+                return ProductDetailsView(screenWidth, cartCost.cartCost);
+              },
+            ),
+            AddToCartButton(
+              screenWidth,
+              "Checkout",
+              () {
+                cartFunctionality(context, screenWidth);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget emptyCartView(BuildContext context, double screenWidth) {
+    return Container(
+      width: screenWidth,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "OOPS!",
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.headline6!.fontFamily,
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+          Image.asset(
+            "assets/images/cart/empty_cart_icon.png",
+            scale: 3,
+          ),
+          Text("Empty cart.", style: TextStyle(color: Colors.black)),
+          Text(
+            "Fill it to WIN it",
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.headline6!.fontFamily,
+              fontSize: 24,
+              color: Colors.black,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

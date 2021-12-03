@@ -49,7 +49,7 @@ class _ProductDetailsState extends State<ProductDetails> {
       appBar: AppBar(
         centerTitle: true,
         title: AppBarTitle("Product Details"),
-        leading: Container(),
+        automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: HexColor("#FCF4F4"),
@@ -71,7 +71,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       children: [
                         Image.network(
                           isPriceDetailsSelected
-                              ? _modal!.bannerImage!
+                              ? _modal!.bannerImages.first
                               : _modal!.productImage!,
                           fit: BoxFit.fitWidth,
                           loadingBuilder: (ctx, widget, progress) {
@@ -126,7 +126,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: Image.network(
                                       isPriceDetailsSelected
                                           ? _modal!.productImage!
-                                          : _modal!.bannerImage!,
+                                          : _modal!.bannerImages.first,
                                       fit: BoxFit.fill,
                                       loadingBuilder: (ctx, widget, progress) {
                                     if (progress == null) {

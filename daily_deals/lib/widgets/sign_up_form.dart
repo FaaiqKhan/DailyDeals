@@ -23,10 +23,6 @@ class SignUpForm extends StatelessWidget {
     countryCode = code.dialCode!;
   }
 
-  bool _isKeyboardVisible(BuildContext context) {
-    return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
-  }
-
   @override
   Widget build(BuildContext context) {
     final UserDetails _userDetails = UserDetails("", "", "", "");
@@ -170,7 +166,7 @@ class SignUpForm extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: _isKeyboardVisible(context),
+            visible: Utils.isKeyboardVisible(context),
             child: SizedBox(height: screenWidth * 0.2),
           ),
         ],

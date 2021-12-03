@@ -5,8 +5,9 @@ class CartCostProvider extends ChangeNotifier {
   int couponCount = 0;
   int itemCount = 0;
 
-  void initValue(double cost) {
-    cartCost = cost;
+  void initValue(double cost, int itemCount) {
+    this.cartCost = cost;
+    this.itemCount = itemCount;
   }
 
   void updateCartValue(double cartCost, int couponCount, int itemCount) {

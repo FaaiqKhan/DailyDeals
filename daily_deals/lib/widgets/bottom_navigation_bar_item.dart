@@ -1,9 +1,10 @@
+import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final IconData? _icon;
   final String _label;
-  final int? _cartItemsCount;
   final String _imagePath;
   final double _dashWidth;
   final double _sizePercent;
@@ -13,7 +14,6 @@ class CustomBottomNavigationBar extends StatelessWidget {
     this._dashWidth,
     this._sizePercent,
     this._label, [
-    this._cartItemsCount,
     this._imagePath = "",
   ]);
 
@@ -24,22 +24,29 @@ class CustomBottomNavigationBar extends StatelessWidget {
       alignment: Alignment.center,
       child: Column(
         children: [
-          Stack(
-            alignment: Alignment.bottomRight,
-            children: [
-              if (_icon != null)
-                Icon(_icon, size: _dashWidth * 0.055)
-              else
-                Image.asset(_imagePath, scale: 17.5, color: Colors.white),
-              Visibility(
-                visible: _cartItemsCount != null,
-                child: CircleAvatar(
-                  radius: 8.0,
-                  backgroundColor: Colors.red,
-                  child: Text("$_cartItemsCount"),
-                ),
-              )
-            ],
+          Consumer<CartCostProvider>(
+            builder: (_, cartProvider, iconWidget) {
+              return Stack(
+                alignment: Alignment.bottomRight,
+                children: [
+                  iconWidget!,
+                  Visibility(
+                    visible: _label == 'Cart' && cartProvider.itemCount > 0,
+                    child: CircleAvatar(
+                      radius: 6.5,
+                      backgroundColor: Colors.red,
+                      child: Text(
+                        "${cartProvider.itemCount}",
+                        style: TextStyle(fontSize: 8),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+            child: _icon != null
+                ? Icon(_icon, size: _dashWidth * 0.055)
+                : Image.asset(_imagePath, scale: 17.5, color: Colors.white),
           ),
           Text(_label, style: TextStyle(color: Colors.white, fontSize: 10)),
           Divider(thickness: 5.0)

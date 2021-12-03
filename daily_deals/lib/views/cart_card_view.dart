@@ -92,10 +92,7 @@ class _CartCardViewState extends State<CartCardView> {
                                 .bodyText2!
                                 .fontFamily,
                             fontSize: 12,
-                            color: Theme.of(context)
-                                .textTheme
-                                .bodyText2!
-                                .color,
+                            color: Theme.of(context).textTheme.bodyText2!.color,
                           ),
                         ),
                       ),
@@ -150,8 +147,7 @@ class _CartCardViewState extends State<CartCardView> {
                     GestureDetector(
                       onTap: () {
                         if (widget.deleteFunction != null)
-                          widget.deleteFunction!(
-                              widget._modal.productId, totalPrice);
+                          widget.deleteFunction!(widget._modal, totalPrice);
                       },
                       child: Container(
                         padding: const EdgeInsets.all(5.0),
