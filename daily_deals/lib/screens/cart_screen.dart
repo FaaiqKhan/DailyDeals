@@ -60,14 +60,14 @@ class CartScreen extends StatelessWidget {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice + price;
     itemCount++;
-    cartCost!.updateCartValue(this.totalPrice, 0, itemCount);
+    cartCost!.updateCartValue(this.totalPrice, itemCount);
   }
 
   void minusPrice(double price) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice - price;
     itemCount--;
-    cartCost!.updateCartValue(this.totalPrice, 0, itemCount);
+    cartCost!.updateCartValue(this.totalPrice, itemCount);
   }
 
   void deleteItem(CartItemModal item, double totalPrice) async {
@@ -78,7 +78,7 @@ class CartScreen extends StatelessWidget {
     this.totalPrice = this.totalPrice - totalPrice;
     itemCount = itemCount - item.itemCount;
     cartItems!.deleteItem(item.productId);
-    cartCost!.updateCartValue(this.totalPrice, 0, itemCount);
+    cartCost!.updateCartValue(this.totalPrice, itemCount);
   }
 
   @override

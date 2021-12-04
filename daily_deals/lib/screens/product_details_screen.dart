@@ -1,5 +1,6 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
+import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -13,6 +14,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
   static const String routeName = "/product-details";
@@ -352,6 +354,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       msg: "Product added into cart",
                                       gravity: ToastGravity.BOTTOM,
                                       toastLength: Toast.LENGTH_LONG,
+                                    );
+                                    Provider.of<CartCostProvider>(context,
+                                            listen: false)
+                                        .updateCartValue(
+                                      productPrice * productCount,
+                                      productCount,
                                     );
                                     Utils.moveToNextScreenAfterCertainTime(3,
                                         () {
