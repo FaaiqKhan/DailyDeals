@@ -9,6 +9,7 @@ import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
+import 'package:daily_deals/widgets/guess_and_sequence.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,6 +32,18 @@ class _ProductDetailsState extends State<ProductDetails> {
   int productCount = 1;
   DetailedProductModal? _modal;
   double productPrice = 0.0;
+  List<Widget> sequenceAdderView = [];
+  Map<int, List<String>> mySequence = {};
+
+  void saveSequence(int sequenceKey, List<String> sequence) {
+    mySequence[sequenceKey] = sequence;
+  }
+
+  @override
+  void initState() {
+    sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
+    super.initState();
+  }
 
   @override
   void didChangeDependencies() {
@@ -71,22 +84,26 @@ class _ProductDetailsState extends State<ProductDetails> {
                     width: screenWidth,
                     child: Stack(
                       children: [
-                        Image.network(
-                          isPriceDetailsSelected
-                              ? _modal!.bannerImages.first
-                              : _modal!.productImage!,
-                          fit: BoxFit.fitWidth,
-                          loadingBuilder: (ctx, widget, progress) {
-                            if (progress == null) {
-                              return widget;
-                            } else {
-                              return Container(
-                                width: screenWidth,
-                                height: screenWidth / 2,
-                                child: WidgetUtils.progressIndicator(context),
-                              );
-                            }
-                          },
+                        Container(
+                          padding: const EdgeInsets.only(top: 30.0),
+                          alignment: Alignment.center,
+                          child: Image.network(
+                            isPriceDetailsSelected
+                                ? _modal!.bannerImages.first
+                                : _modal!.productImage!,
+                            scale: 3,
+                            loadingBuilder: (ctx, widget, progress) {
+                              if (progress == null) {
+                                return widget;
+                              } else {
+                                return Container(
+                                  width: screenWidth,
+                                  height: screenWidth / 2,
+                                  child: WidgetUtils.progressIndicator(context),
+                                );
+                              }
+                            },
+                          ),
                         ),
                         Padding(
                           padding: const EdgeInsets.all(10.0),
@@ -189,7 +206,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                               children: [
                                 InkWell(
                                   onTap: () => setState(() {
-                                    if (productCount > 1) productCount--;
+                                    if (productCount > 1) {
+                                      mySequence.remove(productCount);
+                                      productCount--;
+                                      sequenceAdderView.removeLast();
+                                    }
                                   }),
                                   child: Icon(
                                     Icons.remove,
@@ -215,9 +236,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 ),
                                 SizedBox(width: 40),
                                 InkWell(
-                                  onTap: () => setState(() {
-                                    if (productCount < 3) productCount++;
-                                  }),
+                                  onTap: () => setState(
+                                    () {
+                                      if (productCount < 3) {
+                                        productCount++;
+                                        sequenceAdderView.add(
+                                          GuessAndWinSequence(
+                                            productCount,
+                                            saveSequence,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  ),
                                   child: Icon(Icons.add, color: Colors.red),
                                 ),
                               ],
@@ -278,51 +309,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ),
                             SizedBox(height: elementSpacing),
                             // Details
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 20, right: 20),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    "Get a change To win",
-                                    style: TextStyle(
-                                      color: HexColor("#303030"),
-                                      fontSize: 17,
-                                    ),
-                                  ),
-                                  ConstrainedBox(
-                                    constraints:
-                                        BoxConstraints(maxWidth: screenWidth),
-                                    child: Text(
-                                      "2021 Mercedes AMZ-G63: UAE Golden Jubliee Edition",
-                                      style: TextStyle(
-                                        fontFamily: Theme.of(context)
-                                            .textTheme
-                                            .subtitle2!
-                                            .fontFamily,
-                                        color: HexColor("#303030"),
-                                        fontSize: 17,
-                                      ),
-                                    ),
-                                  ),
-                                  ConstrainedBox(
-                                    constraints:
-                                        BoxConstraints(maxWidth: screenWidth),
-                                    child: Text(
-                                      isPriceDetailsSelected
-                                          ? _modal!.priceDescription!
-                                          : _modal!.description!,
-                                      style: TextStyle(
-                                        fontFamily: Theme.of(context)
-                                            .textTheme
-                                            .bodyText1!
-                                            .fontFamily,
-                                        color: HexColor("#303030"),
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                            Visibility(
+                              visible: isPriceDetailsSelected || _modal!.type != "2",
+                              child: productDetails(),
+                              replacement: Column(
+                                children: sequenceAdderView,
                               ),
                             ),
                             Stack(
@@ -396,6 +387,56 @@ class _ProductDetailsState extends State<ProductDetails> {
             return WidgetUtils.progressIndicator(context);
           }
         },
+      ),
+    );
+  }
+
+  Widget productDetails() {
+    return Padding(
+      padding:
+      const EdgeInsets.only(left: 20, right: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Get a change To win",
+            style: TextStyle(
+              color: HexColor("#303030"),
+              fontSize: 17,
+            ),
+          ),
+          ConstrainedBox(
+            constraints:
+            BoxConstraints(maxWidth: screenWidth),
+            child: Text(
+              "2021 Mercedes AMZ-G63: UAE Golden Jubliee Edition",
+              style: TextStyle(
+                fontFamily: Theme.of(context)
+                    .textTheme
+                    .subtitle2!
+                    .fontFamily,
+                color: HexColor("#303030"),
+                fontSize: 17,
+              ),
+            ),
+          ),
+          ConstrainedBox(
+            constraints:
+            BoxConstraints(maxWidth: screenWidth),
+            child: Text(
+              isPriceDetailsSelected
+                  ? _modal!.priceDescription!
+                  : _modal!.description!,
+              style: TextStyle(
+                fontFamily: Theme.of(context)
+                    .textTheme
+                    .bodyText1!
+                    .fontFamily,
+                color: HexColor("#303030"),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

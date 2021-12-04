@@ -1,4 +1,5 @@
 import 'package:daily_deals/modals/product_modal.dart';
+import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -212,12 +213,19 @@ class CurrentDeals extends StatelessWidget {
 
     List<Widget> data = [leftSide, rightSide];
 
-    return Container(
-      height: cardHeight,
-      child: CardView(
-        data,
-        totalItems: 1024,
-        remainingItems: 800,
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(
+        context,
+        ProductDetails.routeName,
+        arguments: _modal.dealId,
+      ),
+      child: Container(
+        height: cardHeight,
+        child: CardView(
+          data,
+          totalItems: 1024,
+          remainingItems: 800,
+        ),
       ),
     );
   }

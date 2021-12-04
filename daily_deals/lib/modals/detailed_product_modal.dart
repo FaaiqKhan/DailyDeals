@@ -1,6 +1,6 @@
 class DetailedProductModal {
   final String? dealId, productImage, title, subTitle, description;
-  final String? priceDescription, price;
+  final String? priceDescription, price, type;
   final int? soldOut, total;
   final List<String> bannerImages;
   int timeStamp;
@@ -17,6 +17,7 @@ class DetailedProductModal {
     this.total,
     this.soldOut,
     this.timeStamp = 0,
+    this.type = "0",
   });
 
   factory DetailedProductModal.toJson(Map<String, dynamic> json) => _$DetailedProductModal(json);
@@ -35,5 +36,6 @@ DetailedProductModal _$DetailedProductModal(Map<String, dynamic> json) {
     total: json['total'],
     soldOut: json['sold_out'],
     timeStamp: json['time_stamp'],
+    type: json['deal_type'],
   );
 }
