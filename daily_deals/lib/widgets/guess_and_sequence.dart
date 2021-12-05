@@ -396,8 +396,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
               // Save my sequence
               GestureDetector(
                 onTap: () {
-                  if (sequence.length == 6)
-                    widget.saveSequence(widget.sequenceKey, sequence);
+                  widget.saveSequence(widget.sequenceKey, sequence);
                 },
                 child: Container(
                   decoration: BoxDecoration(

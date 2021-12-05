@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
@@ -83,6 +84,47 @@ class WebService {
       }
     } else {
       return null;
+    }
+  }
+
+  static Future<List> checkoutProduct(CheckoutModal items) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? accessToken = preferences.getString("access_token");
+    String endPoint = '/home/checkout';
+    NetworkHandler handler = NetworkHandler(endPoint: endPoint);
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+      body: {
+        "userid": "5",
+        "email": "ahsan.abid@unit52.com",
+        "phone": "123456",
+        "firstname": "",
+        "lastname": "",
+        "address": "",
+        "city": "",
+        "state": "",
+        "zip": "",
+        "total": "300",
+        "language": "en",
+        "items": [{
+          "id": "1",
+          "qty": "1",
+          "subtotal": "100"
+        }]
+      }
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        return Future.value([true, json['data']]);
+      } else {
+        return Future.value([false, json['errorMessage']]);
+      }
+    } else {
+      return Future.value([false, 'Can\'t place order please try again later']);
     }
   }
 }

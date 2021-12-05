@@ -24,6 +24,7 @@ class ParentScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ParentScreenState();
 }
 
+final scaffoldKey = GlobalKey<ScaffoldState>();
 class _ParentScreenState extends State<ParentScreen> {
   int _currentIndex = 0;
   Map<int, Widget> _screens = {};
@@ -60,6 +61,7 @@ class _ParentScreenState extends State<ParentScreen> {
     double bottomHeight = screenWidth * 0.2;
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       body: _screens[_currentIndex],
       appBar: _currentIndex != 0

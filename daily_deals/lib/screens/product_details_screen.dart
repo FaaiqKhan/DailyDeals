@@ -34,9 +34,26 @@ class _ProductDetailsState extends State<ProductDetails> {
   double productPrice = 0.0;
   List<Widget> sequenceAdderView = [];
   Map<dynamic, dynamic> _mySequence = {};
+  bool showSequence = false;
 
   void saveSequence(int sequenceKey, List<String> sequence) {
-    _mySequence[sequenceKey] = sequence;
+    print("asdf");
+    if (sequence.length == 6) {
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(
+        msg: "Your sequence is successfully submitted",
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      _mySequence[sequenceKey] = sequence;
+    } else {
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(
+        msg: "Complete your sequence first",
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
   }
 
   @override
@@ -167,10 +184,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   // Timer image
                   Opacity(
                     opacity: 0.25882352941176473,
-                    child: Image.asset(
-                      'assets/images/clock_icon.png',
-                      scale: 10,
-                    ),
+                    child:
+                        Image.asset('assets/images/clock_icon.png', scale: 10),
                   ),
                   SizedBox(height: 10.0),
                   // Watch tag line
@@ -246,6 +261,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                             saveSequence,
                                           ),
                                         );
+                                      } else {
+                                        WidgetUtils.showCountAlert(context);
                                       }
                                     },
                                   ),
@@ -261,6 +278,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: GestureDetector(
                                     onTap: () => setState(() {
                                       isPriceDetailsSelected = true;
+                                      showSequence = false;
                                     }),
                                     child: Container(
                                       alignment: Alignment.center,
@@ -285,6 +303,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: GestureDetector(
                                     onTap: () => setState(() {
                                       isPriceDetailsSelected = false;
+                                      showSequence = false;
                                     }),
                                     child: Container(
                                       alignment: Alignment.center,
@@ -310,12 +329,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                             SizedBox(height: elementSpacing),
                             // Details
                             Visibility(
-                              visible:
-                                  isPriceDetailsSelected || _modal!.type != "2",
-                              child: productDetails(),
-                              replacement: Column(
-                                children: sequenceAdderView,
-                              ),
+                              visible: showSequence,
+                              child: Column(children: sequenceAdderView),
+                              replacement: productDetails(),
                             ),
                             Stack(
                               alignment: Alignment.bottomCenter,
@@ -328,31 +344,34 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   screenWidth,
                                   "Add to cart",
                                   () async {
-                                    if (_modal!.type == "2" &&
-                                        _mySequence.isEmpty) {
-                                      Fluttertoast.showToast(
-                                        msg: "Please select your sequence",
-                                        gravity: ToastGravity.BOTTOM,
-                                        toastLength: Toast.LENGTH_LONG,
-                                      );
-                                      return;
+                                    if (_modal!.type == "2") {
+                                      setState(() {
+                                        showSequence = true;
+                                      });
                                     }
-                                    await populateData();
-                                    Fluttertoast.showToast(
-                                      msg: "Product added into cart",
-                                      gravity: ToastGravity.BOTTOM,
-                                      toastLength: Toast.LENGTH_LONG,
-                                    );
-                                    Utils.moveToNextScreenAfterCertainTime(2,
-                                        () {
-                                      Fluttertoast.cancel();
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        ParentScreen.routeName,
-                                        (route) => false,
-                                        arguments: 3,
-                                      );
-                                    });
+                                    if (showSequence || _modal!.type != "2") {
+                                      bool isValid = validateProductType();
+                                      if (isValid) {
+                                        await populateData();
+                                        Fluttertoast.showToast(
+                                          msg: "Product added into cart",
+                                          gravity: ToastGravity.BOTTOM,
+                                          toastLength: Toast.LENGTH_LONG,
+                                        );
+                                        Utils.moveToNextScreenAfterCertainTime(
+                                          2,
+                                          () {
+                                            Fluttertoast.cancel();
+                                            Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              ParentScreen.routeName,
+                                              (route) => false,
+                                              arguments: 3,
+                                            );
+                                          },
+                                        );
+                                      }
+                                    }
                                   },
                                 ),
                               ],
@@ -441,5 +460,18 @@ class _ProductDetailsState extends State<ProductDetails> {
       productPrice * _productCount,
       _productCount,
     );
+  }
+
+  bool validateProductType() {
+    if (_modal!.type == "2" && _mySequence.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Please select your sequence",
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      return false;
+    } else {
+      return true;
+    }
   }
 }

@@ -39,7 +39,6 @@ class Auth extends ChangeNotifier {
       },
     );
     if (response.statusCode == 200) {
-      print(response.body);
       var data = json.decode(response.body);
       if (data['success'] == false) {
         Fluttertoast.showToast(
@@ -51,10 +50,12 @@ class Auth extends ChangeNotifier {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         await preferences.setString("access_token", data['access_token']);
         await preferences.setString("user_id", data['customer_id']);
+        await preferences.setString("user_name", data['customer_name']);
+        await preferences.setString("phoneNumber", data['phonenumber']);
+        await preferences.setString("email", data['email']);
       }
       return Future.value(data['success']);
     } else {
-      print(response.body);
       return Future.value(false);
     }
   }
