@@ -175,15 +175,19 @@ class CartScreen extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     isAddressRequired = {};
     List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
-    double elementSpacing = screenWidth * 0.05;
     double cartHeight = screenHeight - 260;
     controller = scaffoldKey.currentState!.showBottomSheet(
       (context) => Container(
         child: Column(
           children: [
-            SizedBox(height: elementSpacing),
+            // cart title
             Padding(
-              padding: const EdgeInsets.only(left: 70.0, right: 70.0),
+              padding: const EdgeInsets.only(
+                left: 70.0,
+                top: 20.0,
+                right: 70.0,
+                bottom: 20.0,
+              ),
               child: Text(
                 "What Do You Want To Do With Your Products",
                 textAlign: TextAlign.center,
@@ -194,12 +198,13 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
             ),
+            // Items of cart
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    SizedBox(height: elementSpacing),
                     Column(children: checkoutItems),
+                    // Address details
                     Visibility(
                       visible: isAddressRequired.containsValue(1),
                       child: CartAddressDetailsView(),
@@ -213,15 +218,18 @@ class CartScreen extends StatelessWidget {
             Stack(
               alignment: Alignment.bottomCenter,
               children: [
+                // Price and coupon details
                 ProductDetailsView(
-                  MediaQuery.of(context).size.width,
+                  screenWidth,
                   totalPrice,
                   color: HexColor("#1D1C1C"),
-                  productCount: productCount,
+                  productCount: itemCount,
+                  isFromCheckout: true,
                 ),
+                // Checkout button
                 AddToCartButton(screenWidth, "Checkout", () async {
                   SharedPreferences preferences =
-                  await SharedPreferences.getInstance();
+                      await SharedPreferences.getInstance();
                   List<CheckoutItemModal> checkoutItems = [];
                   for (CartItemModal item in cartItems) {
                     checkoutItems.add(
@@ -241,13 +249,13 @@ class CartScreen extends StatelessWidget {
                   );
                   print(checkoutItem.toJson());
                   List<dynamic> response =
-                  await WebService.checkoutProduct(checkoutItem);
+                      await WebService.checkoutProduct(checkoutItem);
                   if (response[0]) {
                     Utils.moveToNextScreenAfterCertainTime(2, () {
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         ParentScreen.routeName,
-                            (route) => false,
+                        (route) => false,
                       );
                     });
                   }

@@ -147,22 +147,26 @@ class _CartCardViewState extends State<CartCardView> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (widget.deleteFunction != null)
-                          widget.deleteFunction!(widget._modal, totalPrice);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: HexColor("#EFEDED"),
-                        ),
-                        child: Opacity(
-                          opacity: 0.30980392156862746,
-                          child: Icon(Icons.delete, size: 17),
+                    Visibility(
+                      visible: !widget.isFromCheckout,
+                      child: GestureDetector(
+                        onTap: () {
+                          if (widget.deleteFunction != null)
+                            widget.deleteFunction!(widget._modal, totalPrice);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor("#EFEDED"),
+                          ),
+                          child: Opacity(
+                            opacity: 0.30980392156862746,
+                            child: Icon(Icons.delete, size: 17),
+                          ),
                         ),
                       ),
+                      replacement: SizedBox.shrink(),
                     ),
                     Visibility(
                       visible: !widget.isFromCheckout,

@@ -18,10 +18,8 @@ class CheckoutItemView extends StatelessWidget {
       children: [
         // Items
         Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: generateItemsView(item),
-          ),
+          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+          child: Column(children: generateItemsView(item)),
         ),
         DeliveryModes(
           deliveryPrice: "35.0",
@@ -56,9 +54,7 @@ class CheckoutItemView extends StatelessWidget {
   List<Widget> generateItemsView(CartItemModal modal) {
     List<Widget> items = [];
     for (int i = 1; i <= modal.itemCount; i++) {
-      items.add(
-        CartCardView(modal, isFromCheckout: true),
-      );
+      items.add(CartCardView(modal, isFromCheckout: true));
       items.add(
         Visibility(
           visible: modal.type == "2",
@@ -66,10 +62,7 @@ class CheckoutItemView extends StatelessWidget {
             children: [
               Text(
                 "Your sequence of this section",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 12.0,
-                ),
+                style: TextStyle(color: Colors.white, fontSize: 12.0),
               ),
               Padding(
                 padding: const EdgeInsets.only(
