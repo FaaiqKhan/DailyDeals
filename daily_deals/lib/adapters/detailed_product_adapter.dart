@@ -14,6 +14,8 @@ class CartItemAdapter extends TypeAdapter<CartItemModal> {
       reader.read(),
       reader.read(),
       reader.read(),
+      reader.read(),
+      reader.read(),
     );
   }
 
@@ -25,5 +27,7 @@ class CartItemAdapter extends TypeAdapter<CartItemModal> {
     writer.write(obj.description);
     writer.write(obj.itemCount);
     writer.write(obj.prize);
+    writer.write(obj.type);
+    writer.write(obj.mySequence);
   }
 }

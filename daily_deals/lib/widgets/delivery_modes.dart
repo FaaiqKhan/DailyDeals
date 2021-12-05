@@ -4,8 +4,9 @@ import 'package:hexcolor/hexcolor.dart';
 
 class DeliveryModes extends StatefulWidget {
   final String? deliveryPrice;
+  final Function? updateDeliveryMode;
 
-  DeliveryModes({this.deliveryPrice});
+  DeliveryModes({this.deliveryPrice, this.updateDeliveryMode});
 
   @override
   State<StatefulWidget> createState() {
@@ -65,6 +66,7 @@ class _DeliveryModesState extends State<DeliveryModes> {
                 setState(() {
                   deliveryMode = value as int;
                 });
+                widget.updateDeliveryMode!(value);
               },
               fillColor: MaterialStateColor.resolveWith(
                 (states) => deliveryMode == 0
@@ -115,6 +117,7 @@ class _DeliveryModesState extends State<DeliveryModes> {
                 setState(() {
                   deliveryMode = value as int;
                 });
+                widget.updateDeliveryMode!(value);
               },
               fillColor: MaterialStateColor.resolveWith(
                 (states) => deliveryMode == 1
@@ -165,6 +168,7 @@ class _DeliveryModesState extends State<DeliveryModes> {
                 setState(() {
                   deliveryMode = value as int;
                 });
+                widget.updateDeliveryMode!(value);
               },
               fillColor: MaterialStateColor.resolveWith(
                 (states) => deliveryMode == 2

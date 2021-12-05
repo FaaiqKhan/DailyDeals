@@ -1,6 +1,7 @@
 class CartItemModal {
-  String productId, productImage, price, prize, description;
+  String productId, productImage, price, prize, description, type;
   int itemCount;
+  Map<dynamic, dynamic> mySequence;
 
   CartItemModal(
     this.productId,
@@ -9,6 +10,8 @@ class CartItemModal {
     this.description,
     this.itemCount,
     this.prize,
+    this.type,
+    this.mySequence,
   );
 
   Map<dynamic, dynamic> toJson() => _$CartItemModalToJson(this);
@@ -22,4 +25,6 @@ Map<dynamic, dynamic> _$CartItemModalToJson(CartItemModal instance) =>
       'description': instance.description,
       'item_count': instance.itemCount,
       'prize': instance.prize,
+      'deal_type': instance.type,
+      'sequence': instance.mySequence,
     };

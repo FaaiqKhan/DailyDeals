@@ -5,7 +5,7 @@ import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/views/cart_address_details_view.dart';
-import 'package:daily_deals/views/cart_item_view.dart';
+import 'package:daily_deals/views/checkout_item_view.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,12 +22,14 @@ class CartScreen extends StatelessWidget {
   int itemCount = 0;
   CartCostProvider? cartCost;
   CartItemsProvider? cartItems;
+  Map<String, int> isAddressRequired = {};
+  Function? addressState;
 
-  Future<Map<String, Widget>> getCartItem() async {
+  Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
     List<CartItemModal> items = cartItemBox.values.toList();
     await cartItemBox.close();
-    return prepareView(items);
+    return items;
   }
 
   Map<String, Widget> prepareView(List<CartItemModal> items) {
@@ -40,10 +42,9 @@ class CartScreen extends StatelessWidget {
       CartItemModal m = items[i];
       data[m.productId] = CartCardView(
         items[i],
-        deleteItem,
-        addPrice,
-        minusPrice,
-        i != 1 ? true : false,
+        deleteFunction: deleteItem,
+        notifyPriceAdd: addPrice,
+        notifyPriceSubtract: minusPrice,
       );
       if (productCount != i)
         data[m.productId + "d"] =
@@ -89,10 +90,9 @@ class CartScreen extends StatelessWidget {
       future: getCartItem(),
       builder: (ctx, snapShot) {
         if (snapShot.hasData) {
-          Map<String, Widget> data = snapShot.data as Map<String, Widget>;
-          return data.isEmpty
-              ? emptyCartView(context, screenWidth)
-              : cartView(context, screenWidth, data);
+          List<CartItemModal> cartItems = snapShot.data as List<CartItemModal>;
+          Map<String, Widget> data = prepareView(cartItems);
+          return cartView(context, screenWidth, data, cartItems);
         } else {
           return WidgetUtils.progressIndicator(context);
         }
@@ -100,22 +100,72 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  void cartFunctionality(BuildContext context, double screenWidth) {
-    if (cartItems == null || cartCost == null || cartItems!.items.isEmpty)
-      return;
+  Widget cartView(
+    BuildContext context,
+    double screenWidth,
+    Map<String, Widget> data,
+    List<CartItemModal> items,
+  ) {
+    return Column(
+      children: [
+        Expanded(
+          child: Consumer<CartItemsProvider>(
+            builder: (_, items, __) {
+              items.initItems(data);
+              cartItems = items;
+              return cartItems!.items.isEmpty
+                  ? emptyCartView(context, screenWidth)
+                  : SingleChildScrollView(
+                      child: Padding(
+                        padding:
+                            Utils.calculateScreenLeftRightPaddingWithTop(10),
+                        child:
+                            Column(children: cartItems!.items.values.toList()),
+                      ),
+                    );
+            },
+          ),
+        ),
+        // Price details and checkout button
+        Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Consumer<CartCostProvider>(
+              builder: (_, cartCost, __) {
+                cartCost.initValue(totalPrice, itemCount);
+                this.cartCost = cartCost;
+                return ProductDetailsView(screenWidth, cartCost.cartCost);
+              },
+            ),
+            AddToCartButton(
+              screenWidth,
+              "Checkout",
+              () {
+                checkoutView(context, items);
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
 
-    List<Widget> items = [];
-    cartItems!.items.forEach((key, value) {
-      if (!key.contains("d")) {
-        items.add(value);
-        items.add(CartItemView(
-          itemType: 0,
-          sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
-        ));
-      }
-    });
+  List<Widget> generateCheckoutItemsView(List<CartItemModal> cartItems) {
+    List<Widget> itemsView = [];
+    List<Widget> guessAndWin = [];
+    for (CartItemModal item in cartItems) {
+      if (item.type == "2")
+        guessAndWin.add(CheckoutItemView(item, checkAddressRequired));
+      else
+        itemsView.add(CheckoutItemView(item, checkAddressRequired));
+    }
+    guessAndWin.addAll(itemsView);
+    return guessAndWin;
+  }
 
-    double elementSpacing = screenWidth * 0.05;
+  void checkoutView(BuildContext context, List<CartItemModal> cartItems) {
+    List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
+    double elementSpacing = MediaQuery.of(context).size.width * 0.05;
     showModalBottomSheet(
       context: context,
       backgroundColor: HexColor("#313030").withOpacity(0.9490196078431372),
@@ -147,79 +197,29 @@ class CartScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: elementSpacing),
-              // Product details
-              Column(children: items),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 40.0,
-                  right: 40.0,
-                  bottom: 10.0,
-                ),
-                child: Divider(thickness: 1, color: Colors.grey),
+              Column(children: checkoutItems),
+              StatefulBuilder(
+                builder: (ctx, addressState) {
+                  this.addressState = addressState;
+                  return Visibility(
+                    visible: isAddressRequired.containsValue(1),
+                    child: ProductDetailsView(
+                      MediaQuery.of(context).size.width,
+                      totalPrice,
+                      color: HexColor("#1D1C1C"),
+                      productCount: productCount,
+                    ),
+                    replacement: SizedBox.shrink(),
+                  );
+                },
               ),
-              CartItemView(itemType: 1),
-              CartAddressDetailsView(),
-              ProductDetailsView(
-                screenWidth,
-                totalPrice,
-                color: HexColor("#1D1C1C"),
-                productCount: productCount,
-              ),
-              AddToCartButton(screenWidth, "Checkout", () {
+              AddToCartButton(MediaQuery.of(context).size.width, "Checkout", () {
                 Fluttertoast.showToast(msg: "Coming soon");
               })
             ],
           ),
         );
       },
-    );
-  }
-
-  Widget cartView(
-    BuildContext context,
-    double screenWidth,
-    Map<String, Widget> data,
-  ) {
-    return Column(
-      children: [
-        Expanded(
-          child: Consumer<CartItemsProvider>(
-            builder: (_, items, __) {
-              items.initItems(data);
-              cartItems = items;
-              return cartItems!.items.isEmpty
-                  ? emptyCartView(context, screenWidth)
-                  : SingleChildScrollView(
-                      child: Padding(
-                        padding:
-                            Utils.calculateScreenLeftRightPaddingWithTop(10),
-                        child:
-                            Column(children: cartItems!.items.values.toList()),
-                      ),
-                    );
-            },
-          ),
-        ),
-        Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Consumer<CartCostProvider>(
-              builder: (_, cartCost, __) {
-                cartCost.initValue(totalPrice, itemCount);
-                this.cartCost = cartCost;
-                return ProductDetailsView(screenWidth, cartCost.cartCost);
-              },
-            ),
-            AddToCartButton(
-              screenWidth,
-              "Checkout",
-              () {
-                cartFunctionality(context, screenWidth);
-              },
-            ),
-          ],
-        ),
-      ],
     );
   }
 
@@ -253,5 +253,11 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void checkAddressRequired(String id, int type) {
+    if (this.addressState == null)
+      return;
+    isAddressRequired[id] = type;
   }
 }
