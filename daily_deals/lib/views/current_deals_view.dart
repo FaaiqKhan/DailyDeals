@@ -1,5 +1,6 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -151,9 +152,12 @@ class CurrentDeals extends StatelessWidget {
               ),
               Opacity(
                 opacity: 0.1803921568627451,
-                child: Icon(
-                  Icons.favorite_outline_outlined,
-                  size: 28,
+                child: GestureDetector(
+                  child: Image.asset(
+                    "assets/images/favorite_icon.png",
+                    scale: WidgetUtils.iconScale,
+                  ),
+                  onTap: () {},
                 ),
               ),
             ],

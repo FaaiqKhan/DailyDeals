@@ -139,9 +139,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   SizedBox(height: screenWidth * 0.04),
                                   Opacity(
                                     opacity: 0.6509803921568628,
-                                    child: Icon(
-                                      Icons.favorite_outline_outlined,
-                                      size: 28,
+                                    child: GestureDetector(
+                                      child: Image.asset(
+                                        "assets/images/favorite_icon.png",
+                                        scale: WidgetUtils.iconScale,
+                                      ),
+                                      onTap: () {},
                                     ),
                                   ),
                                 ],

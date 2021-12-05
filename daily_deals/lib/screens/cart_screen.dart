@@ -26,7 +26,6 @@ class CartScreen extends StatelessWidget {
   CartCostProvider? cartCost;
   CartItemsProvider? cartItems;
   Map<String, int> isAddressRequired = {};
-  PersistentBottomSheetController? controller;
 
   Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
@@ -45,7 +44,6 @@ class CartScreen extends StatelessWidget {
       CartItemModal m = items[i];
       data[m.productId] = CartCardView(
         items[i],
-        isFromCheckout: items[i].type == "2",
         deleteFunction: deleteItem,
         notifyPriceAdd: addPrice,
         notifyPriceSubtract: minusPrice,
@@ -175,7 +173,7 @@ class CartScreen extends StatelessWidget {
     double screenHeight = MediaQuery.of(context).size.height;
     isAddressRequired = {};
     List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
-    double cartHeight = screenHeight - 260;
+    double cartHeight = screenHeight * 0.75;
     controller = scaffoldKey.currentState!.showBottomSheet(
       (context) => Container(
         child: Column(

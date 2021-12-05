@@ -25,6 +25,7 @@ class ParentScreen extends StatefulWidget {
 }
 
 final scaffoldKey = GlobalKey<ScaffoldState>();
+PersistentBottomSheetController? controller;
 class _ParentScreenState extends State<ParentScreen> {
   int _currentIndex = 0;
   Map<int, Widget> _screens = {};
@@ -174,6 +175,10 @@ class _ParentScreenState extends State<ParentScreen> {
 
   void _onItemTap(int index) {
     setState(() {
+      if (controller != null) {
+        controller!.close();
+        controller = null;
+      }
       _currentIndex = index;
     });
   }
