@@ -37,7 +37,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool showSequence = false;
 
   void saveSequence(int sequenceKey, List<String> sequence) {
-    print("asdf");
     if (sequence.length == 6) {
       Fluttertoast.cancel();
       Fluttertoast.showToast(
@@ -101,25 +100,44 @@ class _ProductDetailsState extends State<ProductDetails> {
                     width: screenWidth,
                     child: Stack(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          alignment: Alignment.center,
-                          child: Image.network(
-                            isPriceDetailsSelected
-                                ? _modal!.bannerImages.first
-                                : _modal!.productImage!,
-                            scale: 3,
-                            loadingBuilder: (ctx, widget, progress) {
-                              if (progress == null) {
-                                return widget;
-                              } else {
-                                return Container(
-                                  width: screenWidth,
-                                  height: screenWidth / 2,
-                                  child: WidgetUtils.progressIndicator(context),
-                                );
-                              }
-                            },
+                        Visibility(
+                          visible: isPriceDetailsSelected,
+                          child: Container(
+                            color: Theme.of(context).primaryColor,
+                            padding: const EdgeInsets.only(top: 30.0),
+                            alignment: Alignment.center,
+                            child: Image.network(_modal!.bannerImages.first,
+                              scale: 3.3,
+                              loadingBuilder: (ctx, widget, progress) {
+                                if (progress == null) {
+                                  return widget;
+                                } else {
+                                  return Container(
+                                    width: screenWidth,
+                                    height: screenWidth / 2,
+                                    child: WidgetUtils.progressIndicator(context),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          replacement: Container(
+                            padding: const EdgeInsets.only(top: 30.0),
+                            alignment: Alignment.center,
+                            child: Image.network(_modal!.productImage!,
+                              scale: 3.3,
+                              loadingBuilder: (ctx, widget, progress) {
+                                if (progress == null) {
+                                  return widget;
+                                } else {
+                                  return Container(
+                                    width: screenWidth,
+                                    height: screenWidth / 2,
+                                    child: WidgetUtils.progressIndicator(context),
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ),
                         Padding(
@@ -347,12 +365,24 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   screenWidth,
                                   "Add to cart",
                                   () async {
+                                    bool proceedToCheckout = true;
                                     if (_modal!.type == "2") {
                                       setState(() {
                                         showSequence = true;
                                       });
                                     }
-                                    if (showSequence || _modal!.type != "2") {
+                                    if (showSequence &&
+                                        _mySequence.length !=
+                                            sequenceAdderView.length) {
+                                      Fluttertoast.showToast(
+                                        msg:
+                                            "Please complete your sequences to proceed towards checkout",
+                                        gravity: ToastGravity.BOTTOM,
+                                        toastLength: Toast.LENGTH_LONG,
+                                      );
+                                      proceedToCheckout = false;
+                                    }
+                                    if (proceedToCheckout || _modal!.type != "2") {
                                       bool isValid = validateProductType();
                                       if (isValid) {
                                         await populateData();

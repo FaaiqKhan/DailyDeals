@@ -22,7 +22,7 @@ class ProductDetailsView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       width: this.screenWidth,
-      height: isFromCheckout ? this.screenWidth * 0.32 : this.screenWidth * 0.24,
+      height: isFromCheckout ? this.screenWidth * 0.35 : this.screenWidth * 0.30,
       margin: EdgeInsets.only(bottom: isFromCheckout ? 0.0 : 10.0),
       decoration: BoxDecoration(
         color: color == null ? HexColor("#313030") : color,

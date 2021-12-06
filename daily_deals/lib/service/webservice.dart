@@ -96,25 +96,9 @@ class WebService {
       Uri.parse(handler.getUrl),
       headers: {
         HttpHeaders.authorizationHeader: "Bearer $accessToken",
+        'Content-Type': 'application/json; charset=UTF-8',
       },
-      body: {
-        "userid": "5",
-        "email": "ahsan.abid@unit52.com",
-        "phone": "123456",
-        "firstname": "",
-        "lastname": "",
-        "address": "",
-        "city": "",
-        "state": "",
-        "zip": "",
-        "total": "300",
-        "language": "en",
-        "items": [{
-          "id": "1",
-          "qty": "1",
-          "subtotal": "100"
-        }]
-      }
+      body: jsonEncode(items)
     );
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);

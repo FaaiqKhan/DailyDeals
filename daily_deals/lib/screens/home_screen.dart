@@ -125,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return Column(
         children: [
+          SizedBox(height: 10.0),
           // Slider
           HomeSlider(Utils.homeDataModal!.slider!),
           // Other components

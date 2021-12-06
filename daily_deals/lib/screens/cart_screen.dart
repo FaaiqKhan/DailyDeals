@@ -34,6 +34,12 @@ class CartScreen extends StatelessWidget {
     return items;
   }
 
+  Future<void> clearCart() async {
+    var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
+    await cartItemBox.clear();
+    await cartItemBox.close();
+  }
+
   Map<String, Widget> prepareView(List<CartItemModal> items) {
     totalPrice = 0.0;
     productCount = 0;
@@ -245,10 +251,11 @@ class CartScreen extends StatelessWidget {
                     totalPrice.toString(),
                     checkoutItems,
                   );
-                  print(checkoutItem.toJson());
                   List<dynamic> response =
                       await WebService.checkoutProduct(checkoutItem);
                   if (response[0]) {
+                    await clearCart();
+                    this.cartCost!.itemCount = 0;
                     Utils.moveToNextScreenAfterCertainTime(2, () {
                       Navigator.pushNamedAndRemoveUntil(
                         context,

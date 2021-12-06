@@ -9,15 +9,7 @@ class CheckoutModal {
     this.email,
     this.phone,
     this.total,
-    this.items, {
-    this.firstName = "",
-    this.language = "",
-    this.zip = "",
-    this.address = "",
-    this.city = "",
-    this.lastName = "en",
-    this.state = "",
-  });
+    this.items,);
 
   Map<String, dynamic> toJson() => _$CheckoutModalToJson(this);
 }
@@ -26,15 +18,11 @@ Map<String, dynamic> _$CheckoutModalToJson(CheckoutModal instance) => <String, d
   "userid": instance.userId,
   "email": instance.email,
   "phone": instance.phone,
-  "firstname": instance.firstName,
-  "lastname": instance.lastName,
-  "address": instance.address,
-  "city": instance.city,
-  "state": instance.state,
-  "zip": instance.zip,
+  "firstname": "faiq",
+  "lastname": "khan",
   "total": instance.total,
-  "language": instance.language,
-  "items": instance.items.map((item) => item.toJson()).toList().toString(),
+  "language": "en",
+  "items": instance.items.map((item) => item.toJson()).toList(),
 };
 
 class CheckoutItemModal {
@@ -43,11 +31,11 @@ class CheckoutItemModal {
 
   CheckoutItemModal(this.id, this.quantity, this.subTotal);
 
-  Map<String, dynamic> toJson() => _$itemToJson(this);
+  Map<dynamic, dynamic> toJson() => _$itemToJson(this);
 }
 
-Map<String, dynamic> _$itemToJson(CheckoutItemModal instance) =>
-    <String, dynamic>{
+Map<dynamic, dynamic> _$itemToJson(CheckoutItemModal instance) =>
+    <dynamic, dynamic>{
       "id": instance.id,
       "qty": instance.quantity,
       "subtotal": instance.subTotal,
