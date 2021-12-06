@@ -29,14 +29,30 @@ class _ProductDetailsState extends State<ProductDetails> {
   double elementSpacing = 0, countContainerHeight = 0;
   String productId = "0";
   bool isPriceDetailsSelected = true;
-  int productCount = 1;
+  int _productCount = 1;
   DetailedProductModal? _modal;
   double productPrice = 0.0;
   List<Widget> sequenceAdderView = [];
-  Map<int, List<String>> mySequence = {};
+  Map<dynamic, dynamic> _mySequence = {};
+  bool showSequence = false;
 
   void saveSequence(int sequenceKey, List<String> sequence) {
-    mySequence[sequenceKey] = sequence;
+    if (sequence.length == 6) {
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(
+        msg: "Your sequence is successfully submitted",
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      _mySequence[sequenceKey] = sequence;
+    } else {
+      Fluttertoast.cancel();
+      Fluttertoast.showToast(
+        msg: "Complete your sequence first",
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+      );
+    }
   }
 
   @override
@@ -84,25 +100,44 @@ class _ProductDetailsState extends State<ProductDetails> {
                     width: screenWidth,
                     child: Stack(
                       children: [
-                        Container(
-                          padding: const EdgeInsets.only(top: 30.0),
-                          alignment: Alignment.center,
-                          child: Image.network(
-                            isPriceDetailsSelected
-                                ? _modal!.bannerImages.first
-                                : _modal!.productImage!,
-                            scale: 3,
-                            loadingBuilder: (ctx, widget, progress) {
-                              if (progress == null) {
-                                return widget;
-                              } else {
-                                return Container(
-                                  width: screenWidth,
-                                  height: screenWidth / 2,
-                                  child: WidgetUtils.progressIndicator(context),
-                                );
-                              }
-                            },
+                        Visibility(
+                          visible: isPriceDetailsSelected,
+                          child: Container(
+                            color: Theme.of(context).primaryColor,
+                            padding: const EdgeInsets.only(top: 30.0),
+                            alignment: Alignment.center,
+                            child: Image.network(_modal!.bannerImages.first,
+                              scale: 3.3,
+                              loadingBuilder: (ctx, widget, progress) {
+                                if (progress == null) {
+                                  return widget;
+                                } else {
+                                  return Container(
+                                    width: screenWidth,
+                                    height: screenWidth / 2,
+                                    child: WidgetUtils.progressIndicator(context),
+                                  );
+                                }
+                              },
+                            ),
+                          ),
+                          replacement: Container(
+                            padding: const EdgeInsets.only(top: 30.0),
+                            alignment: Alignment.center,
+                            child: Image.network(_modal!.productImage!,
+                              scale: 3.3,
+                              loadingBuilder: (ctx, widget, progress) {
+                                if (progress == null) {
+                                  return widget;
+                                } else {
+                                  return Container(
+                                    width: screenWidth,
+                                    height: screenWidth / 2,
+                                    child: WidgetUtils.progressIndicator(context),
+                                  );
+                                }
+                              },
+                            ),
                           ),
                         ),
                         Padding(
@@ -122,9 +157,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   SizedBox(height: screenWidth * 0.04),
                                   Opacity(
                                     opacity: 0.6509803921568628,
-                                    child: Icon(
-                                      Icons.favorite_outline_outlined,
-                                      size: 28,
+                                    child: GestureDetector(
+                                      child: Image.asset(
+                                        "assets/images/favorite_icon.png",
+                                        scale: WidgetUtils.iconScale,
+                                      ),
+                                      onTap: () {},
                                     ),
                                   ),
                                 ],
@@ -167,10 +205,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                   // Timer image
                   Opacity(
                     opacity: 0.25882352941176473,
-                    child: Image.asset(
-                      'assets/images/clock_icon.png',
-                      scale: 10,
-                    ),
+                    child:
+                        Image.asset('assets/images/clock_icon.png', scale: 10),
                   ),
                   SizedBox(height: 10.0),
                   // Watch tag line
@@ -206,9 +242,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                               children: [
                                 InkWell(
                                   onTap: () => setState(() {
-                                    if (productCount > 1) {
-                                      mySequence.remove(productCount);
-                                      productCount--;
+                                    if (_productCount > 1) {
+                                      _mySequence.remove(_productCount);
+                                      _productCount--;
                                       sequenceAdderView.removeLast();
                                     }
                                   }),
@@ -227,7 +263,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Text(
-                                    productCount.toString(),
+                                    _productCount.toString(),
                                     style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -238,14 +274,16 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 InkWell(
                                   onTap: () => setState(
                                     () {
-                                      if (productCount < 3) {
-                                        productCount++;
+                                      if (_productCount < 3) {
+                                        _productCount++;
                                         sequenceAdderView.add(
                                           GuessAndWinSequence(
-                                            productCount,
+                                            _productCount,
                                             saveSequence,
                                           ),
                                         );
+                                      } else {
+                                        WidgetUtils.showCountAlert(context);
                                       }
                                     },
                                   ),
@@ -261,6 +299,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: GestureDetector(
                                     onTap: () => setState(() {
                                       isPriceDetailsSelected = true;
+                                      showSequence = false;
                                     }),
                                     child: Container(
                                       alignment: Alignment.center,
@@ -285,6 +324,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   child: GestureDetector(
                                     onTap: () => setState(() {
                                       isPriceDetailsSelected = false;
+                                      showSequence = false;
                                     }),
                                     child: Container(
                                       alignment: Alignment.center,
@@ -310,58 +350,61 @@ class _ProductDetailsState extends State<ProductDetails> {
                             SizedBox(height: elementSpacing),
                             // Details
                             Visibility(
-                              visible: isPriceDetailsSelected || _modal!.type != "2",
-                              child: productDetails(),
-                              replacement: Column(
-                                children: sequenceAdderView,
-                              ),
+                              visible: showSequence,
+                              child: Column(children: sequenceAdderView),
+                              replacement: productDetails(),
                             ),
                             Stack(
                               alignment: Alignment.bottomCenter,
                               children: [
                                 ProductDetailsView(
                                   screenWidth,
-                                  productCount * productPrice,
+                                  _productCount * productPrice,
                                 ),
                                 AddToCartButton(
                                   screenWidth,
                                   "Add to cart",
                                   () async {
-                                    CartItemModal cartModal = CartItemModal(
-                                      _modal!.dealId!,
-                                      _modal!.productImage!,
-                                      _modal!.price!,
-                                      _modal!.description!,
-                                      productCount,
-                                      _modal!.price!,
-                                    );
-                                    var cartItemBox =
-                                        await Hive.openBox<CartItemModal>(
-                                            'cartItem');
-                                    await cartItemBox.put(
-                                        _modal!.dealId, cartModal);
-                                    await cartItemBox.close();
-                                    Fluttertoast.showToast(
-                                      msg: "Product added into cart",
-                                      gravity: ToastGravity.BOTTOM,
-                                      toastLength: Toast.LENGTH_LONG,
-                                    );
-                                    Provider.of<CartCostProvider>(context,
-                                            listen: false)
-                                        .updateCartValue(
-                                      productPrice * productCount,
-                                      productCount,
-                                    );
-                                    Utils.moveToNextScreenAfterCertainTime(3,
-                                        () {
-                                      Fluttertoast.cancel();
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        ParentScreen.routeName,
-                                        (route) => false,
-                                        arguments: 3,
+                                    bool proceedToCheckout = true;
+                                    if (_modal!.type == "2") {
+                                      setState(() {
+                                        showSequence = true;
+                                      });
+                                    }
+                                    if (showSequence &&
+                                        _mySequence.length !=
+                                            sequenceAdderView.length) {
+                                      Fluttertoast.showToast(
+                                        msg:
+                                            "Please complete your sequences to proceed towards checkout",
+                                        gravity: ToastGravity.BOTTOM,
+                                        toastLength: Toast.LENGTH_LONG,
                                       );
-                                    });
+                                      proceedToCheckout = false;
+                                    }
+                                    if (proceedToCheckout || _modal!.type != "2") {
+                                      bool isValid = validateProductType();
+                                      if (isValid) {
+                                        await populateData();
+                                        Fluttertoast.showToast(
+                                          msg: "Product added into cart",
+                                          gravity: ToastGravity.BOTTOM,
+                                          toastLength: Toast.LENGTH_LONG,
+                                        );
+                                        Utils.moveToNextScreenAfterCertainTime(
+                                          2,
+                                          () {
+                                            Fluttertoast.cancel();
+                                            Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              ParentScreen.routeName,
+                                              (route) => false,
+                                              arguments: 3,
+                                            );
+                                          },
+                                        );
+                                      }
+                                    }
                                   },
                                 ),
                               ],
@@ -393,8 +436,7 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   Widget productDetails() {
     return Padding(
-      padding:
-      const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -406,32 +448,24 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
           ),
           ConstrainedBox(
-            constraints:
-            BoxConstraints(maxWidth: screenWidth),
+            constraints: BoxConstraints(maxWidth: screenWidth),
             child: Text(
-              "2021 Mercedes AMZ-G63: UAE Golden Jubliee Edition",
+              _modal!.title!,
               style: TextStyle(
-                fontFamily: Theme.of(context)
-                    .textTheme
-                    .subtitle2!
-                    .fontFamily,
+                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
                 color: HexColor("#303030"),
                 fontSize: 17,
               ),
             ),
           ),
           ConstrainedBox(
-            constraints:
-            BoxConstraints(maxWidth: screenWidth),
+            constraints: BoxConstraints(maxWidth: screenWidth),
             child: Text(
               isPriceDetailsSelected
                   ? _modal!.priceDescription!
                   : _modal!.description!,
               style: TextStyle(
-                fontFamily: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .fontFamily,
+                fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
                 color: HexColor("#303030"),
               ),
             ),
@@ -439,5 +473,39 @@ class _ProductDetailsState extends State<ProductDetails> {
         ],
       ),
     );
+  }
+
+  Future<void> populateData() async {
+    CartItemModal cartModal = CartItemModal(
+      _modal!.dealId!,
+      _modal!.productImage!,
+      _modal!.price!,
+      _modal!.description!,
+      _productCount,
+      _modal!.price!,
+      _modal!.type!,
+      _mySequence,
+    );
+    var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
+    await cartItemBox.put(_modal!.dealId, cartModal);
+    await cartItemBox.close();
+    Provider.of<CartCostProvider>(context, listen: false).updateCartValue(
+      productPrice * _productCount,
+      _productCount,
+      0
+    );
+  }
+
+  bool validateProductType() {
+    if (_modal!.type == "2" && _mySequence.isEmpty) {
+      Fluttertoast.showToast(
+        msg: "Please select your sequence",
+        gravity: ToastGravity.BOTTOM,
+        toastLength: Toast.LENGTH_LONG,
+      );
+      return false;
+    } else {
+      return true;
+    }
   }
 }

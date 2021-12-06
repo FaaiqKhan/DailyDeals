@@ -1,19 +1,22 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
+import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/cart_item_provider.dart';
+import 'package:daily_deals/screens/parent_screen.dart';
+import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
-import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/views/cart_address_details_view.dart';
-import 'package:daily_deals/views/cart_item_view.dart';
+import 'package:daily_deals/views/cart_card_view.dart';
+import 'package:daily_deals/views/checkout_item_view.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // ignore: must_be_immutable
 class CartScreen extends StatelessWidget {
@@ -22,28 +25,38 @@ class CartScreen extends StatelessWidget {
   int itemCount = 0;
   CartCostProvider? cartCost;
   CartItemsProvider? cartItems;
+  Map<String, int> isAddressRequired = {};
+  ScrollController _scrollController = ScrollController();
+  bool showAddressDetails = false;
+  int couponCount = 0;
 
-  Future<Map<String, Widget>> getCartItem() async {
+  Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
     List<CartItemModal> items = cartItemBox.values.toList();
     await cartItemBox.close();
-    return prepareView(items);
+    return items;
+  }
+
+  Future<void> clearCart() async {
+    var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
+    await cartItemBox.clear();
+    await cartItemBox.close();
   }
 
   Map<String, Widget> prepareView(List<CartItemModal> items) {
     totalPrice = 0.0;
     productCount = 0;
     itemCount = 0;
+    couponCount = 0;
     Map<String, Widget> data = {};
     productCount = items.length - 1;
     for (int i = 0; i < productCount + 1; i++) {
       CartItemModal m = items[i];
       data[m.productId] = CartCardView(
         items[i],
-        deleteItem,
-        addPrice,
-        minusPrice,
-        i != 1 ? true : false,
+        deleteFunction: deleteItem,
+        notifyPriceAdd: addPrice,
+        notifyPriceSubtract: minusPrice,
       );
       if (productCount != i)
         data[m.productId + "d"] =
@@ -52,22 +65,36 @@ class CartScreen extends StatelessWidget {
         data[m.productId + "d"] = SizedBox(height: 10);
       totalPrice = totalPrice + (double.parse(m.price) * m.itemCount);
       itemCount = itemCount + m.itemCount;
+      if (m.type == "2") {
+        couponCount = couponCount + 2;
+      } else {
+        couponCount = couponCount + 1;
+      }
     }
     return data;
   }
 
-  void addPrice(double price) {
+  void addPrice(double price, bool isNormalProduct) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice + price;
     itemCount++;
-    cartCost!.updateCartValue(this.totalPrice, itemCount);
+    if (isNormalProduct)
+      couponCount = couponCount + 1;
+    else
+      couponCount = couponCount + 2;
+    print(couponCount);
+    cartCost!.updateCartValue(this.totalPrice, itemCount, couponCount);
   }
 
-  void minusPrice(double price) {
+  void minusPrice(double price, bool isNormalProduct) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice - price;
     itemCount--;
-    cartCost!.updateCartValue(this.totalPrice, itemCount);
+    if (isNormalProduct)
+      couponCount = couponCount - 1;
+    else
+      couponCount = couponCount - 2;
+    cartCost!.updateCartValue(this.totalPrice, itemCount, couponCount);
   }
 
   void deleteItem(CartItemModal item, double totalPrice) async {
@@ -78,7 +105,11 @@ class CartScreen extends StatelessWidget {
     this.totalPrice = this.totalPrice - totalPrice;
     itemCount = itemCount - item.itemCount;
     cartItems!.deleteItem(item.productId);
-    cartCost!.updateCartValue(this.totalPrice, itemCount);
+    if (item.type == "2")
+      couponCount = couponCount - 2;
+    else
+      couponCount = couponCount - 1;
+    cartCost!.updateCartValue(this.totalPrice, this.itemCount, this.couponCount);
   }
 
   @override
@@ -89,88 +120,12 @@ class CartScreen extends StatelessWidget {
       future: getCartItem(),
       builder: (ctx, snapShot) {
         if (snapShot.hasData) {
-          Map<String, Widget> data = snapShot.data as Map<String, Widget>;
-          return data.isEmpty
-              ? emptyCartView(context, screenWidth)
-              : cartView(context, screenWidth, data);
+          List<CartItemModal> cartItems = snapShot.data as List<CartItemModal>;
+          Map<String, Widget> data = prepareView(cartItems);
+          return cartView(context, screenWidth, data, cartItems);
         } else {
           return WidgetUtils.progressIndicator(context);
         }
-      },
-    );
-  }
-
-  void cartFunctionality(BuildContext context, double screenWidth) {
-    if (cartItems == null || cartCost == null || cartItems!.items.isEmpty)
-      return;
-
-    List<Widget> items = [];
-    cartItems!.items.forEach((key, value) {
-      if (!key.contains("d")) {
-        items.add(value);
-        items.add(CartItemView(
-          itemType: 0,
-          sequenceOfNumbers: [11, 17, 32, 48, 99, 20],
-        ));
-      }
-    });
-
-    double elementSpacing = screenWidth * 0.05;
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: HexColor("#313030").withOpacity(0.9490196078431372),
-      isScrollControlled: true,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(30.0),
-          topRight: Radius.circular(30.0),
-        ),
-      ),
-      builder: (ctx) {
-        return Container(
-          height: MediaQuery.of(context).size.height - 100,
-          child: ListView(
-            children: [
-              SizedBox(height: elementSpacing),
-              // Title
-              Padding(
-                padding: const EdgeInsets.only(left: 70.0, right: 70.0),
-                child: Text(
-                  "What Do You Want To Do With Your Products",
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontFamily:
-                        Theme.of(context).textTheme.subtitle2!.fontFamily,
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-              SizedBox(height: elementSpacing),
-              // Product details
-              Column(children: items),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 40.0,
-                  right: 40.0,
-                  bottom: 10.0,
-                ),
-                child: Divider(thickness: 1, color: Colors.grey),
-              ),
-              CartItemView(itemType: 1),
-              CartAddressDetailsView(),
-              ProductDetailsView(
-                screenWidth,
-                totalPrice,
-                color: HexColor("#1D1C1C"),
-                productCount: productCount,
-              ),
-              AddToCartButton(screenWidth, "Checkout", () {
-                Fluttertoast.showToast(msg: "Coming soon");
-              })
-            ],
-          ),
-        );
       },
     );
   }
@@ -179,6 +134,7 @@ class CartScreen extends StatelessWidget {
     BuildContext context,
     double screenWidth,
     Map<String, Widget> data,
+    List<CartItemModal> items,
   ) {
     return Column(
       children: [
@@ -200,12 +156,13 @@ class CartScreen extends StatelessWidget {
             },
           ),
         ),
+        // Price details and checkout button
         Stack(
           alignment: Alignment.bottomCenter,
           children: [
             Consumer<CartCostProvider>(
               builder: (_, cartCost, __) {
-                cartCost.initValue(totalPrice, itemCount);
+                cartCost.initValue(totalPrice, itemCount, couponCount);
                 this.cartCost = cartCost;
                 return ProductDetailsView(screenWidth, cartCost.cartCost);
               },
@@ -214,12 +171,138 @@ class CartScreen extends StatelessWidget {
               screenWidth,
               "Checkout",
               () {
-                cartFunctionality(context, screenWidth);
+                checkoutView(context, items);
               },
             ),
           ],
         ),
       ],
+    );
+  }
+
+  List<Widget> generateCheckoutItemsView(List<CartItemModal> cartItems) {
+    List<Widget> itemsView = [];
+    List<Widget> guessAndWin = [];
+    for (CartItemModal item in cartItems) {
+      if (item.type == "2")
+        guessAndWin.add(CheckoutItemView(item, checkAddressRequired));
+      else
+        itemsView.add(CheckoutItemView(item, checkAddressRequired));
+    }
+    guessAndWin.addAll(itemsView);
+    return guessAndWin;
+  }
+
+  Future<void> checkoutView(
+    BuildContext context,
+    List<CartItemModal> cartItems,
+  ) async {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+    isAddressRequired = {};
+    List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
+    double cartHeight = screenHeight * 0.75;
+    controller = scaffoldKey.currentState!.showBottomSheet(
+      (context) => Container(
+        child: Column(
+          children: [
+            // cart title
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 70.0,
+                top: 20.0,
+                right: 70.0,
+                bottom: 20.0,
+              ),
+              child: Text(
+                "What Do You Want To Do With Your Products",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            // Items of cart
+            Expanded(
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Column(
+                  children: [
+                    Column(children: checkoutItems),
+                    // Address details
+                    Visibility(
+                      visible: showAddressDetails,
+                      child: CartAddressDetailsView(),
+                      replacement: SizedBox.shrink(),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // Details and checkout
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                // Price and coupon details
+                ProductDetailsView(
+                  screenWidth,
+                  totalPrice,
+                  color: HexColor("#1D1C1C"),
+                  productCount: itemCount,
+                  isFromCheckout: true,
+                  couponCount: this.couponCount,
+                ),
+                // Checkout button
+                AddToCartButton(screenWidth, "Checkout", () async {
+                  SharedPreferences preferences =
+                      await SharedPreferences.getInstance();
+                  List<CheckoutItemModal> checkoutItems = [];
+                  for (CartItemModal item in cartItems) {
+                    checkoutItems.add(
+                      CheckoutItemModal(
+                        item.productId,
+                        item.itemCount.toString(),
+                        item.price,
+                      ),
+                    );
+                  }
+                  CheckoutModal checkoutItem = CheckoutModal(
+                    preferences.getString("user_id")!,
+                    preferences.getString("email")!,
+                    preferences.getString("phoneNumber")!,
+                    totalPrice.toString(),
+                    checkoutItems,
+                  );
+                  List<dynamic> response =
+                      await WebService.checkoutProduct(checkoutItem);
+                  if (response[0]) {
+                    await clearCart();
+                    this.cartCost!.itemCount = 0;
+                    Utils.moveToNextScreenAfterCertainTime(2, () {
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        ParentScreen.routeName,
+                        (route) => false,
+                      );
+                    });
+                  }
+                  WidgetUtils.showToast(response[1]);
+                })
+              ],
+            ),
+          ],
+        ),
+      ),
+      backgroundColor: HexColor("#313030").withOpacity(0.9490196078431372),
+      constraints: BoxConstraints(maxHeight: cartHeight),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(50.0),
+          topRight: Radius.circular(50.0),
+        ),
+      ),
     );
   }
 
@@ -253,5 +336,22 @@ class CartScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  void checkAddressRequired(String id, int type) {
+    if (controller == null) return;
+    controller!.setState!(() {
+      isAddressRequired[id] = type;
+      if (isAddressRequired.containsValue(1)) {
+        showAddressDetails = true;
+        _scrollController.animateTo(
+          _scrollController.offset + 200,
+          duration: Duration(seconds: 1),
+          curve: Curves.linear,
+        );
+      } else {
+        showAddressDetails = false;
+      }
+    });
   }
 }

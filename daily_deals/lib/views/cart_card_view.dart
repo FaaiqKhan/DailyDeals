@@ -6,16 +6,16 @@ import 'package:hive/hive.dart';
 
 class CartCardView extends StatefulWidget {
   final CartItemModal _modal;
+  final bool isFromCheckout;
   final Function? deleteFunction, notifyPriceAdd, notifyPriceSubtract;
-  final bool isGuessAndWin;
 
   CartCardView(
-    this._modal,
+    this._modal, {
+    this.isFromCheckout = false,
     this.deleteFunction,
     this.notifyPriceAdd,
     this.notifyPriceSubtract,
-    this.isGuessAndWin,
-  );
+  });
 
   @override
   State<CartCardView> createState() => _CartCardViewState();
@@ -31,7 +31,10 @@ class _CartCardViewState extends State<CartCardView> {
   @override
   void initState() {
     price = double.parse(widget._modal.price);
-    totalPrice = widget._modal.itemCount * price;
+    if (widget.isFromCheckout)
+      totalPrice = price;
+    else
+      totalPrice = widget._modal.itemCount * price;
     super.initState();
   }
 
@@ -83,7 +86,7 @@ class _CartCardViewState extends State<CartCardView> {
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Opacity(
-                        opacity: widget.isGuessAndWin ? 1.0 : 0.0,
+                        opacity: widget._modal.type == "2" ? 1.0 : 0.0,
                         child: Text(
                           "Guess and win",
                           style: TextStyle(
@@ -144,102 +147,110 @@ class _CartCardViewState extends State<CartCardView> {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    GestureDetector(
-                      onTap: () {
-                        if (widget.deleteFunction != null)
-                          widget.deleteFunction!(widget._modal, totalPrice);
-                      },
-                      child: Container(
-                        padding: const EdgeInsets.all(5.0),
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: HexColor("#EFEDED"),
-                        ),
-                        child: Opacity(
-                          opacity: 0.30980392156862746,
-                          child: Icon(Icons.delete, size: 17),
+                    Visibility(
+                      visible: !widget.isFromCheckout,
+                      child: GestureDetector(
+                        onTap: () {
+                          if (widget.deleteFunction != null)
+                            widget.deleteFunction!(widget._modal, totalPrice);
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(5.0),
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: HexColor("#EFEDED"),
+                          ),
+                          child: Opacity(
+                            opacity: 0.30980392156862746,
+                            child: Icon(Icons.delete, size: 17),
+                          ),
                         ),
                       ),
+                      replacement: SizedBox.shrink(),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        // Remove item from cart
-                        GestureDetector(
-                          onTap: () async {
-                            if (widget._modal.itemCount > 1) {
-                              setState(() {
-                                widget._modal.itemCount--;
-                                totalPrice = widget._modal.itemCount * price;
-                              });
-                              updateObject();
-                              widget.notifyPriceSubtract!(price);
-                            }
-                          },
-                          child: Container(
+                    Visibility(
+                      visible: !widget.isFromCheckout,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          // Remove item from cart
+                          GestureDetector(
+                            onTap: () async {
+                              if (widget._modal.itemCount > 1) {
+                                setState(() {
+                                  widget._modal.itemCount--;
+                                  totalPrice = widget._modal.itemCount * price;
+                                });
+                                updateObject();
+                                widget.notifyPriceSubtract!(price, widget._modal.type != "2");
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HexColor("#F3F3F3"),
+                              ),
+                              child: Opacity(
+                                opacity: 0.30980392156862746,
+                                child: Icon(Icons.remove),
+                              ),
+                            ),
+                          ),
+                          // Items count
+                          Container(
+                            margin:
+                                const EdgeInsets.only(left: 10.0, right: 10.0),
+                            padding: const EdgeInsets.only(
+                              left: 10.0,
+                              top: 5.0,
+                              right: 10.0,
+                              bottom: 5.0,
+                            ),
                             decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: HexColor("#F3F3F3"),
+                              border: Border.all(
+                                color: Colors.transparent,
+                              ),
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(5),
+                              ),
+                              color: HexColor("#313030"),
                             ),
-                            child: Opacity(
-                              opacity: 0.30980392156862746,
-                              child: Icon(Icons.remove),
-                            ),
-                          ),
-                        ),
-                        // Items count
-                        Container(
-                          margin:
-                              const EdgeInsets.only(left: 10.0, right: 10.0),
-                          padding: const EdgeInsets.only(
-                            left: 10.0,
-                            top: 5.0,
-                            right: 10.0,
-                            bottom: 5.0,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.transparent,
-                            ),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(5),
-                            ),
-                            color: HexColor("#313030"),
-                          ),
-                          child: Text(
-                            "${widget._modal.itemCount}",
-                            style: TextStyle(
-                              fontFamily: Theme.of(context)
-                                  .textTheme
-                                  .subtitle1!
-                                  .fontFamily,
+                            child: Text(
+                              "${widget._modal.itemCount}",
+                              style: TextStyle(
+                                fontFamily: Theme.of(context)
+                                    .textTheme
+                                    .subtitle1!
+                                    .fontFamily,
+                              ),
                             ),
                           ),
-                        ),
-                        // Add item in cart
-                        GestureDetector(
-                          onTap: () {
-                            if (widget._modal.itemCount < 3) {
-                              setState(() {
-                                widget._modal.itemCount++;
-                                totalPrice = widget._modal.itemCount * price;
-                              });
-                              updateObject();
-                              widget.notifyPriceAdd!(price);
-                            }
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: HexColor("#F3F3F3"),
+                          // Add item in cart
+                          GestureDetector(
+                            onTap: () {
+                              if (widget._modal.itemCount < 3) {
+                                setState(() {
+                                  widget._modal.itemCount++;
+                                  totalPrice = widget._modal.itemCount * price;
+                                });
+                                updateObject();
+                                widget.notifyPriceAdd!(price, widget._modal.type != "2");
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: HexColor("#F3F3F3"),
+                              ),
+                              child: Opacity(
+                                opacity: 0.30980392156862746,
+                                child: Icon(Icons.add),
+                              ),
                             ),
-                            child: Opacity(
-                              opacity: 0.30980392156862746,
-                              child: Icon(Icons.add),
-                            ),
-                          ),
-                        )
-                      ],
+                          )
+                        ],
+                      ),
+                      replacement: SizedBox.shrink(),
                     ),
                     Text(
                       "AED $totalPrice",

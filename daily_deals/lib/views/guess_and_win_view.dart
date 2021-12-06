@@ -1,5 +1,6 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/card_view.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:daily_deals/widgets/price_details_and_add_to_cart.dart';
@@ -130,7 +131,13 @@ class GuessAndWin extends StatelessWidget {
               ),
               Opacity(
                 opacity: 0.1803921568627451,
-                child: Icon(Icons.favorite_outline_outlined, size: 28),
+                child: GestureDetector(
+                  child: Image.asset(
+                    "assets/images/favorite_icon.png",
+                    scale: WidgetUtils.iconScale,
+                  ),
+                  onTap: () {},
+                ),
               ),
             ],
           ),

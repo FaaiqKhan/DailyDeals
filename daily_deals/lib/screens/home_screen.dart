@@ -125,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       return Column(
         children: [
+          SizedBox(height: 10.0),
           // Slider
           HomeSlider(Utils.homeDataModal!.slider!),
           // Other components
@@ -173,7 +174,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(width: 20),
                 // Favorite icon
                 GestureDetector(
-                  child: Image.asset("assets/images/favorite_icon.png"),
+                  child: Image.asset(
+                    "assets/images/favorite_icon.png",
+                    scale: WidgetUtils.iconScale,
+                  ),
                   onTap: () {},
                 ),
               ],

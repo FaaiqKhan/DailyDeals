@@ -6,6 +6,7 @@ class ProductDetailsView extends StatelessWidget {
   final double totalPrice;
   final Color? color;
   final int? couponCount, productCount;
+  final bool isFromCheckout;
 
   ProductDetailsView(
     this.screenWidth,
@@ -13,6 +14,7 @@ class ProductDetailsView extends StatelessWidget {
     this.color,
     this.couponCount = 0,
     this.productCount = 0,
+    this.isFromCheckout = false,
   });
 
   @override
@@ -20,7 +22,8 @@ class ProductDetailsView extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       width: this.screenWidth,
-      height: color == null ? this.screenWidth * 0.32 : this.screenWidth * 0.24,
+      height: isFromCheckout ? this.screenWidth * 0.35 : this.screenWidth * 0.30,
+      margin: EdgeInsets.only(bottom: isFromCheckout ? 0.0 : 10.0),
       decoration: BoxDecoration(
         color: color == null ? HexColor("#313030") : color,
         borderRadius: BorderRadius.only(
@@ -45,7 +48,7 @@ class ProductDetailsView extends StatelessWidget {
             ),
           ),
           Visibility(
-            visible: color != null,
+            visible: isFromCheckout,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

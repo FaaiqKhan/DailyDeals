@@ -24,6 +24,8 @@ class ParentScreen extends StatefulWidget {
   State<StatefulWidget> createState() => _ParentScreenState();
 }
 
+var scaffoldKey;
+PersistentBottomSheetController? controller;
 class _ParentScreenState extends State<ParentScreen> {
   int _currentIndex = 0;
   Map<int, Widget> _screens = {};
@@ -31,6 +33,7 @@ class _ParentScreenState extends State<ParentScreen> {
 
   @override
   void initState() {
+    scaffoldKey = GlobalKey<ScaffoldState>();
     _screens = {
       0: HomeScreen(),
       1: CouponScreen(),
@@ -60,6 +63,7 @@ class _ParentScreenState extends State<ParentScreen> {
     double bottomHeight = screenWidth * 0.2;
 
     return Scaffold(
+      key: scaffoldKey,
       backgroundColor: Colors.white,
       body: _screens[_currentIndex],
       appBar: _currentIndex != 0
@@ -171,6 +175,14 @@ class _ParentScreenState extends State<ParentScreen> {
   }
 
   void _onItemTap(int index) {
+    try {
+      if (controller != null) {
+        controller!.close();
+        controller = null;
+      }
+    } catch (e) {
+      controller = null;
+    }
     setState(() {
       _currentIndex = index;
     });

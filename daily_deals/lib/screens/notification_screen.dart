@@ -43,11 +43,6 @@ class NotificationScreen extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CircleAvatar(
-                  backgroundColor: HexColor("#F5F5F5"),
-                  radius: 30,
-                  child: Image.asset("assets/images/temp_3.png"),
-                ),
                 SizedBox(
                   width: 20,
                 ),

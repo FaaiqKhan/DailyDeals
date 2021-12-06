@@ -203,71 +203,25 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
       margin: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
             padding: const EdgeInsets.only(
               left: 20.0,
-              right: 20.0,
               bottom: 8.0,
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 200),
-                  child: Text(
-                    "SELECT YOUR 06 DIGIT LUCKY NUMBER",
-                    style: TextStyle(
-                      fontFamily:
-                          Theme.of(context).textTheme.bodyText2!.fontFamily,
-                      color: Colors.black,
-                      fontSize: 16,
-                      fontStyle: FontStyle.italic,
-                    ),
-                  ),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 200),
+              child: Text(
+                "SELECT YOUR 06 DIGIT LUCKY NUMBER",
+                style: TextStyle(
+                  fontFamily:
+                      Theme.of(context).textTheme.bodyText2!.fontFamily,
+                  color: Colors.black,
+                  fontSize: 16,
+                  fontStyle: FontStyle.italic,
                 ),
-                Column(
-                  children: [
-                    Container(
-                      width: 25,
-                      height: 25,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border:
-                            Border.all(color: Theme.of(context).primaryColor),
-                      ),
-                      alignment: Alignment.center,
-                      child: Icon(Icons.add, color: Colors.black, size: 18),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        color: HexColor("#303030"),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(50.0),
-                        ),
-                      ),
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.only(
-                        left: 8.0,
-                        right: 8.0,
-                        bottom: 4.0,
-                        top: 4.0,
-                      ),
-                      margin: const EdgeInsets.only(top: 5.0),
-                      child: Text(
-                        "Clear All",
-                        style: TextStyle(
-                          fontFamily:
-                              Theme.of(context).textTheme.bodyText1!.fontFamily,
-                          color: Colors.white,
-                          fontSize: 10,
-                        ),
-                      ),
-                    )
-                  ],
-                )
-              ],
+              ),
             ),
           ),
           Stack(
@@ -396,8 +350,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
               // Save my sequence
               GestureDetector(
                 onTap: () {
-                  if (sequence.length == 6)
-                    widget.saveSequence(widget.sequenceKey, sequence);
+                  widget.saveSequence(widget.sequenceKey, sequence);
                 },
                 child: Container(
                   decoration: BoxDecoration(

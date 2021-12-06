@@ -1,6 +1,7 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -44,9 +45,13 @@ class ClosingSoon extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: Icon(
-                          Icons.favorite_outline_outlined,
-                          color: Colors.white,
+                        child: GestureDetector(
+                          child: Image.asset(
+                            "assets/images/favorite_icon.png",
+                            scale: WidgetUtils.iconScale,
+                            color: Colors.white,
+                          ),
+                          onTap: () {},
                         ),
                       ),
                     ],
