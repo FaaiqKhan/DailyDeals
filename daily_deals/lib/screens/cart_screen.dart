@@ -26,6 +26,9 @@ class CartScreen extends StatelessWidget {
   CartCostProvider? cartCost;
   CartItemsProvider? cartItems;
   Map<String, int> isAddressRequired = {};
+  ScrollController _scrollController = ScrollController();
+  bool showAddressDetails = false;
+  int couponCount = 0;
 
   Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
@@ -44,6 +47,7 @@ class CartScreen extends StatelessWidget {
     totalPrice = 0.0;
     productCount = 0;
     itemCount = 0;
+    couponCount = 0;
     Map<String, Widget> data = {};
     productCount = items.length - 1;
     for (int i = 0; i < productCount + 1; i++) {
@@ -61,22 +65,36 @@ class CartScreen extends StatelessWidget {
         data[m.productId + "d"] = SizedBox(height: 10);
       totalPrice = totalPrice + (double.parse(m.price) * m.itemCount);
       itemCount = itemCount + m.itemCount;
+      if (m.type == "2") {
+        couponCount = couponCount + 2;
+      } else {
+        couponCount = couponCount + 1;
+      }
     }
     return data;
   }
 
-  void addPrice(double price) {
+  void addPrice(double price, bool isNormalProduct) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice + price;
     itemCount++;
-    cartCost!.updateCartValue(this.totalPrice, itemCount);
+    if (isNormalProduct)
+      couponCount = couponCount + 1;
+    else
+      couponCount = couponCount + 2;
+    print(couponCount);
+    cartCost!.updateCartValue(this.totalPrice, itemCount, couponCount);
   }
 
-  void minusPrice(double price) {
+  void minusPrice(double price, bool isNormalProduct) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice - price;
     itemCount--;
-    cartCost!.updateCartValue(this.totalPrice, itemCount);
+    if (isNormalProduct)
+      couponCount = couponCount - 1;
+    else
+      couponCount = couponCount - 2;
+    cartCost!.updateCartValue(this.totalPrice, itemCount, couponCount);
   }
 
   void deleteItem(CartItemModal item, double totalPrice) async {
@@ -87,7 +105,11 @@ class CartScreen extends StatelessWidget {
     this.totalPrice = this.totalPrice - totalPrice;
     itemCount = itemCount - item.itemCount;
     cartItems!.deleteItem(item.productId);
-    cartCost!.updateCartValue(this.totalPrice, itemCount);
+    if (item.type == "2")
+      couponCount = couponCount - 2;
+    else
+      couponCount = couponCount - 1;
+    cartCost!.updateCartValue(this.totalPrice, this.itemCount, this.couponCount);
   }
 
   @override
@@ -140,7 +162,7 @@ class CartScreen extends StatelessWidget {
           children: [
             Consumer<CartCostProvider>(
               builder: (_, cartCost, __) {
-                cartCost.initValue(totalPrice, itemCount);
+                cartCost.initValue(totalPrice, itemCount, couponCount);
                 this.cartCost = cartCost;
                 return ProductDetailsView(screenWidth, cartCost.cartCost);
               },
@@ -205,12 +227,13 @@ class CartScreen extends StatelessWidget {
             // Items of cart
             Expanded(
               child: SingleChildScrollView(
+                controller: _scrollController,
                 child: Column(
                   children: [
                     Column(children: checkoutItems),
                     // Address details
                     Visibility(
-                      visible: isAddressRequired.containsValue(1),
+                      visible: showAddressDetails,
                       child: CartAddressDetailsView(),
                       replacement: SizedBox.shrink(),
                     ),
@@ -229,6 +252,7 @@ class CartScreen extends StatelessWidget {
                   color: HexColor("#1D1C1C"),
                   productCount: itemCount,
                   isFromCheckout: true,
+                  couponCount: this.couponCount,
                 ),
                 // Checkout button
                 AddToCartButton(screenWidth, "Checkout", () async {
@@ -318,6 +342,16 @@ class CartScreen extends StatelessWidget {
     if (controller == null) return;
     controller!.setState!(() {
       isAddressRequired[id] = type;
+      if (isAddressRequired.containsValue(1)) {
+        showAddressDetails = true;
+        _scrollController.animateTo(
+          _scrollController.offset + 200,
+          duration: Duration(seconds: 1),
+          curve: Curves.linear,
+        );
+      } else {
+        showAddressDetails = false;
+      }
     });
   }
 }

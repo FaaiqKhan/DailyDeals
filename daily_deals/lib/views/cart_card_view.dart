@@ -182,7 +182,7 @@ class _CartCardViewState extends State<CartCardView> {
                                   totalPrice = widget._modal.itemCount * price;
                                 });
                                 updateObject();
-                                widget.notifyPriceSubtract!(price);
+                                widget.notifyPriceSubtract!(price, widget._modal.type != "2");
                               }
                             },
                             child: Container(
@@ -234,7 +234,7 @@ class _CartCardViewState extends State<CartCardView> {
                                   totalPrice = widget._modal.itemCount * price;
                                 });
                                 updateObject();
-                                widget.notifyPriceAdd!(price);
+                                widget.notifyPriceAdd!(price, widget._modal.type != "2");
                               }
                             },
                             child: Container(
