@@ -4,6 +4,7 @@ import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/screens/winners_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/viewhelper/more_items_indicator.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/winners_view.dart';
 import 'package:daily_deals/widgets/closing_soon_slider.dart';
@@ -136,9 +137,37 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 ClosingSoonSlider(Utils.homeDataModal!.closingSoon!),
                 SizedBox(height: elementsDistance),
-                CurrentDealsSlider(Utils.homeDataModal!.currentDeals!),
+                Column(
+                  children: [
+                    CurrentDealsSlider(Utils.homeDataModal!.currentDeals!),
+                    Visibility(
+                      visible: Utils.homeDataModal!.currentDeals!.length > 1,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10.0),
+                          MoreItemsIndicator(),
+                        ],
+                      ),
+                      replacement: SizedBox.shrink(),
+                    )
+                  ],
+                ),
                 SizedBox(height: elementsDistance),
-                GuessAndWinSlider(Utils.homeDataModal!.guessAndWin!),
+                Column(
+                  children: [
+                    GuessAndWinSlider(Utils.homeDataModal!.guessAndWin!),
+                    Visibility(
+                      visible: Utils.homeDataModal!.guessAndWin!.length > 1,
+                      child: Column(
+                        children: [
+                          SizedBox(height: 10.0),
+                          MoreItemsIndicator(),
+                        ],
+                      ),
+                      replacement: SizedBox.shrink(),
+                    )
+                  ],
+                ),
                 SizedBox(height: elementsDistance),
                 Winners(Utils.homeDataModal!.winners!),
               ],
