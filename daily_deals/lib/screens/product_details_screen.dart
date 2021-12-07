@@ -462,7 +462,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             constraints: BoxConstraints(maxWidth: screenWidth),
             child: Text(
               isPriceDetailsSelected
-                  ? _modal!.priceDescription!
+                  ? _modal!.priceDescription ?? ""
                   : _modal!.description!,
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
