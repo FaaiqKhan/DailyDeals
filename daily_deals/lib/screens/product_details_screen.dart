@@ -492,7 +492,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     Provider.of<CartCostProvider>(context, listen: false).updateCartValue(
       productPrice * _productCount,
       _productCount,
-      0
     );
   }
 

@@ -47,7 +47,6 @@ class CartScreen extends StatelessWidget {
     totalPrice = 0.0;
     productCount = 0;
     itemCount = 0;
-    couponCount = 0;
     Map<String, Widget> data = {};
     productCount = items.length - 1;
     for (int i = 0; i < productCount + 1; i++) {
@@ -65,11 +64,6 @@ class CartScreen extends StatelessWidget {
         data[m.productId + "d"] = SizedBox(height: 10);
       totalPrice = totalPrice + (double.parse(m.price) * m.itemCount);
       itemCount = itemCount + m.itemCount;
-      if (m.type == "2") {
-        couponCount = couponCount + 2;
-      } else {
-        couponCount = couponCount + 1;
-      }
     }
     return data;
   }
@@ -78,23 +72,14 @@ class CartScreen extends StatelessWidget {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice + price;
     itemCount++;
-    if (isNormalProduct)
-      couponCount = couponCount + 1;
-    else
-      couponCount = couponCount + 2;
-    print(couponCount);
-    cartCost!.updateCartValue(this.totalPrice, itemCount, couponCount);
+    cartCost!.updateCartValue(this.totalPrice, this.itemCount);
   }
 
   void minusPrice(double price, bool isNormalProduct) {
     if (cartCost == null) return;
     this.totalPrice = this.totalPrice - price;
     itemCount--;
-    if (isNormalProduct)
-      couponCount = couponCount - 1;
-    else
-      couponCount = couponCount - 2;
-    cartCost!.updateCartValue(this.totalPrice, itemCount, couponCount);
+    cartCost!.updateCartValue(this.totalPrice, this.itemCount);
   }
 
   void deleteItem(CartItemModal item, double totalPrice) async {
@@ -105,11 +90,7 @@ class CartScreen extends StatelessWidget {
     this.totalPrice = this.totalPrice - totalPrice;
     itemCount = itemCount - item.itemCount;
     cartItems!.deleteItem(item.productId);
-    if (item.type == "2")
-      couponCount = couponCount - 2;
-    else
-      couponCount = couponCount - 1;
-    cartCost!.updateCartValue(this.totalPrice, this.itemCount, this.couponCount);
+    cartCost!.updateCartValue(this.totalPrice, this.itemCount);
   }
 
   @override
@@ -162,7 +143,7 @@ class CartScreen extends StatelessWidget {
           children: [
             Consumer<CartCostProvider>(
               builder: (_, cartCost, __) {
-                cartCost.initValue(totalPrice, itemCount, couponCount);
+                cartCost.initValue(totalPrice, itemCount);
                 this.cartCost = cartCost;
                 return ProductDetailsView(screenWidth, cartCost.cartCost);
               },
@@ -188,6 +169,7 @@ class CartScreen extends StatelessWidget {
         guessAndWin.add(CheckoutItemView(item, checkAddressRequired));
       else
         itemsView.add(CheckoutItemView(item, checkAddressRequired));
+      this.couponCount = item.itemCount * cartItems.length * 2;
     }
     guessAndWin.addAll(itemsView);
     return guessAndWin;
@@ -338,8 +320,9 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  void checkAddressRequired(String id, int type) {
+  void checkAddressRequired(String id, int type, int couponCount) {
     if (controller == null) return;
+    this.couponCount = this.couponCount + couponCount;
     controller!.setState!(() {
       isAddressRequired[id] = type;
       if (isAddressRequired.containsValue(1)) {
