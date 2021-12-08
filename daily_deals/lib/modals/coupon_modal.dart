@@ -1,15 +1,16 @@
 class CouponModal {
-  String? couponId, image, title, date, sold, total, couponType;
+  String? couponId, image, title, date, couponType;
   List<String>? shuffleNumbers;
+  int sold, total;
 
   CouponModal({
     this.couponId,
     this.image,
     this.title,
     this.date,
-    this.total,
+    this.total = 0,
     this.shuffleNumbers,
-    this.sold,
+    this.sold = 0,
     this.couponType,
   });
 
@@ -18,8 +19,11 @@ class CouponModal {
 }
 
 CouponModal _$CouponModalFromJson(Map<String, dynamic> json) {
+  List<dynamic> dynamicNumbers = json['sufflfe_number'];
   List<String> numbers = [];
-  numbers.addAll((json['sufflfe_number'] as List<String>));
+  for (dynamic num in dynamicNumbers) {
+    numbers.add(num as String);
+  }
   return CouponModal(
     couponId: json['coupon_id'],
     image: json['image'],
