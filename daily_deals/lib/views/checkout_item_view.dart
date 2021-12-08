@@ -13,19 +13,9 @@ class CheckoutItemView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // Items
-        Padding(
-          padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-          child: Column(children: generateItemsView(item)),
-        ),
-        DeliveryModes(
-          deliveryPrice: "35.0",
-          updateDeliveryMode: updateDeliveryStatus,
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
+      child: Column(children: generateItemsView(item)),
     );
   }
 
@@ -55,37 +45,40 @@ class CheckoutItemView extends StatelessWidget {
     List<Widget> items = [];
     for (int i = 1; i <= modal.itemCount; i++) {
       items.add(CartCardView(modal, isFromCheckout: true));
-      items.add(
-        Visibility(
-          visible: modal.type == "2",
-          child: Column(
-            children: [
-              Text(
-                "Your sequence of this section",
-                style: TextStyle(color: Colors.white, fontSize: 12.0),
+      items.add(DeliveryModes(
+        deliveryPrice: "35.0",
+        updateDeliveryMode: updateDeliveryStatus,
+      ));
+      items.add(Visibility(
+        visible: modal.type == "2",
+        child: Column(
+          children: [
+            Text(
+              "Your sequence of this section",
+              style: TextStyle(color: Colors.white, fontSize: 12.0),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(
+                left: 50.0,
+                top: 15.0,
+                right: 50.0,
+                bottom: 15.0,
               ),
-              Padding(
-                padding: const EdgeInsets.only(
-                  left: 50.0,
-                  top: 15.0,
-                  right: 50.0,
-                  bottom: 15.0,
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: generateSequenceView(modal.mySequence[i] ?? []),
-                ),
-              )
-            ],
-          ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: generateSequenceView(modal.mySequence[i] ?? []),
+              ),
+            )
+          ],
         ),
-      );
-      if (i >= 1) items.add(Divider(thickness: 2, color: Colors.grey));
+      ));
+      if (i >= 1 && i != modal.itemCount)
+        items.add(Divider(thickness: 2, color: Colors.grey));
     }
     return items;
   }
 
-  void updateDeliveryStatus(int statusCode) {
-    addressRequired(item.productId, statusCode);
+  void updateDeliveryStatus(int statusCode, int couponCount) {
+    addressRequired(item.productId, statusCode, couponCount);
   }
 }

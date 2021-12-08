@@ -462,7 +462,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             constraints: BoxConstraints(maxWidth: screenWidth),
             child: Text(
               isPriceDetailsSelected
-                  ? _modal!.priceDescription!
+                  ? _modal!.priceDescription ?? ""
                   : _modal!.description!,
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
@@ -492,7 +492,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     Provider.of<CartCostProvider>(context, listen: false).updateCartValue(
       productPrice * _productCount,
       _productCount,
-      0
     );
   }
 
