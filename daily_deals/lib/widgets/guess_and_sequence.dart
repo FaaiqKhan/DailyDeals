@@ -19,19 +19,25 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
   final PageController pageController = PageController(initialPage: 0);
   List<Widget> numbersView = [];
   List<Widget> sequenceView = [];
+  List<FocusNode> _focusNodes = <FocusNode>[];
 
   void onSelect(int number) {
-    setState(() {
-      if (sequence.contains(number.toString())) {
-        sequence.remove(number.toString());
-        numbersView[number - 1] = numberView(number, isSelected: false);
-        sequenceView = generateSequenceDigitsView(numbersView);
-      } else if (sequence.length < 6) {
-        sequence.add(number.toString());
-        numbersView[number - 1] = numberView(number, isSelected: true);
-        sequenceView = generateSequenceDigitsView(numbersView);
+    for (int i = 0; i < 6; i++) {
+      if (_focusNodes[i].hasFocus) {
+        setState(() {
+          if (sequence[i].isNotEmpty) {
+            int num = int.parse(sequence[i]);
+            numbersView[num - 1] = numberView(num, isSelected: false);
+          }
+          numbersView[number - 1] = numberView(number, isSelected: true);
+          sequence[i] = number.toString();
+          sequenceView = generateSequenceDigitsView(numbersView);
+          if (i < 5)
+            FocusScope.of(context).requestFocus(_focusNodes.elementAt(i + 1));
+        });
+        break;
       }
-    });
+    }
   }
 
   void clearSequence() {
@@ -42,6 +48,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
       }
       sequenceView = generateSequenceDigitsView(numbersView);
       sequence.clear();
+      FocusScope.of(context).unfocus();
     });
   }
 
@@ -169,22 +176,35 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
     List<Widget> view = [];
     int length = numbers.length;
     for (int i = 0; i < 6; i++) {
-      view.add(
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: sequenceBoxColor,
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          margin: const EdgeInsets.only(left: 2.5, right: 2.5),
-          alignment: Alignment.center,
-          child: Text(
-            i < length ? numbers.elementAt(i) : "",
-            style: TextStyle(color: Colors.white),
+      view.add(Focus(
+        canRequestFocus: true,
+        autofocus: true,
+        focusNode: _focusNodes.elementAt(i),
+        child: GestureDetector(
+          onTap: () => setState(() {
+            FocusScope.of(context).requestFocus(_focusNodes.elementAt(i));
+          }),
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: sequenceBoxColor,
+              border: Border.all(
+                color: _focusNodes.elementAt(i).hasFocus
+                    ? Theme.of(context).primaryColor
+                    : Colors.transparent,
+              ),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            margin: const EdgeInsets.only(left: 2.5, right: 2.5),
+            alignment: Alignment.center,
+            child: Text(
+              i < length ? numbers.elementAt(i) : "",
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ),
-      );
+      ));
     }
     return view;
   }
@@ -193,7 +213,17 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
   void initState() {
     numbersView = generateNumberView(onSelect);
     sequenceView = generateSequenceDigitsView(numbersView);
+    for (int i = 0; i < 6; i++) {
+      _focusNodes.add(FocusNode());
+      sequence.add("");
+    }
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    for (final FocusNode node in _focusNodes) node.dispose();
+    super.dispose();
   }
 
   @override
@@ -205,6 +235,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Title
           Padding(
             padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
             child: ConstrainedBox(
