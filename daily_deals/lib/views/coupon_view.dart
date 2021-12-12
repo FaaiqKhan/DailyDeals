@@ -84,7 +84,7 @@ class CouponView extends StatelessWidget {
                     color: HexColor("#F7F7F7"),
                   ),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
@@ -166,9 +166,9 @@ class CouponView extends StatelessWidget {
             Container(
               padding: EdgeInsets.only(left: screenWidth * 0.32),
               child: RemainingProductCount(
-                total: 100,
-                remaining: 20,
-                width: screenWidth * 0.12,
+                total: modal.total,
+                remaining: modal.sold,
+                width: screenWidth * 0.110,
                 height: screenWidth * 0.35,
               ),
             ),
@@ -181,7 +181,7 @@ class CouponView extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      Image.asset("assets/images/lottery_icon.png"),
+                      Image.asset("assets/images/lottery_icon.png", scale: 4.5),
                       Text(
                         "Lucky Draw",
                         style: TextStyle(

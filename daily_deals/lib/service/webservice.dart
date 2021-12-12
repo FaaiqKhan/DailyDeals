@@ -69,16 +69,15 @@ class WebService {
     String? accessToken = preferences.getString("access_token");
     String endPoint = '/home/mycoupons?user_id=$userId';
     NetworkHandler handler = NetworkHandler(endPoint: endPoint);
-    var response = await http.get(
-      Uri.parse(handler.getUrl),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $accessToken",
-      }
-    );
+    var response = await http.get(Uri.parse(handler.getUrl), headers: {
+      HttpHeaders.authorizationHeader: "Bearer $accessToken",
+    });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json['success']) {
-        (json['data'] as List).map((e) => CouponModal.fromJson(json['data'])).toList();
+        return (json['data'] as List)
+            .map((e) => CouponModal.fromJson(e))
+            .toList();
       } else {
         return [];
       }
@@ -92,14 +91,12 @@ class WebService {
     String? accessToken = preferences.getString("access_token");
     String endPoint = '/home/checkout';
     NetworkHandler handler = NetworkHandler(endPoint: endPoint);
-    var response = await http.post(
-      Uri.parse(handler.getUrl),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $accessToken",
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(items)
-    );
+    var response = await http.post(Uri.parse(handler.getUrl),
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer $accessToken",
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(items));
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json['success']) {

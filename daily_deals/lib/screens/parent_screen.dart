@@ -28,6 +28,7 @@ var scaffoldKey;
 PersistentBottomSheetController? controller;
 class _ParentScreenState extends State<ParentScreen> {
   int _currentIndex = 0;
+  bool _containsItem = false;
   Map<int, Widget> _screens = {};
   Map<int, String> _titles = {};
 
@@ -81,7 +82,7 @@ class _ParentScreenState extends State<ParentScreen> {
         child: MyDrawer(screenWidth),
       ),
       bottomNavigationBar: Container(
-        color: _currentIndex == 3 ? HexColor("#F83615") : Colors.white,
+        color: _currentIndex == 3 && _containsItem ? HexColor("#F83615") : Colors.white,
         child: ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(25.0),
@@ -130,12 +131,13 @@ class _ParentScreenState extends State<ParentScreen> {
                 BottomNavigationBarItem(
                   icon: Consumer<CartCostProvider>(
                     builder: (_, cartProvider, iconWidget) {
+                      _containsItem = cartProvider.itemCount > 0;
                       return Stack(
                         alignment: Alignment.bottomRight,
                         children: [
                           iconWidget!,
                           Visibility(
-                            visible: cartProvider.itemCount > 0,
+                            visible: _containsItem,
                             child: CircleAvatar(
                               radius: 7.0,
                               backgroundColor: Theme.of(context).primaryColor,
