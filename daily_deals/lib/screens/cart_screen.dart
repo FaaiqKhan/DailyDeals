@@ -115,49 +115,50 @@ class CartScreen extends StatelessWidget {
     BuildContext context,
     double screenWidth,
     Map<String, Widget> data,
-    List<CartItemModal> items,
+    List<CartItemModal> cartModalItems,
   ) {
-    return Column(
-      children: [
-        Expanded(
-          child: Consumer<CartItemsProvider>(
-            builder: (_, items, __) {
-              items.initItems(data);
-              cartItems = items;
-              return cartItems!.items.isEmpty
-                  ? emptyCartView(context, screenWidth)
-                  : SingleChildScrollView(
+    return Consumer<CartItemsProvider>(
+      builder: (_, items, __) {
+        items.initItems(data);
+        cartItems = items;
+        return cartItems!.items.isEmpty
+            ? emptyCartView(context, screenWidth)
+            : Column(
+                children: [
+                  Expanded(
+                    child: SingleChildScrollView(
                       child: Padding(
                         padding:
                             Utils.calculateScreenLeftRightPaddingWithTop(10),
                         child:
                             Column(children: cartItems!.items.values.toList()),
                       ),
-                    );
-            },
-          ),
-        ),
-        // Price details and checkout button
-        Stack(
-          alignment: Alignment.bottomCenter,
-          children: [
-            Consumer<CartCostProvider>(
-              builder: (_, cartCost, __) {
-                cartCost.initValue(totalPrice, itemCount);
-                this.cartCost = cartCost;
-                return ProductDetailsView(screenWidth, cartCost.cartCost);
-              },
-            ),
-            AddToCartButton(
-              screenWidth,
-              "Checkout",
-              () {
-                checkoutView(context, items);
-              },
-            ),
-          ],
-        ),
-      ],
+                    ),
+                  ),
+                  // Price details and checkout button
+                  Stack(
+                    alignment: Alignment.bottomCenter,
+                    children: [
+                      Consumer<CartCostProvider>(
+                        builder: (_, cartCost, __) {
+                          cartCost.initValue(totalPrice, itemCount);
+                          this.cartCost = cartCost;
+                          return ProductDetailsView(
+                            screenWidth,
+                            cartCost.cartCost,
+                          );
+                        },
+                      ),
+                      AddToCartButton(
+                        screenWidth,
+                        "Checkout",
+                        () => checkoutView(context, cartModalItems),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+      },
     );
   }
 

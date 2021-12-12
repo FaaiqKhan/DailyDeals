@@ -206,17 +206,13 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(
-              left: 20.0,
-              bottom: 8.0,
-            ),
+            padding: const EdgeInsets.only(left: 20.0, bottom: 8.0),
             child: ConstrainedBox(
               constraints: BoxConstraints(maxWidth: 200),
               child: Text(
                 "SELECT YOUR 06 DIGIT LUCKY NUMBER",
                 style: TextStyle(
-                  fontFamily:
-                      Theme.of(context).textTheme.bodyText2!.fontFamily,
+                  fontFamily: Theme.of(context).textTheme.bodyText2!.fontFamily,
                   color: Colors.black,
                   fontSize: 16,
                   fontStyle: FontStyle.italic,
