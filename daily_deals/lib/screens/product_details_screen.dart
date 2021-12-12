@@ -106,7 +106,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                             color: Theme.of(context).primaryColor,
                             padding: const EdgeInsets.only(top: 30.0),
                             alignment: Alignment.center,
-                            child: Image.network(_modal!.bannerImages.first,
+                            child: Image.network(
+                              _modal!.bannerImages.first,
                               scale: 3.3,
                               loadingBuilder: (ctx, widget, progress) {
                                 if (progress == null) {
@@ -115,7 +116,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   return Container(
                                     width: screenWidth,
                                     height: screenWidth / 2,
-                                    child: WidgetUtils.progressIndicator(context),
+                                    child:
+                                        WidgetUtils.progressIndicator(context),
                                   );
                                 }
                               },
@@ -124,7 +126,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           replacement: Container(
                             padding: const EdgeInsets.only(top: 30.0),
                             alignment: Alignment.center,
-                            child: Image.network(_modal!.productImage!,
+                            child: Image.network(
+                              _modal!.productImage!,
                               scale: 3.3,
                               loadingBuilder: (ctx, widget, progress) {
                                 if (progress == null) {
@@ -133,7 +136,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   return Container(
                                     width: screenWidth,
                                     height: screenWidth / 2,
-                                    child: WidgetUtils.progressIndicator(context),
+                                    child:
+                                        WidgetUtils.progressIndicator(context),
                                   );
                                 }
                               },
@@ -150,9 +154,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                               Column(
                                 children: [
                                   // Shared and favorite icons
-                                  Opacity(
-                                    opacity: 0.6509803921568628,
-                                    child: Icon(Icons.share_outlined, size: 28),
+                                  GestureDetector(
+                                    onTap: () {
+                                      Utils.shareProduct(
+                                        'https://flutter.dev/',
+                                        _modal!.title ?? "",
+                                      );
+                                    },
+                                    child: Opacity(
+                                      opacity: 0.6509803921568628,
+                                      child:
+                                          Icon(Icons.share_outlined, size: 28),
+                                    ),
                                   ),
                                   SizedBox(height: screenWidth * 0.04),
                                   Opacity(
@@ -382,7 +395,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       );
                                       proceedToCheckout = false;
                                     }
-                                    if (proceedToCheckout || _modal!.type != "2") {
+                                    if (proceedToCheckout ||
+                                        _modal!.type != "2") {
                                       bool isValid = validateProductType();
                                       if (isValid) {
                                         await populateData();
