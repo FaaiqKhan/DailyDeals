@@ -10,6 +10,7 @@ import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:share/share.dart';
 
 class Utils {
   static double screenPadding = 20.0;
@@ -159,5 +160,10 @@ class Utils {
 
   static bool isKeyboardVisible(BuildContext context) {
     return !(MediaQuery.of(context).viewInsets.bottom == 0.0);
+  }
+
+  static Future<void> shareProduct(
+      String productLink, String productDetails) async {
+    await Share.share(productLink, subject: productDetails);
   }
 }
