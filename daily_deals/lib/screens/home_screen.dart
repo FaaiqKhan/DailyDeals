@@ -11,6 +11,7 @@ import 'package:daily_deals/widgets/closing_soon_slider.dart';
 import 'package:daily_deals/widgets/current_deals_slider.dart';
 import 'package:daily_deals/widgets/guess_and_win_slider.dart';
 import 'package:daily_deals/widgets/home_slider.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -176,6 +177,25 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       );
     }
+  }
+
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    print(message);
+  }
+
+  @override
+  void initState() {
+    setupInteractedMessage();
+    super.initState();
   }
 
   @override
