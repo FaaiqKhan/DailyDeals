@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'user_details.dart';
+import '../utils/constants.dart';
 
 class Auth extends ChangeNotifier {
   String? token;
@@ -14,27 +15,36 @@ class Auth extends ChangeNotifier {
 
   Future<bool> signUp(UserDetails userDetails) async {
     NetworkHandler networkHandler = NetworkHandler(endPoint: "/user/index");
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? rId = preferences.getString(Constants.FCM_TOKEN);
+    userDetails.setDeviceId = rId;
     var response = await http.post(
       Uri.parse(networkHandler.getUrl),
       body: userDetails.toJson(),
     );
     if (response.statusCode == 200) {
-      print(response.body);
-      return Future.value(true);
+      var data = json.decode(response.body);
+      if (data['success'] == false) {
+        return Future.value(false);
+      } else {
+        await _storeUserDetails(data);
+        return Future.value(true);
+      }
     } else {
-      print(response.body);
       return Future.value(false);
     }
   }
 
   Future<bool> signIn(UserDetails userDetails) async {
     NetworkHandler networkHandler = NetworkHandler(endPoint: "/auth/login");
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? rId = preferences.getString(Constants.FCM_TOKEN);
     var response = await http.post(
       Uri.parse(networkHandler.getUrl),
       body: {
         'email': userDetails.getEmail,
         'password': userDetails.getPassword,
-        'deviceToken': '28o3kasdjkldaskl',
+        'deviceToken': rId ?? "",
         'language': 'en',
       },
     );
@@ -47,12 +57,7 @@ class Auth extends ChangeNotifier {
           toastLength: Toast.LENGTH_LONG,
         );
       } else {
-        SharedPreferences preferences = await SharedPreferences.getInstance();
-        await preferences.setString("access_token", data['access_token']);
-        await preferences.setString("user_id", data['customer_id']);
-        await preferences.setString("user_name", data['customer_name']);
-        await preferences.setString("phoneNumber", data['phonenumber']);
-        await preferences.setString("email", data['email']);
+        await _storeUserDetails(data);
       }
       return Future.value(data['success']);
     } else {
@@ -108,5 +113,14 @@ class Auth extends ChangeNotifier {
       print(response.body);
       return Future.value(false);
     }
+  }
+
+  Future<void> _storeUserDetails(var data) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(Constants.ACCESS_TOKEN, data['access_token']);
+    await preferences.setString(Constants.USER_ID, data['customer_id']);
+    await preferences.setString(Constants.USER_NAME, data['customer_name']);
+    await preferences.setString(Constants.PHONE_NUMBER, data['phonenumber']);
+    await preferences.setString(Constants.EMAIL, data['email']);
   }
 }
