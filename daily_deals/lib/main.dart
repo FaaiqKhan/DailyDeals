@@ -36,6 +36,7 @@ void main() async {
     String? fcmToken = preferences.getString(Constants.FCM_TOKEN) ?? "";
     if (fcmToken.isEmpty)
       FirebaseMessaging.instance.getToken().then((token) {
+        print("FCM token: $token");
         preferences.setString(Constants.FCM_TOKEN, token ?? "");
       });
   });
@@ -44,9 +45,24 @@ void main() async {
   runApp(MyApp());
 }
 
+Future<void> setupInteractedMessage() async {
+  RemoteMessage? initialMessage =
+      await FirebaseMessaging.instance.getInitialMessage();
+  if (initialMessage != null) {
+    _handleMessage(initialMessage);
+  }
+  FirebaseMessaging.onMessage.listen(_handleMessage);
+}
+
+void _handleMessage(RemoteMessage message) {
+  print(message);
+}
+
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    setupInteractedMessage();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
