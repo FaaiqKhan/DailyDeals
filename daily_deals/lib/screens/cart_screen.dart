@@ -2,6 +2,7 @@ import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/cart_item_provider.dart';
+import 'package:daily_deals/screens/order_confirmation_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -264,10 +265,9 @@ class CartScreen extends StatelessWidget {
                     await clearCart();
                     this.cartCost!.itemCount = 0;
                     Utils.moveToNextScreenAfterCertainTime(2, () {
-                      Navigator.pushNamedAndRemoveUntil(
+                      Navigator.pushReplacementNamed(
                         context,
-                        ParentScreen.routeName,
-                        (route) => false,
+                        OrderConfirmationScreen.routeName,
                       );
                     });
                   }

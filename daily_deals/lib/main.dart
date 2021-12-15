@@ -8,6 +8,7 @@ import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
 import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
+import 'package:daily_deals/screens/order_confirmation_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:daily_deals/screens/sign_in_screen.dart';
@@ -123,6 +124,7 @@ class MyApp extends StatelessWidget {
           ParentScreen.routeName: (ctx) => ParentScreen(),
           ProductDetails.routeName: (ctx) => ProductDetails(),
           HelpScreen.route: (ctx) => HelpScreen(),
+          OrderConfirmationScreen.routeName: (ctx) => OrderConfirmationScreen(),
         },
       ),
     );
