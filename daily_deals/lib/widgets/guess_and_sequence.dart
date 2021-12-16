@@ -22,7 +22,6 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
   List<FocusNode> _focusNodes = <FocusNode>[];
 
   void onSelect(int number) {
-    print(number);
     for (int i = 0; i < 6; i++) {
       if (_focusNodes[i].hasFocus) {
         setState(() {
