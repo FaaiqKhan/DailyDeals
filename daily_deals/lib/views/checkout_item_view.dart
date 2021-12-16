@@ -59,13 +59,11 @@ class CheckoutItemView extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(
-                left: 50.0,
                 top: 15.0,
-                right: 50.0,
                 bottom: 15.0,
               ),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: generateSequenceView(modal.mySequence[i] ?? []),
               ),
             )
