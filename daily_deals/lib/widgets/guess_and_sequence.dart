@@ -22,6 +22,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
   List<FocusNode> _focusNodes = <FocusNode>[];
 
   void onSelect(int number) {
+    print(number);
     for (int i = 0; i < 6; i++) {
       if (_focusNodes[i].hasFocus) {
         setState(() {
@@ -43,12 +44,17 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
   void clearSequence() {
     setState(() {
       for (String number in sequence) {
-        int num = int.parse(number);
-        numbersView[num - 1] = numberView(num, isSelected: false);
+        if (number.isNotEmpty) {
+          int num = int.parse(number);
+          numbersView[num - 1] = numberView(num, isSelected: false);
+        }
       }
       sequenceView = generateSequenceDigitsView(numbersView);
       sequence.clear();
-      FocusScope.of(context).unfocus();
+      for (int i = 0; i < 6; i++) {
+        sequence.add("");
+      }
+      FocusScope.of(context).requestFocus(_focusNodes.elementAt(0));
     });
   }
 
@@ -261,7 +267,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
                   borderRadius: BorderRadius.circular(20.0),
                 ),
                 margin: const EdgeInsets.only(bottom: 20.0),
-                padding: const EdgeInsets.all(20.0),
+                padding: const EdgeInsets.only(bottom: 20.0),
                 child: Column(
                   children: [
                     Container(
