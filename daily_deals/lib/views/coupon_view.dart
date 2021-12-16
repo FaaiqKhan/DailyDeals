@@ -10,11 +10,13 @@ class CouponView extends StatelessWidget {
 
   CouponView(this.modal);
 
-  List<Widget> digitsView(List<String> numbers) {
+  List<Widget> digitsView(List<String>? numbers) {
     List<Widget> view = [];
-    for (String number in numbers) {
-      view.add(DigitView(number, "#ACACAD", "#E4E4E4"));
-      view.add(SizedBox(width: 5.0));
+    if (numbers != null && numbers.isNotEmpty) {
+      for (String number in numbers) {
+        view.add(DigitView(number, "#ACACAD", "#E4E4E4"));
+        view.add(SizedBox(width: 5.0));
+      }
     }
     return view;
   }
@@ -141,6 +143,29 @@ class CouponView extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          Row(
+                            children: [
+                              Text(
+                                "Id: ",
+                                style: TextStyle(
+                                  fontFamily: Theme.of(context)
+                                      .textTheme
+                                      .bodyText1!
+                                      .fontFamily,
+                                  color: HexColor("#ACACAD"),
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
+                              // Coupon Identifier
+                              Text(
+                                modal.couponIdentifier,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  color: HexColor("#ACACAD"),
+                                ),
+                              ),
+                            ],
+                          ),
                           Text(
                             "Your sequence",
                             style: TextStyle(
@@ -152,10 +177,12 @@ class CouponView extends StatelessWidget {
                               fontSize: 9,
                             ),
                           ),
+                          SizedBox(height: 5.0),
+                          // Coupon Sequence
                           Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: digitsView(modal.shuffleNumbers!)
-                          ),
+                              mainAxisSize: MainAxisSize.min,
+                              children: digitsView(modal.shuffleNumbers)),
+                          // Coupon Identifier
                         ],
                       ),
                     ],
@@ -187,10 +214,8 @@ class CouponView extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 7,
                           color: HexColor("#ACACAD"),
-                          fontFamily: Theme.of(context)
-                              .textTheme
-                              .bodyText1!
-                              .fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyText1!.fontFamily,
                         ),
                       ),
                       Text(
@@ -198,10 +223,8 @@ class CouponView extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 7,
                           color: HexColor("#4E4C4C"),
-                          fontFamily: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
                         ),
                       ),
                       Text(
@@ -209,10 +232,8 @@ class CouponView extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 14,
                           color: HexColor("#4E4C4C"),
-                          fontFamily: Theme.of(context)
-                              .textTheme
-                              .subtitle2!
-                              .fontFamily,
+                          fontFamily:
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
                         ),
                       ),
                     ],
