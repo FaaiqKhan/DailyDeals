@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:daily_deals/service/network_handler.dart';
+import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -27,7 +28,7 @@ class Auth extends ChangeNotifier {
       if (data['success'] == false) {
         return Future.value(false);
       } else {
-        await _storeUserDetails(data);
+        await Utils.storeUserDetails(data);
         return Future.value(true);
       }
     } else {
@@ -57,7 +58,7 @@ class Auth extends ChangeNotifier {
           toastLength: Toast.LENGTH_LONG,
         );
       } else {
-        await _storeUserDetails(data);
+        await Utils.storeUserDetails(data);
       }
       return Future.value(data['success']);
     } else {
@@ -113,14 +114,5 @@ class Auth extends ChangeNotifier {
       print(response.body);
       return Future.value(false);
     }
-  }
-
-  Future<void> _storeUserDetails(var data) async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString(Constants.ACCESS_TOKEN, data['access_token']);
-    await preferences.setString(Constants.USER_ID, data['customer_id']);
-    await preferences.setString(Constants.USER_NAME, data['customer_name']);
-    await preferences.setString(Constants.PHONE_NUMBER, data['phonenumber']);
-    await preferences.setString(Constants.EMAIL, data['email']);
   }
 }

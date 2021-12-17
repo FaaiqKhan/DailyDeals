@@ -24,7 +24,9 @@ class SocialButton extends StatelessWidget {
       width: calculateSocialButtonWidth(screenWidth),
       height: Utils.calculateButtonHeight(screenWidth),
       child: OutlinedButton(
-        onPressed: () => functionality,
+        onPressed: () => {
+          functionality!()
+        },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

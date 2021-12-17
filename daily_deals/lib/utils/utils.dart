@@ -11,6 +11,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share/share.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'constants.dart';
 
 class Utils {
   static double screenPadding = 20.0;
@@ -165,5 +168,14 @@ class Utils {
   static Future<void> shareProduct(
       String productLink, String productDetails) async {
     await Share.share(productLink, subject: productDetails);
+  }
+
+  static Future<void> storeUserDetails(var data) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    await preferences.setString(Constants.ACCESS_TOKEN, data['access_token']);
+    await preferences.setString(Constants.USER_ID, data['customer_id']);
+    await preferences.setString(Constants.USER_NAME, data['customer_name']);
+    await preferences.setString(Constants.PHONE_NUMBER, data['phonenumber']);
+    await preferences.setString(Constants.EMAIL, data['email']);
   }
 }
