@@ -239,6 +239,7 @@ class WebService {
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json['success']) {
+        await preferences.setString(Constants.PHONE_NUMBER, phoneNumber);
         return Future.value(true);
       } else {
         WidgetUtils.showToast(json['error']);
