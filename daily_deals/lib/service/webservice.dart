@@ -5,8 +5,12 @@ import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/modals/single_product_modal.dart';
 import 'package:daily_deals/service/network_handler.dart';
+import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
+import 'package:daily_deals/views/single_product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -17,8 +21,8 @@ class WebService {
   static Future<HomeDataModal?> fetchData() async {
     if (Utils.homeDataModal == null) {
       SharedPreferences preferences = await SharedPreferences.getInstance();
-      String? userId = preferences.getString('user_id');
-      String? accessToken = preferences.getString("access_token");
+      String? userId = preferences.getString(Constants.USER_ID);
+      String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
       String endPoint = '/home/getHomeData?user_id=$userId';
       NetworkHandler handler = NetworkHandler(endPoint: endPoint);
       var response = await http.get(
@@ -168,6 +172,77 @@ class WebService {
         await Utils.storeUserDetails(json);
         return Future.value(true);
       } else {
+        return Future.value(false);
+      }
+    } else {
+      return Future.value(false);
+    }
+  }
+
+  static Future<List<SingleProductView>> fetchProducts() async {
+    if (Utils.singleProducts != null && Utils.singleProducts!.isNotEmpty) {
+      return Future.value(Utils.singleProducts);
+    }
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String endPointWithParam = "/home/getproductslist?user_id=$userId";
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    NetworkHandler handler = NetworkHandler(endPoint: endPointWithParam);
+    var response = await http.get(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        List<SingleProductModal> products = (json['data']['products'] as List)
+            .map((product) => SingleProductModal.fromJson(product))
+            .toList();
+        List<SingleProductView> productViews = [];
+        for (SingleProductModal productModal in products) {
+          productViews.add(
+            SingleProductView(
+              productModal.productName,
+              productModal.productImage,
+              productModal.productPrice,
+            ),
+          );
+        }
+        Utils.singleProducts = productViews;
+        return productViews;
+      } else {
+        return [];
+      }
+    } else {
+      return [];
+    }
+  }
+
+  static Future<bool> updatePhoneNumber(String phoneNumber) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    NetworkHandler handler =
+        NetworkHandler(endPoint: "/profile/editUserProfile");
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+      body: {
+        'userid': userId,
+        'phonenumber': phoneNumber,
+      },
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        await preferences.setString(Constants.PHONE_NUMBER, phoneNumber);
+        return Future.value(true);
+      } else {
+        WidgetUtils.showToast(json['error']);
         return Future.value(false);
       }
     } else {

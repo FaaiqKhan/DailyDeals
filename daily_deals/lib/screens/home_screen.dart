@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/views/products_showcase_view.dart';
 import 'package:daily_deals/screens/winners_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -23,7 +24,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final double elementsDistance = 10;
-  bool products = true;
+  bool products = false;
   bool closingSoon = false;
   bool todayDeal = false;
   bool winner = false;
@@ -57,10 +58,11 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           SizedBox(width: 5.0),
+          // Products
           Flexible(
             child: GestureDetector(
               onTap: () => setState(() {
-                products = true;
+                products = !products;
                 closingSoon = false;
                 todayDeal = false;
                 winner = false;
@@ -68,35 +70,38 @@ class _HomeScreenState extends State<HomeScreen> {
               child: buttonContainer("Products", products),
             ),
           ),
+          // Closing soon
           Flexible(
             child: GestureDetector(
               onTap: () => setState(() {
                 products = false;
-                closingSoon = true;
+                closingSoon = !closingSoon;
                 todayDeal = false;
                 winner = false;
               }),
               child: buttonContainer("Closing Soon", closingSoon),
             ),
           ),
+          // Today's Deal
           Flexible(
             child: GestureDetector(
               onTap: () => setState(() {
                 products = false;
                 closingSoon = false;
-                todayDeal = true;
+                todayDeal = !todayDeal;
                 winner = false;
               }),
               child: buttonContainer("Today's Deal", todayDeal),
             ),
           ),
+          // Winner
           Flexible(
             child: GestureDetector(
               onTap: () => setState(() {
                 products = false;
                 closingSoon = false;
                 todayDeal = false;
-                winner = true;
+                winner = !winner;
               }),
               child: buttonContainer("Winner", winner),
             ),
@@ -122,6 +127,10 @@ class _HomeScreenState extends State<HomeScreen> {
       return WinnersScreen(
         screenWidth,
         Utils.homeDataModal!.winners,
+      );
+    } else if (products) {
+      return ProductsShowCaseView(
+        screenWidth,
       );
     } else {
       return Column(
@@ -183,7 +192,6 @@ class _HomeScreenState extends State<HomeScreen> {
     double screenWidth = MediaQuery.of(context).size.width;
     EdgeInsetsGeometry pagePadding =
         Utils.calculateScreenLeftRightPadding(screenWidth);
-
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,

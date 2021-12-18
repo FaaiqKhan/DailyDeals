@@ -12,6 +12,7 @@ import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/order_confirmation_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
+import 'package:daily_deals/views/products_showcase_view.dart';
 import 'package:daily_deals/screens/sign_in_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
 import 'package:daily_deals/screens/splash_screen.dart';
