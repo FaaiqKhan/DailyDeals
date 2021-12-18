@@ -5,6 +5,7 @@ import 'package:daily_deals/providers/cart_item_provider.dart';
 import 'package:daily_deals/screens/order_confirmation_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
+import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/cart_address_details_view.dart';
@@ -18,6 +19,7 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/constants.dart';
 
 // ignore: must_be_immutable
 class CartScreen extends StatelessWidget {
@@ -249,15 +251,21 @@ class CartScreen extends StatelessWidget {
                         item.productId,
                         item.itemCount.toString(),
                         item.price,
+                        isAddressRequired.containsValue(0)
+                            ? "Donate"
+                            : "Normal",
+                        item.mySequence.values.toList(),
                       ),
                     );
                   }
                   CheckoutModal checkoutItem = CheckoutModal(
-                    preferences.getString("user_id")!,
-                    preferences.getString("email")!,
-                    preferences.getString("phoneNumber")!,
+                    preferences.getString(Constants.USER_ID)!,
+                    preferences.getString(Constants.EMAIL)!,
+                    preferences.getString(Constants.PHONE_NUMBER)!,
+                    preferences.getString(Constants.USER_NAME)!,
                     totalPrice.toString(),
                     checkoutItems,
+                    "Work",
                   );
                   List<dynamic> response =
                       await WebService.checkoutProduct(checkoutItem);
