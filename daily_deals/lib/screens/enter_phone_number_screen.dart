@@ -17,12 +17,13 @@ class EnterPhoneNumberScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.grey.withOpacity(0.2),
       body: Padding(
         padding: Utils.calculateScreenLeftRightPadding(screenWidth),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
+            Image.asset("assets/images/phone_activate.png"),
             SizedBox(height: 20),
             Text(
               "Please Enter Your Mobile Number To Avail All Deals",

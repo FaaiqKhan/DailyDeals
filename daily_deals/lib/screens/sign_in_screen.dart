@@ -1,4 +1,5 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
+import 'package:daily_deals/screens/enter_phone_number_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/constants.dart';
@@ -79,6 +80,8 @@ class SignInScreen extends StatelessWidget {
                       Navigator.of(context).pop();
                       if (val) {
                         if (phoneNumber == null || phoneNumber.isEmpty) {
+                          Navigator.pushReplacementNamed(
+                              context, EnterPhoneNumberScreen.routeName);
                         } else {
                           Navigator.pushNamedAndRemoveUntil(context,
                               ParentScreen.routeName, (route) => false);
