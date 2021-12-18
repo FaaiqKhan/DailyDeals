@@ -5,6 +5,7 @@ import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
+import 'package:daily_deals/screens/enter_phone_number_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
 import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
@@ -125,6 +126,7 @@ class MyApp extends StatelessWidget {
           ProductDetails.routeName: (ctx) => ProductDetails(),
           HelpScreen.route: (ctx) => HelpScreen(),
           OrderConfirmationScreen.routeName: (ctx) => OrderConfirmationScreen(),
+          EnterPhoneNumberScreen.routeName: (ctx) => EnterPhoneNumberScreen(),
         },
       ),
     );
