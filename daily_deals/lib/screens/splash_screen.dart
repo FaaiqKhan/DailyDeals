@@ -1,7 +1,9 @@
 import 'dart:async';
 
+import 'package:daily_deals/screens/enter_phone_number_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
+import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -17,14 +19,19 @@ class SplashScreen extends StatelessWidget {
     Utils.moveToNextScreenAfterCertainTime(6, () {
       String routeName = LanguageSelection.routeName;
       SharedPreferences.getInstance().then((preferences) {
-        if (preferences.get("access_token") != null)
-          routeName = ParentScreen.routeName;
+        if (preferences.get(Constants.ACCESS_TOKEN) != null) {
+          String? phoneNumber =
+              preferences.getString(Constants.PHONE_NUMBER) ?? "";
+          phoneNumber.isNotEmpty
+              ? routeName = ParentScreen.routeName
+              : routeName = EnterPhoneNumberScreen.routeName;
+        }
         _videoPlayerController.dispose().then(
               (value) => Navigator.pushReplacementNamed(
-            context,
-            routeName,
-          ),
-        );
+                context,
+                routeName,
+              ),
+            );
       });
     });
     return Scaffold(

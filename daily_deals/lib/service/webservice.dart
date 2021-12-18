@@ -9,6 +9,7 @@ import 'package:daily_deals/modals/single_product_modal.dart';
 import 'package:daily_deals/service/network_handler.dart';
 import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/single_product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
@@ -216,6 +217,35 @@ class WebService {
       }
     } else {
       return [];
+    }
+  }
+
+  static Future<bool> updatePhoneNumber(String phoneNumber) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    NetworkHandler handler =
+        NetworkHandler(endPoint: "/profile/editUserProfile");
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+      body: {
+        'userid': userId,
+        'phonenumber': phoneNumber,
+      },
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        return Future.value(true);
+      } else {
+        WidgetUtils.showToast(json['error']);
+        return Future.value(false);
+      }
+    } else {
+      return Future.value(false);
     }
   }
 }

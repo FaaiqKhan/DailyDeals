@@ -5,6 +5,7 @@ import 'package:daily_deals/providers/cart_item_provider.dart';
 import 'package:daily_deals/screens/order_confirmation_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
+import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/cart_address_details_view.dart';
@@ -253,9 +254,9 @@ class CartScreen extends StatelessWidget {
                     );
                   }
                   CheckoutModal checkoutItem = CheckoutModal(
-                    preferences.getString("user_id")!,
-                    preferences.getString("email")!,
-                    preferences.getString("phoneNumber")!,
+                    preferences.getString(Constants.USER_ID)!,
+                    preferences.getString(Constants.EMAIL)!,
+                    preferences.getString(Constants.PHONE_NUMBER)!,
                     totalPrice.toString(),
                     checkoutItems,
                   );

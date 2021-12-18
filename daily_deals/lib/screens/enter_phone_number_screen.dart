@@ -1,4 +1,6 @@
 import 'package:country_code_picker/country_code.dart';
+import 'package:daily_deals/screens/parent_screen.dart';
+import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:flutter/cupertino.dart';
@@ -8,6 +10,7 @@ String countryCode = "+971";
 
 class EnterPhoneNumberScreen extends StatelessWidget {
   static const String routeName = "/enter-phone-number-screen";
+  final TextEditingController controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +24,7 @@ class EnterPhoneNumberScreen extends StatelessWidget {
       body: Padding(
         padding: Utils.calculateScreenLeftRightPadding(screenWidth),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset("assets/images/phone_activate.png"),
             SizedBox(height: 20),
@@ -36,6 +39,7 @@ class EnterPhoneNumberScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              controller: controller,
               decoration: TextFormUtils.textFieldDecoration(
                 prefixIcon: "assets/images/mobile_icon.png",
                 title: "Number",
@@ -51,7 +55,6 @@ class EnterPhoneNumberScreen extends StatelessWidget {
                 }
                 return null;
               },
-              // onSaved: (value) => _userDetails.setNumber = value!,
               keyboardType: TextInputType.phone,
               maxLength: 10,
               onChanged: (value) {
@@ -64,7 +67,19 @@ class EnterPhoneNumberScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextButton(
-              onPressed: () {},
+              onPressed: () async {
+                if (controller.value.text.isNotEmpty && controller.value.text.length >= 9) {
+                  String phoneNumber = countryCode + controller.value.text;
+                  bool val = await WebService.updatePhoneNumber(phoneNumber);
+                  if (val) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      ParentScreen.routeName,
+                      (route) => false,
+                    );
+                  }
+                }
+              },
               child: Text(
                 "Send",
                 style: TextStyle(color: Colors.white),
@@ -81,7 +96,6 @@ class EnterPhoneNumberScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 80),
           ],
         ),
       ),
