@@ -1,5 +1,6 @@
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/viewhelper/dropdown_action.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,17 +25,7 @@ class HelpScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: AppBarTitle("Help"),
-        leading: GestureDetector(
-          onTap: () => Navigator.of(context).pop(),
-          child: Container(
-            margin: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.white, width: 2),
-            ),
-            child: Icon(Icons.arrow_back, color: Colors.white, size: 18),
-          ),
-        ),
+        leading: WidgetUtils.tabBarBackButton(context),
         backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,

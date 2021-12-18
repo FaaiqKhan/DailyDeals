@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/providers/cart_cost_provider.dart';
@@ -82,6 +84,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         title: AppBarTitle("Product Details"),
         automaticallyImplyLeading: false,
         backgroundColor: Theme.of(context).primaryColor,
+        leading: Platform.isIOS ? WidgetUtils.tabBarBackButton(context) : null,
       ),
       backgroundColor: HexColor("#FCF4F4"),
       body: FutureBuilder(
