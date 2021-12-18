@@ -189,6 +189,7 @@ class MyDrawer extends StatelessWidget {
                   await cartItemBox.close();
                   await FirebaseAuth.instance.signOut();
                   Utils.homeDataModal = null;
+                  Utils.singleProducts = null;
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     SignInUpScreen.routeName,
                     (route) => false,

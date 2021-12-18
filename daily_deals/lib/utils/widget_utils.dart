@@ -98,4 +98,18 @@ class WidgetUtils {
       toastLength: Toast.LENGTH_LONG,
     );
   }
+
+  static Widget tabBarBackButton(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      child: Container(
+        margin: const EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(color: Colors.white, width: 2),
+        ),
+        child: Icon(Icons.arrow_back, color: Colors.white, size: 18),
+      ),
+    );
+  }
 }
