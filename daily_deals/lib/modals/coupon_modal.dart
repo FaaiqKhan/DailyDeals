@@ -1,5 +1,6 @@
 class CouponModal {
-  String? couponId, image, title, date, couponType;
+  String? couponId, image, title, date, couponType, productPrice;
+  String? prizeTitle;
   List<String>? shuffleNumbers;
   int sold, total;
   String couponIdentifier;
@@ -14,6 +15,8 @@ class CouponModal {
     this.sold = 0,
     this.couponType,
     this.couponIdentifier = "DD-000000",
+    this.productPrice,
+    this.prizeTitle,
   });
 
   factory CouponModal.fromJson(Map<String, dynamic> json) =>
@@ -36,5 +39,7 @@ CouponModal _$CouponModalFromJson(Map<String, dynamic> json) {
     sold: json['sold_out'],
     couponType: json['coupon_type'],
     couponIdentifier: json['coupon_number'] ?? "DD-000000",
+    productPrice: json['product_price'],
+    prizeTitle: json['prize_title'],
   );
 }

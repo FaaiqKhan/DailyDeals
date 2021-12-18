@@ -62,6 +62,7 @@ class CouponView extends StatelessWidget {
               ),
             ),
             Flexible(
+              flex: 1,
               child: RemainingProductCount(
                 total: modal.total,
                 remaining: modal.sold,
@@ -83,7 +84,7 @@ class CouponView extends StatelessWidget {
                           ConstrainedBox(
                             constraints: BoxConstraints(maxWidth: 140),
                             child: Text(
-                              "You appear in ${modal.title!}",
+                              "You appear in ${modal.prizeTitle}",
                               style: TextStyle(
                                 fontFamily: Theme.of(context)
                                     .textTheme
@@ -117,7 +118,7 @@ class CouponView extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "AED 50.0",
+                            "AED ${modal.productPrice}",
                             style: TextStyle(
                               fontFamily: Theme.of(context)
                                   .textTheme
@@ -157,15 +158,18 @@ class CouponView extends StatelessWidget {
                               ),
                             ],
                           ),
-                          Text(
-                            "Your sequence",
-                            style: TextStyle(
-                              fontFamily: Theme.of(context)
-                                  .textTheme
-                                  .bodyText1!
-                                  .fontFamily,
-                              color: HexColor("#ACACAD"),
-                              fontSize: 9,
+                          Visibility(
+                            visible: modal.shuffleNumbers!.isNotEmpty,
+                            child: Text(
+                              "Your sequence",
+                              style: TextStyle(
+                                fontFamily: Theme.of(context)
+                                    .textTheme
+                                    .bodyText1!
+                                    .fontFamily,
+                                color: HexColor("#ACACAD"),
+                                fontSize: 9,
+                              ),
                             ),
                           ),
                           SizedBox(height: 5.0),

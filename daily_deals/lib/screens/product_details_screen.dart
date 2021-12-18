@@ -28,7 +28,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   double screenWidth = 0, sizeOfProduct = 0, countContainerWidth = 0;
   double elementSpacing = 0, countContainerHeight = 0;
   String productId = "0";
-  bool isPriceDetailsSelected = true;
+  bool isPrizeDetailsSelected = true;
   int _productCount = 1;
   DetailedProductModal? _modal;
   double productPrice = 0.0;
@@ -95,19 +95,19 @@ class _ProductDetailsState extends State<ProductDetails> {
             return SingleChildScrollView(
               child: Column(
                 children: [
-                  // Banner image with share and favorites icons
+                  // Main image with share and favorites icons
                   Container(
                     width: screenWidth,
                     child: Stack(
                       children: [
                         Visibility(
-                          visible: isPriceDetailsSelected,
+                          visible: isPrizeDetailsSelected,
                           child: Container(
                             color: Theme.of(context).primaryColor,
                             padding: const EdgeInsets.only(top: 30.0),
                             alignment: Alignment.center,
                             child: Image.network(
-                              _modal!.bannerImages.first,
+                              _modal!.prizeImage!,
                               scale: 3.3,
                               loadingBuilder: (ctx, widget, progress) {
                                 if (progress == null) {
@@ -194,9 +194,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20),
                                   child: Image.network(
-                                      isPriceDetailsSelected
+                                      isPrizeDetailsSelected
                                           ? _modal!.productImage!
-                                          : _modal!.bannerImages.first,
+                                          : _modal!.prizeImage!,
                                       fit: BoxFit.fill,
                                       loadingBuilder: (ctx, widget, progress) {
                                     if (progress == null) {
@@ -311,17 +311,17 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () => setState(() {
-                                      isPriceDetailsSelected = true;
+                                      isPrizeDetailsSelected = true;
                                       showSequence = false;
                                     }),
                                     child: Container(
                                       alignment: Alignment.center,
-                                      color: isPriceDetailsSelected
+                                      color: isPrizeDetailsSelected
                                           ? HexColor("#F83615")
                                           : HexColor("#444343"),
                                       height: screenWidth * 0.11,
                                       child: Text(
-                                        "Price Details",
+                                        "Prize Details",
                                         style: TextStyle(
                                           fontFamily: Theme.of(context)
                                               .textTheme
@@ -336,12 +336,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 Expanded(
                                   child: GestureDetector(
                                     onTap: () => setState(() {
-                                      isPriceDetailsSelected = false;
+                                      isPrizeDetailsSelected = false;
                                       showSequence = false;
                                     }),
                                     child: Container(
                                       alignment: Alignment.center,
-                                      color: isPriceDetailsSelected
+                                      color: isPrizeDetailsSelected
                                           ? HexColor("#444343")
                                           : HexColor("#F83615"),
                                       height: screenWidth * 0.11,
@@ -475,7 +475,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: screenWidth),
             child: Text(
-              isPriceDetailsSelected
+              isPrizeDetailsSelected
                   ? _modal!.priceDescription ?? ""
                   : _modal!.description!,
               style: TextStyle(
