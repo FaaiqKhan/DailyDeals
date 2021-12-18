@@ -45,6 +45,8 @@ dependencies:
   carousel_slider: ^4.0.0
   share: ^2.0.4
   firebase_messaging: 11.2.3
+  google_sign_in: 5.2.1
+  flutter_facebook_auth: 3.5.7
 
 dev_dependencies:
   flutter_test:

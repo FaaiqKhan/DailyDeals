@@ -7,6 +7,9 @@ import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/service/network_handler.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -106,6 +109,69 @@ class WebService {
       }
     } else {
       return Future.value([false, 'Can\'t place order please try again later']);
+    }
+  }
+
+  static Future<bool> signInWithGoogle() async {
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      return await _socialLogin(googleUser, credential);
+    } catch (error) {
+      return Future.value(false);
+    }
+  }
+
+  static Future<bool> signInWithFacebook() async {
+    try {
+      // Trigger the sign-in flow
+      final LoginResult loginResult = await FacebookAuth.instance
+          .login(permissions: ['email', 'public_profile']);
+      // Create a credential from the access token
+      final OAuthCredential facebookAuthCredential =
+          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+      // Once signed in, return the UserCredential
+      UserCredential credential = await FirebaseAuth.instance
+          .signInWithCredential(facebookAuthCredential);
+      return Future.value(false);
+    } catch (error) {
+      return Future.value(false);
+    }
+  }
+
+  static Future<bool> _socialLogin(
+    GoogleSignInAccount? googleUser,
+    OAuthCredential credential,
+  ) async {
+    NetworkHandler handler = NetworkHandler(endPoint: '/auth/sociallogin');
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      body: {
+        'firstname': googleUser!.displayName,
+        'laststname': "",
+        'email': googleUser.email,
+        'image': googleUser.photoUrl,
+        'deviceToken': credential.accessToken,
+      },
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        await Utils.storeUserDetails(json);
+        return Future.value(true);
+      } else {
+        return Future.value(false);
+      }
+    } else {
+      return Future.value(false);
     }
   }
 }

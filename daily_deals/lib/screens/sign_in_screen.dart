@@ -1,12 +1,18 @@
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
+import 'package:daily_deals/service/webservice.dart';
+import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/widgets/screen_title.dart';
 import 'package:daily_deals/widgets/sign_in_form.dart';
 import 'package:daily_deals/widgets/social_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import 'parent_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   static const String routeName = "/sign-in";
@@ -53,7 +59,9 @@ class SignInScreen extends StatelessWidget {
                     iconPath: "assets/images/facebook_f.png",
                     text: "Facebook",
                     color: HexColor("#3C5A99"),
-                    functionality: () {},
+                    functionality: () async {
+                      await WebService.signInWithFacebook();
+                    },
                   ),
                   // Google button
                   SocialButton(
@@ -61,7 +69,26 @@ class SignInScreen extends StatelessWidget {
                     iconPath: "assets/images/google_g.png",
                     text: "Google",
                     color: HexColor("#EC462D"),
-                    functionality: () {},
+                    functionality: () async {
+                      Utils.showLoaderDialog(context, "Signing In...");
+                      bool val = await WebService.signInWithGoogle();
+                      SharedPreferences preferences =
+                          await SharedPreferences.getInstance();
+                      String? phoneNumber =
+                          preferences.getString(Constants.PHONE_NUMBER);
+                      Navigator.of(context).pop();
+                      if (val) {
+                        if (phoneNumber == null || phoneNumber.isEmpty) {
+                        } else {
+                          Navigator.pushNamedAndRemoveUntil(context,
+                              ParentScreen.routeName, (route) => false);
+                        }
+                      } else {
+                        WidgetUtils.showToast(
+                          "Sign-In failed! try again later",
+                        );
+                      }
+                    },
                   )
                 ],
               ),
