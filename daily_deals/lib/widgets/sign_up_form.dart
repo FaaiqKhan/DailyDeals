@@ -2,6 +2,7 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,6 +27,7 @@ class SignUpForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserDetails _userDetails = UserDetails("", "", "", "");
+    bool isTermsAndConditionsAccepted = false;
 
     return Form(
       key: _form,
@@ -146,6 +148,50 @@ class SignUpForm extends StatelessWidget {
               );
             },
           ),
+          StatefulBuilder(
+            builder: (ctx, checkBoxState) {
+              return CheckboxListTile(
+                title: Row(
+                  children: [
+                    Text(
+                      "Accept ",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    Text(
+                      "Terms ",
+                      style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.bodyText2!.fontFamily,
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 13,
+                      ),
+                    ),
+                    Text(
+                      "and ",
+                      style: Theme.of(context).textTheme.bodyText2,
+                    ),
+                    Text(
+                      "Conditions",
+                      style: TextStyle(
+                        fontFamily:
+                            Theme.of(context).textTheme.bodyText2!.fontFamily,
+                        color: Theme.of(context).primaryColor,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+                activeColor: Theme.of(context).primaryColor,
+                controlAffinity: ListTileControlAffinity.leading,
+                value: isTermsAndConditionsAccepted,
+                onChanged: (value) {
+                  checkBoxState(() {
+                    isTermsAndConditionsAccepted = value!;
+                  });
+                },
+              );
+            },
+          ),
           // Sign Up button
           Padding(
             padding: TextFormUtils.textFieldSpacing(),
@@ -153,14 +199,20 @@ class SignUpForm extends StatelessWidget {
               context: context,
               text: "Sign Up",
               functionality: () async {
-                _form.currentState!.save();
-                if (_form.currentState!.validate()) {
-                  _userDetails.setNumber = countryCode + _userDetails.getNumber;
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  Utils.requestOtp(
-                    context,
-                    _userDetails,
-                  );
+                if (isTermsAndConditionsAccepted) {
+                  _form.currentState!.save();
+                  if (_form.currentState!.validate()) {
+                    _userDetails.setNumber =
+                        countryCode + _userDetails.getNumber;
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    Utils.requestOtp(
+                      context,
+                      _userDetails,
+                    );
+                  }
+                } else {
+                  WidgetUtils.showToast(
+                      "Please accept our terms and conditions");
                 }
               },
             ),
