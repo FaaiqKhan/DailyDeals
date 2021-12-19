@@ -29,7 +29,7 @@ class ProductDetails extends StatefulWidget {
 class _ProductDetailsState extends State<ProductDetails> {
   double screenWidth = 0, sizeOfProduct = 0, countContainerWidth = 0;
   double elementSpacing = 0, countContainerHeight = 0;
-  String productId = "0";
+  String? productId;
   bool isPrizeDetailsSelected = true;
   int _productCount = 1;
   DetailedProductModal? _modal;
@@ -37,6 +37,8 @@ class _ProductDetailsState extends State<ProductDetails> {
   List<Widget> sequenceAdderView = [];
   Map<dynamic, dynamic> _mySequence = {};
   bool showSequence = false;
+  CartItemModal? item;
+  bool isGenerated = false;
 
   void saveSequence(int sequenceKey, List<String> sequence) {
     if (sequence.length == 6) {
@@ -58,12 +60,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   @override
-  void initState() {
-    sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
-    super.initState();
-  }
-
-  @override
   void didChangeDependencies() {
     if (screenWidth == 0) {
       screenWidth = MediaQuery.of(context).size.width;
@@ -71,7 +67,11 @@ class _ProductDetailsState extends State<ProductDetails> {
       countContainerWidth = screenWidth * 0.35;
       countContainerHeight = screenWidth * 0.12;
       elementSpacing = screenWidth * 0.04;
-      productId = ModalRoute.of(context)!.settings.arguments as String;
+      try {
+        productId = ModalRoute.of(context)!.settings.arguments as String;
+      } catch (error) {
+        item = ModalRoute.of(context)!.settings.arguments as CartItemModal;
+      }
     }
     super.didChangeDependencies();
   }
@@ -89,12 +89,34 @@ class _ProductDetailsState extends State<ProductDetails> {
       backgroundColor: HexColor("#FCF4F4"),
       body: FutureBuilder(
         future: _modal == null
-            ? WebService.fetchProductDetails(productId)
+            ? WebService.fetchProductDetails(productId ?? item!.productId)
             : Future.value(_modal),
         builder: (ctx, snapShot) {
           if (snapShot.hasData) {
             _modal = snapShot.data as DetailedProductModal;
-            productPrice = double.parse(_modal!.price!);
+            if (!isGenerated) {
+              productPrice = double.parse(_modal!.price!);
+              if (productId == null) {
+                _productCount = _productCount + item!.itemCount;
+                productPrice = productPrice + double.parse(item!.price);
+                for (int i = 0; i < item!.itemCount; i++) {
+                  sequenceAdderView.add(
+                    GuessAndWinSequence(
+                      _productCount,
+                      saveSequence,
+                      preDefinedSequence: item!.mySequence.values.elementAt(i),
+                    ),
+                  );
+                  _mySequence[i+1] = item!.mySequence.values.elementAt(i);
+                }
+                sequenceAdderView.add(
+                    GuessAndWinSequence(_productCount, saveSequence));
+                showSequence = true;
+              } else {
+                sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
+              }
+              isGenerated = true;
+            }
             return SingleChildScrollView(
               child: Column(
                 children: [
