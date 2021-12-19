@@ -1,4 +1,5 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
+import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -182,7 +183,8 @@ class _CartCardViewState extends State<CartCardView> {
                                   totalPrice = widget._modal.itemCount * price;
                                 });
                                 updateObject();
-                                widget.notifyPriceSubtract!(price, widget._modal.type != "2");
+                                widget.notifyPriceSubtract!(
+                                    price, widget._modal.type != "2");
                               }
                             },
                             child: Container(
@@ -229,12 +231,22 @@ class _CartCardViewState extends State<CartCardView> {
                           GestureDetector(
                             onTap: () {
                               if (widget._modal.itemCount < 3) {
-                                setState(() {
-                                  widget._modal.itemCount++;
-                                  totalPrice = widget._modal.itemCount * price;
-                                });
-                                updateObject();
-                                widget.notifyPriceAdd!(price, widget._modal.type != "2");
+                                if (widget._modal.type == '2') {
+                                  Navigator.pushNamed(
+                                    context,
+                                    ProductDetails.routeName,
+                                    arguments: widget._modal,
+                                  );
+                                } else {
+                                  setState(() {
+                                    widget._modal.itemCount++;
+                                    totalPrice =
+                                        widget._modal.itemCount * price;
+                                  });
+                                  updateObject();
+                                  widget.notifyPriceAdd!(
+                                      price, widget._modal.type != "2");
+                                }
                               }
                             },
                             child: Container(

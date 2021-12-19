@@ -6,8 +6,10 @@ import 'package:hexcolor/hexcolor.dart';
 class GuessAndWinSequence extends StatefulWidget {
   final int sequenceKey;
   final Function saveSequence;
+  final List<String>? preDefinedSequence;
 
-  GuessAndWinSequence(this.sequenceKey, this.saveSequence);
+  GuessAndWinSequence(this.sequenceKey, this.saveSequence,
+      {this.preDefinedSequence});
 
   @override
   State<GuessAndWinSequence> createState() => _GuessAndWinSequenceState();
@@ -57,10 +59,18 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
     });
   }
 
-  List<Widget> generateNumberView(Function onSelect) {
+  List<Widget> generateNumberView(Function onSelect, {List<String>? seq}) {
     List<Widget> view = [];
-    for (int i = 1; i < 100; i++) {
-      view.add(numberView(i));
+    if (seq == null) {
+      for (int i = 1; i < 100; i++) {
+        view.add(numberView(i));
+      }
+    } else {
+      List<int> preSeq = [];
+      for (int i = 0; i < 6; i++) preSeq.add(int.parse(seq[i]));
+      for (int i = 1; i < 100; i++) {
+        view.add(numberView(i, isSelected: preSeq.contains(i)));
+      }
     }
     return view;
   }
@@ -216,13 +226,25 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
 
   @override
   void initState() {
-    numbersView = generateNumberView(onSelect);
-    sequenceView = generateSequenceDigitsView(numbersView);
     for (int i = 0; i < 6; i++) {
       _focusNodes.add(FocusNode());
-      sequence.add("");
+      if (widget.preDefinedSequence == null) {
+        sequence.add("");
+      } else {
+        sequence.add(widget.preDefinedSequence![i]);
+      }
     }
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    if (numbersView.isEmpty) {
+      numbersView = generateNumberView(onSelect,
+          seq: sequence[1].isEmpty ? null : sequence);
+      sequenceView = generateSequenceDigitsView(numbersView);
+    }
+    super.didChangeDependencies();
   }
 
   @override
