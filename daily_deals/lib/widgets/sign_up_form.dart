@@ -154,7 +154,7 @@ class SignUpForm extends StatelessWidget {
                 title: Row(
                   children: [
                     Text(
-                      "Accept ",
+                      "I agree to all ",
                       style: Theme.of(context).textTheme.bodyText2,
                     ),
                     Text(

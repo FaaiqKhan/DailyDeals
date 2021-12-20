@@ -28,41 +28,41 @@ class CouponView extends StatelessWidget {
     double containerHeight = screenWidth * 0.5;
     List<String> date = modal.date!.split(" ");
 
-    return Container(
-      height: containerHeight,
-      child: Card(
-        shape: RoundedRectangleBorder(
+    return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      elevation: 5,
+      color: HexColor("#F7F7F7"),
+      child: Container(
+        decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
         ),
-        elevation: 5,
-        color: HexColor("#F7F7F7"),
+        width: screenWidth,
+        height: containerHeight,
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Flexible(
-              flex: 2,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    modal.couponType == null ? "" : modal.couponType!,
-                    style: TextStyle(
-                      fontFamily:
-                          Theme.of(context).textTheme.subtitle2!.fontFamily,
-                      color: HexColor("#4E4C4C"),
-                    ),
+            // Image
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text(
+                  modal.couponType == null ? "" : modal.couponType!,
+                  style: TextStyle(
+                    fontFamily:
+                        Theme.of(context).textTheme.subtitle2!.fontFamily,
+                    color: HexColor("#4E4C4C"),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10.0),
-                    child: Image.network(modal.image!, scale: 4.5),
-                  )
-                ],
-              ),
+                ),
+                Image.network(modal.image!, scale: 4.5)
+              ],
             ),
-            Flexible(
-              flex: 1,
+            Align(
+              alignment: Alignment.center,
               child: RemainingProductCount(
                 total: modal.total,
                 remaining: modal.sold,
@@ -70,9 +70,10 @@ class CouponView extends StatelessWidget {
                 height: screenWidth * 0.35,
               ),
             ),
-            Flexible(
-              flex: 4,
-              child: Row(
+            SizedBox(width: 5.0),
+            Expanded(
+              child: Stack(
+                alignment: Alignment.topRight,
                 children: [
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -183,6 +184,7 @@ class CouponView extends StatelessWidget {
                     ],
                   ),
                   Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       SizedBox(
                         height: 20.0,
@@ -194,7 +196,7 @@ class CouponView extends StatelessWidget {
                           fontSize: 7,
                           color: HexColor("#ACACAD"),
                           fontFamily:
-                              Theme.of(context).textTheme.bodyText1!.fontFamily,
+                          Theme.of(context).textTheme.bodyText1!.fontFamily,
                         ),
                       ),
                       Text(
@@ -203,7 +205,7 @@ class CouponView extends StatelessWidget {
                           fontSize: 7,
                           color: HexColor("#4E4C4C"),
                           fontFamily:
-                              Theme.of(context).textTheme.subtitle2!.fontFamily,
+                          Theme.of(context).textTheme.subtitle2!.fontFamily,
                         ),
                       ),
                       Text(
@@ -212,7 +214,7 @@ class CouponView extends StatelessWidget {
                           fontSize: 14,
                           color: HexColor("#4E4C4C"),
                           fontFamily:
-                              Theme.of(context).textTheme.subtitle2!.fontFamily,
+                          Theme.of(context).textTheme.subtitle2!.fontFamily,
                         ),
                       ),
                     ],
