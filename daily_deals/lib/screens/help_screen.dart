@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class HelpScreen extends StatelessWidget {
-  static const String route = "/help-screen";
+  static const String routeName = "/help-screen";
 
   @override
   Widget build(BuildContext context) {

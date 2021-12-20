@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:daily_deals/modals/home_data_modal.dart';
-import 'package:daily_deals/views/products_showcase_view.dart';
 import 'package:daily_deals/screens/winners_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -24,7 +23,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final double elementsDistance = 10;
-  bool products = false;
+  bool products = true;
   bool closingSoon = false;
   bool todayDeal = false;
   bool winner = false;
@@ -62,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Flexible(
             child: GestureDetector(
               onTap: () => setState(() {
-                products = !products;
+                products = true;
                 closingSoon = false;
                 todayDeal = false;
                 winner = false;
@@ -75,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: GestureDetector(
               onTap: () => setState(() {
                 products = false;
-                closingSoon = !closingSoon;
+                closingSoon = true;
                 todayDeal = false;
                 winner = false;
               }),
@@ -88,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () => setState(() {
                 products = false;
                 closingSoon = false;
-                todayDeal = !todayDeal;
+                todayDeal = true;
                 winner = false;
               }),
               child: buttonContainer("Today's Deal", todayDeal),
@@ -101,7 +100,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 products = false;
                 closingSoon = false;
                 todayDeal = false;
-                winner = !winner;
+                winner = true;
               }),
               child: buttonContainer("Winner", winner),
             ),
@@ -127,10 +126,6 @@ class _HomeScreenState extends State<HomeScreen> {
       return WinnersScreen(
         screenWidth,
         Utils.homeDataModal!.winners,
-      );
-    } else if (products) {
-      return ProductsShowCaseView(
-        screenWidth,
       );
     } else {
       return Column(

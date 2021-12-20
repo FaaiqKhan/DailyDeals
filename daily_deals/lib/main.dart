@@ -125,9 +125,10 @@ class MyApp extends StatelessWidget {
           CreatePassword.routeName: (ctx) => CreatePassword(),
           ParentScreen.routeName: (ctx) => ParentScreen(),
           ProductDetails.routeName: (ctx) => ProductDetails(),
-          HelpScreen.route: (ctx) => HelpScreen(),
+          HelpScreen.routeName: (ctx) => HelpScreen(),
           OrderConfirmationScreen.routeName: (ctx) => OrderConfirmationScreen(),
           EnterPhoneNumberScreen.routeName: (ctx) => EnterPhoneNumberScreen(),
+          ProductsShowCaseView.routeName: (ctx) => ProductsShowCaseView(),
         },
       ),
     );
