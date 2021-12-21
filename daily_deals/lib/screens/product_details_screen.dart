@@ -490,7 +490,7 @@ class _ProductDetailsState extends State<ProductDetails> {
             ),
           ),
           Text(
-            isPrizeDetailsSelected ? _modal!.prizeName! : _modal!.title!,
+            isPrizeDetailsSelected ? _modal!.prizeName ?? "" : _modal!.title!,
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               color: HexColor("#303030"),

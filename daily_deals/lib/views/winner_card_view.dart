@@ -16,12 +16,17 @@ class WinnerCard extends StatelessWidget {
       width: fullScreenView ? screenWidth : screenWidth * 0.45,
       child: Card(
         elevation: 2,
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15.0),
+        ),
         child: Column(
           children: [
             const SizedBox(height: 5.0),
-            Image.network(modal.image, scale: fullScreenView ? 3 : 5),
+            Image.network(
+              modal.image,
+              fit: fullScreenView ? BoxFit.fitWidth : BoxFit.fill,
+              height: fullScreenView ? null : 150,
+            ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
               child: Text(
