@@ -76,7 +76,7 @@ class CouponView extends StatelessWidget {
                 alignment: Alignment.topRight,
                 children: [
                   Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Column(
@@ -107,6 +107,7 @@ class CouponView extends StatelessWidget {
                               fontSize: 9,
                             ),
                           ),
+                          SizedBox(height: 10.0),
                           Text(
                             modal.title!,
                             style: TextStyle(
@@ -139,7 +140,7 @@ class CouponView extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                "Id: ",
+                                "ID: ",
                                 style: TextStyle(
                                   fontFamily: Theme.of(context)
                                       .textTheme

@@ -479,22 +479,22 @@ class _ProductDetailsState extends State<ProductDetails> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Get a change To win",
-            style: TextStyle(
-              color: HexColor("#303030"),
-              fontSize: 17,
-            ),
-          ),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: screenWidth),
+          Visibility(
+            visible: isPrizeDetailsSelected,
             child: Text(
-              _modal!.title!,
+              "Get a change To win",
               style: TextStyle(
-                fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
                 color: HexColor("#303030"),
                 fontSize: 17,
               ),
+            ),
+          ),
+          Text(
+            isPrizeDetailsSelected ? _modal!.prizeName! : _modal!.title!,
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+              color: HexColor("#303030"),
+              fontSize: 17,
             ),
           ),
           ConstrainedBox(
