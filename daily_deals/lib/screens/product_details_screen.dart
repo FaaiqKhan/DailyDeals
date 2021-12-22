@@ -107,10 +107,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                       preDefinedSequence: item!.mySequence.values.elementAt(i),
                     ),
                   );
-                  _mySequence[i+1] = item!.mySequence.values.elementAt(i);
+                  _mySequence[i + 1] = item!.mySequence.values.elementAt(i);
                 }
-                sequenceAdderView.add(
-                    GuessAndWinSequence(_productCount, saveSequence));
+                sequenceAdderView
+                    .add(GuessAndWinSequence(_productCount, saveSequence));
                 showSequence = true;
               } else {
                 sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
@@ -129,8 +129,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                           visible: isPrizeDetailsSelected,
                           child: Container(
                             color: Theme.of(context).primaryColor,
-                            padding: const EdgeInsets.only(top: 30.0),
-                            alignment: Alignment.center,
+                            padding: const EdgeInsets.only(top: 0.0),
+                            alignment: Alignment.bottomCenter,
                             child: Image.network(
                               _modal!.prizeImage!,
                               scale: 3.3,
@@ -196,9 +196,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   Opacity(
                                     opacity: 0.6509803921568628,
                                     child: GestureDetector(
-                                      child: Image.asset(
-                                        "assets/images/favorite_icon.png",
-                                        scale: WidgetUtils.iconScale,
+                                      child: Icon(
+                                        Icons.favorite_border_outlined,
+                                        size: 28,
                                       ),
                                       onTap: () {},
                                     ),
