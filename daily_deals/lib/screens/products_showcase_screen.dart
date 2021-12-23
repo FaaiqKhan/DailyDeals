@@ -6,9 +6,9 @@ import 'package:daily_deals/views/single_product_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'app_bar_title.dart';
+import '../views/app_bar_title.dart';
 
-class ProductsShowCaseView extends StatelessWidget {
+class ProductsShowCaseScreen extends StatelessWidget {
   static const String routeName = "/product-showcase-view";
 
   @override

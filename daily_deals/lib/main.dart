@@ -6,13 +6,14 @@ import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/enter_phone_number_screen.dart';
+import 'package:daily_deals/screens/favorite_products_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
 import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/order_confirmation_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
-import 'package:daily_deals/views/products_showcase_view.dart';
+import 'package:daily_deals/screens/products_showcase_screen.dart';
 import 'package:daily_deals/screens/sign_in_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
 import 'package:daily_deals/screens/splash_screen.dart';
@@ -128,7 +129,8 @@ class MyApp extends StatelessWidget {
           HelpScreen.routeName: (ctx) => HelpScreen(),
           OrderConfirmationScreen.routeName: (ctx) => OrderConfirmationScreen(),
           EnterPhoneNumberScreen.routeName: (ctx) => EnterPhoneNumberScreen(),
-          ProductsShowCaseView.routeName: (ctx) => ProductsShowCaseView(),
+          ProductsShowCaseScreen.routeName: (ctx) => ProductsShowCaseScreen(),
+          FavoriteProductsScreen.routeName: (ctx) => FavoriteProductsScreen(),
         },
       ),
     );

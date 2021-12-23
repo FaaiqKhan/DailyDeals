@@ -249,4 +249,26 @@ class WebService {
       return Future.value(false);
     }
   }
+
+  static Future<List<SingleProductView>> fetchFavoritesProducts() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    String endPointWithParam = "/home/allfavourite?userid=$userId&language=en";
+    NetworkHandler handler = NetworkHandler(endPoint: endPointWithParam);
+    var response = await http.get(Uri.parse(handler.getUrl), headers: {
+      HttpHeaders.authorizationHeader: "Bearer $accessToken",
+    });
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        print(json['data']);
+        return [];
+      } else {
+        return Future.value([]);
+      }
+    } else {
+      return Future.value([]);
+    }
+  }
 }

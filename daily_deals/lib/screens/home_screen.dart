@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/screens/favorite_products_screen.dart';
 import 'package:daily_deals/screens/winners_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -206,11 +207,16 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(width: 20),
                 // Favorite icon
                 GestureDetector(
-                  child: Image.asset(
-                    "assets/images/favorite_icon.png",
-                    scale: WidgetUtils.iconScale,
+                  child: Icon(
+                    Icons.favorite_border_outlined,
+                    color: Colors.black,
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      FavoriteProductsScreen.routeName,
+                    );
+                  },
                 ),
               ],
             ),
