@@ -5,7 +5,6 @@ import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/modals/winner_modal.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
-import 'package:daily_deals/views/single_product_view.dart';
 import 'package:daily_deals/views/winner_card_view.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -15,12 +14,12 @@ import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';
+import 'widget_utils.dart';
 
 class Utils {
   static double screenPadding = 20.0;
   static double elementPadding = 8.0;
   static HomeDataModal? homeDataModal;
-  static List<SingleProductView>? singleProducts;
 
   static double calculateButtonHeight(double screenWidth) {
     return 44;
@@ -48,35 +47,9 @@ class Utils {
     return screenWidth - (screenWidth * 0.50);
   }
 
-  static showLoaderDialog(BuildContext context, String message) {
-    AlertDialog alert = AlertDialog(
-      content: new Row(
-        children: [
-          CircularProgressIndicator(
-            color: Theme.of(context).primaryColor,
-          ),
-          Container(
-            margin: EdgeInsets.only(left: 20.0),
-            child: Text(
-              message,
-              style: Theme.of(context).textTheme.bodyText1,
-            ),
-          ),
-        ],
-      ),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   static void requestOtp(BuildContext context, UserDetails userDetails,
       {Function? timer, bool forgotPassword = false}) async {
-    Utils.showLoaderDialog(context, "Please wait...");
+    WidgetUtils.showLoaderDialog(context, "Please wait...");
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       await auth.verifyPhoneNumber(
@@ -86,7 +59,7 @@ class Utils {
           print("verificationCompleted");
           // if (forgotPassword) {
           //   Timer(Duration(seconds: 2), () {
-          //     Utils.showLoaderDialog(context, "Verifying code...");
+          //     WidgetUtils.showLoaderDialog(context, "Verifying code...");
           //     Timer(Duration(seconds: 2), () {
           //       Navigator.pushReplacementNamed(
           //         context,

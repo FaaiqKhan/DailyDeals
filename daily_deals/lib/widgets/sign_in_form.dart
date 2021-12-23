@@ -3,7 +3,7 @@ import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/utils/form_utils.dart';
-import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -89,7 +89,7 @@ class _SignInFormState extends State<SignInForm> {
                 if (SignInForm._form.currentState!.validate()) {
                   FocusScope.of(context).requestFocus(FocusNode());
                   SignInForm._form.currentState!.save();
-                  Utils.showLoaderDialog(context, "Please wait...");
+                  WidgetUtils.showLoaderDialog(context, "Please wait...");
                   bool isSignIn = await Provider.of<Auth>(
                     context,
                     listen: false,

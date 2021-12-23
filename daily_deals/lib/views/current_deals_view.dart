@@ -1,6 +1,6 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
-import 'package:daily_deals/utils/widget_utils.dart';
+import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -139,27 +139,21 @@ class CurrentDeals extends StatelessWidget {
     Widget rightSide = Container(
       width: (screenWidth / 2) - 5,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           // Share and favorite icons
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               // Share option
-              Opacity(
-                opacity: 0.1803921568627451,
-                child: Icon(Icons.share_outlined, size: 28),
-              ),
-              Opacity(
-                opacity: 0.1803921568627451,
-                child: GestureDetector(
-                  child: Image.asset(
-                    "assets/images/favorite_icon.png",
-                    scale: WidgetUtils.iconScale,
-                  ),
-                  onTap: () {},
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Opacity(
+                  opacity: 0.1803921568627451,
+                  child: Icon(Icons.share_outlined, size: 28),
                 ),
               ),
+              AddToFavorites(_modal.dealId!, _modal.isFavorite),
             ],
           ),
           // Runner image and date

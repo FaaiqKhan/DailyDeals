@@ -6,6 +6,7 @@ import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/widgets/app_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -169,7 +170,7 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                 context: context,
                 text: "Send",
                 functionality: () async {
-                  Utils.showLoaderDialog(context, "Verifying code...");
+                  WidgetUtils.showLoaderDialog(context, "Verifying code...");
                   bool isValid = await verifyCode(
                     data!['verificationId'] as String,
                     _smsCode,

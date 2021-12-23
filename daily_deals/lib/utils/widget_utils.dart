@@ -112,4 +112,30 @@ class WidgetUtils {
       ),
     );
   }
+
+  static showLoaderDialog(BuildContext context, String message) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(
+            color: Theme.of(context).primaryColor,
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 20.0),
+            child: Text(
+              message,
+              style: Theme.of(context).textTheme.bodyText1,
+            ),
+          ),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 }

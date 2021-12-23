@@ -10,6 +10,7 @@ import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
+import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:daily_deals/widgets/guess_and_sequence.dart';
 import 'package:flutter/cupertino.dart';
@@ -193,15 +194,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     ),
                                   ),
                                   SizedBox(height: screenWidth * 0.04),
-                                  Opacity(
-                                    opacity: 0.6509803921568628,
-                                    child: GestureDetector(
-                                      child: Icon(
-                                        Icons.favorite_border_outlined,
-                                        size: 28,
-                                      ),
-                                      onTap: () {},
-                                    ),
+                                  AddToFavorites(
+                                    _modal!.dealId!,
+                                    false,
                                   ),
                                 ],
                               ),

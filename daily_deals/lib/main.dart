@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:daily_deals/adapters/detailed_product_adapter.dart';
 import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
+import 'package:daily_deals/providers/favorites.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/enter_phone_number_screen.dart';
@@ -62,7 +63,6 @@ void _handleMessage(RemoteMessage message) {
   print(message);
 }
 
-
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -80,6 +80,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider.value(
           value: CartItemsProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: FavoritesProvider(),
         )
       ],
       child: MaterialApp(

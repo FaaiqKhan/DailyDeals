@@ -145,6 +145,7 @@ class WebService {
       // Once signed in, return the UserCredential
       UserCredential credential = await FirebaseAuth.instance
           .signInWithCredential(facebookAuthCredential);
+      print(credential);
       return Future.value(false);
     } catch (error) {
       return Future.value(false);
@@ -180,9 +181,6 @@ class WebService {
   }
 
   static Future<List<SingleProductView>> fetchProducts() async {
-    if (Utils.singleProducts != null && Utils.singleProducts!.isNotEmpty) {
-      return Future.value(Utils.singleProducts);
-    }
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString(Constants.USER_ID);
     String endPointWithParam = "/home/getproductslist?user_id=$userId";
@@ -210,7 +208,6 @@ class WebService {
             ),
           );
         }
-        Utils.singleProducts = productViews;
         return productViews;
       } else {
         return [];
@@ -262,13 +259,51 @@ class WebService {
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json['success']) {
-        print(json['data']);
-        return [];
+        List<SingleProductModal> products = (json['data']['products'] as List)
+            .map((product) => SingleProductModal.fromJson(product))
+            .toList();
+        List<SingleProductView> productViews = [];
+        for (SingleProductModal productModal in products) {
+          productViews.add(
+            SingleProductView(
+              productModal.productName,
+              productModal.productImage,
+              productModal.productPrice,
+              productId: productModal.productId,
+            ),
+          );
+        }
+        return productViews;
       } else {
         return Future.value([]);
       }
     } else {
       return Future.value([]);
+    }
+  }
+
+  static Future<bool> addToOrRemoveFromFavorites(String id, bool addTo) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    String endPointWithParam = addTo ? "/home/addfavourite" : "/home/removefavourite";
+    NetworkHandler handler = NetworkHandler(endPoint: endPointWithParam);
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {HttpHeaders.authorizationHeader: "Bearer $accessToken"},
+      body: {'userid': userId, 'product_id': id},
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        WidgetUtils.showToast(json['data']);
+        return Future.value(true);
+      } else {
+        WidgetUtils.showToast(json['errorDetails']);
+        return Future.value(false);
+      }
+    } else {
+      return Future.value(false);
     }
   }
 }

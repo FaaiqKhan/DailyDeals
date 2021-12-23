@@ -71,7 +71,7 @@ class SignInScreen extends StatelessWidget {
                     text: "Google",
                     color: HexColor("#EC462D"),
                     functionality: () async {
-                      Utils.showLoaderDialog(context, "Signing In...");
+                      WidgetUtils.showLoaderDialog(context, "Signing In...");
                       bool val = await WebService.signInWithGoogle();
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();
