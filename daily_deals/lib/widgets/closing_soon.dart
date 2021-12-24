@@ -1,7 +1,7 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
+import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
-import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -45,13 +45,10 @@ class ClosingSoon extends StatelessWidget {
                           ),
                           borderRadius: BorderRadius.circular(5),
                         ),
-                        child: GestureDetector(
-                          child: Image.asset(
-                            "assets/images/favorite_icon.png",
-                            scale: WidgetUtils.iconScale,
-                            color: Colors.white,
-                          ),
-                          onTap: () {},
+                        child: AddToFavorites(
+                          _modal.dealId!,
+                          _modal.isFavorite,
+                          isClosingSoon: true,
                         ),
                       ),
                     ],

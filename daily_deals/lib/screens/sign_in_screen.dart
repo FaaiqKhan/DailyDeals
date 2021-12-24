@@ -10,6 +10,7 @@ import 'package:daily_deals/widgets/sign_in_form.dart';
 import 'package:daily_deals/widgets/social_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -71,7 +72,7 @@ class SignInScreen extends StatelessWidget {
                     text: "Google",
                     color: HexColor("#EC462D"),
                     functionality: () async {
-                      Utils.showLoaderDialog(context, "Signing In...");
+                      WidgetUtils.showLoaderDialog(context, "Signing In...");
                       bool val = await WebService.signInWithGoogle();
                       SharedPreferences preferences =
                           await SharedPreferences.getInstance();

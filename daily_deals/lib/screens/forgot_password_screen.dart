@@ -6,6 +6,7 @@ import 'package:daily_deals/providers/auth.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/widgets/app_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -132,7 +133,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                         _form.currentState!.save();
                         if (_form.currentState!.validate()) {
                           FocusScope.of(context).requestFocus(FocusNode());
-                          Utils.showLoaderDialog(context, "Please wait...");
+                          WidgetUtils.showLoaderDialog(context, "Please wait...");
                           _userDetails.setNumber =
                               countryCode + _userDetails.getNumber;
                           Map result = await Provider.of<Auth>(

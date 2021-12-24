@@ -1,12 +1,12 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
-import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/card_view.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:daily_deals/widgets/price_details_and_add_to_cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:daily_deals/widgets/add_to_favorites.dart';
 
 class GuessAndWin extends StatelessWidget {
   final ProductModal _modal;
@@ -129,16 +129,7 @@ class GuessAndWin extends StatelessWidget {
                   fontSize: 24,
                 ),
               ),
-              Opacity(
-                opacity: 0.1803921568627451,
-                child: GestureDetector(
-                  child: Image.asset(
-                    "assets/images/favorite_icon.png",
-                    scale: WidgetUtils.iconScale,
-                  ),
-                  onTap: () {},
-                ),
-              ),
+              AddToFavorites(_modal.dealId!, _modal.isFavorite),
             ],
           ),
           // Product title

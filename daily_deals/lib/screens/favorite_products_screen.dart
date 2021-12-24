@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:daily_deals/service/webservice.dart';
-import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:daily_deals/views/single_product_view.dart';
@@ -12,9 +11,7 @@ class FavoriteProductsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-    final double screenHeight = MediaQuery.of(context).size.height;
-
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -25,32 +22,41 @@ class FavoriteProductsScreen extends StatelessWidget {
       ),
       backgroundColor: Colors.white,
       resizeToAvoidBottomInset: true,
-      body: Container(
-        width: screenWidth,
-        height: screenHeight,
-        padding: Utils.calculateScreenLeftRightPadding(screenWidth),
-        child: FutureBuilder(
-          future: WebService.fetchFavoritesProducts(),
-          builder: (ctx, snapShot) {
-            if (snapShot.hasData) {
-              List<SingleProductView> data =
-                  snapShot.data as List<SingleProductView>;
-              if (data.isNotEmpty) {
-                return SingleChildScrollView(
-                  child: Column(children: data),
-                );
-              } else {
-                return Center(
-                  child: Text("No Product found"),
-                );
-              }
+      body: FutureBuilder(
+        future: WebService.fetchFavoritesProducts(),
+        builder: (ctx, snapShot) {
+          if (snapShot.hasData) {
+            List<SingleProductView> views =
+                snapShot.data as List<SingleProductView>;
+            if (views.isNotEmpty) {
+              return Container(
+                width: size.width,
+                height: size.height,
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: GridView.extent(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    childAspectRatio: 2 / 3,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 10,
+                    maxCrossAxisExtent: 200,
+                    physics: ScrollPhysics(),
+                    children: views,
+                  ),
+                ),
+              );
             } else {
               return Center(
-                child: WidgetUtils.progressIndicator(context),
+                child: Text("No Product found"),
               );
             }
-          },
-        ),
+          } else {
+            return Center(
+              child: WidgetUtils.progressIndicator(context),
+            );
+          }
+        },
       ),
     );
   }
