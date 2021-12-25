@@ -6,6 +6,7 @@ import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/providers/favorites.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
 import 'package:daily_deals/screens/create_password_screen.dart';
+import 'package:daily_deals/screens/draws_screen.dart';
 import 'package:daily_deals/screens/enter_phone_number_screen.dart';
 import 'package:daily_deals/screens/favorite_products_screen.dart';
 import 'package:daily_deals/screens/forgot_password_screen.dart';
@@ -134,6 +135,7 @@ class MyApp extends StatelessWidget {
           EnterPhoneNumberScreen.routeName: (ctx) => EnterPhoneNumberScreen(),
           ProductsShowCaseScreen.routeName: (ctx) => ProductsShowCaseScreen(),
           FavoriteProductsScreen.routeName: (ctx) => FavoriteProductsScreen(),
+          DrawsScreen.routeName: (ctx) => DrawsScreen(),
         },
       ),
     );

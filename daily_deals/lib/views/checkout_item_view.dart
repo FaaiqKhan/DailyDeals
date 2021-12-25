@@ -1,9 +1,9 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/widgets/delivery_modes.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class CheckoutItemView extends StatelessWidget {
   final CartItemModal item;
@@ -15,33 +15,11 @@ class CheckoutItemView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20.0, right: 20.0, bottom: 20.0),
-      child: Column(children: generateItemsView(item)),
+      child: Column(children: generateItemsView(context, item)),
     );
   }
 
-  List<Widget> generateSequenceView(List<String> sequence) {
-    List<Widget> sequenceViews = [];
-    for (String number in sequence) {
-      sequenceViews.add(
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            color: HexColor("#F83615"),
-            borderRadius: BorderRadius.circular(10.0),
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            number,
-            style: TextStyle(color: Colors.white),
-          ),
-        ),
-      );
-    }
-    return sequenceViews;
-  }
-
-  List<Widget> generateItemsView(CartItemModal modal) {
+  List<Widget> generateItemsView(BuildContext context, CartItemModal modal) {
     List<Widget> items = [];
     for (int i = 1; i <= modal.itemCount; i++) {
       items.add(CartCardView(modal, isFromCheckout: true));
@@ -64,7 +42,8 @@ class CheckoutItemView extends StatelessWidget {
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: generateSequenceView(modal.mySequence[i] ?? []),
+                children:
+                    WidgetUtils.generateSequenceView(context, modal.mySequence[i] ?? []),
               ),
             )
           ],

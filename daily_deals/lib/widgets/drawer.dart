@@ -1,4 +1,5 @@
 import 'package:daily_deals/modals/cart_item_modal.dart';
+import 'package:daily_deals/screens/draws_screen.dart';
 import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/screens/sign_in_up_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -123,20 +124,26 @@ class MyDrawer extends StatelessWidget {
               ),
               SizedBox(height: elementHeight),
               // Draws
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    "assets/images/drawer/draws_icon.png",
-                    width: 30,
-                    height: 30,
-                  ),
-                  SizedBox(width: drawerIconsDistance),
-                  Text(
-                    "Draws",
-                    style: TextStyle(color: Colors.white),
-                  )
-                ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pop();
+                  Navigator.pushNamed(context, DrawsScreen.routeName);
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      "assets/images/drawer/draws_icon.png",
+                      width: 30,
+                      height: 30,
+                    ),
+                    SizedBox(width: drawerIconsDistance),
+                    Text(
+                      "Draws",
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
               ),
               SizedBox(height: elementHeight),
               // Products

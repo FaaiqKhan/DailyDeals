@@ -69,8 +69,10 @@ class WidgetUtils {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 12,
-                            fontFamily:
-                                Theme.of(context).textTheme.bodyText2!.fontFamily,
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .fontFamily,
                           ),
                         ),
                         SizedBox(width: 10.0),
@@ -137,5 +139,33 @@ class WidgetUtils {
         return alert;
       },
     );
+  }
+
+  static List<Widget> generateSequenceView(
+      BuildContext context, List<String> sequence,
+      {double? size}) {
+    List<Widget> sequenceViews = [];
+    for (String number in sequence) {
+      sequenceViews.add(
+        Container(
+          width: size ?? 40,
+          height: size ?? 40,
+          decoration: BoxDecoration(
+            color: HexColor("#F83615"),
+            borderRadius: BorderRadius.circular(size != null ? 4.0 : 10.0),
+          ),
+          alignment: Alignment.center,
+          child: Text(
+            number,
+            style: TextStyle(
+              color: Colors.white,
+              fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
+              fontSize: size != null ? 12 : null,
+            ),
+          ),
+        ),
+      );
+    }
+    return sequenceViews;
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/viewhelper/dropdown_action.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -25,7 +27,7 @@ class HelpScreen extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: AppBarTitle("Help"),
-        leading: WidgetUtils.tabBarBackButton(context),
+        leading: Platform.isIOS ? WidgetUtils.tabBarBackButton(context) : null,
         backgroundColor: Theme.of(context).primaryColor,
       ),
       backgroundColor: Colors.white,
