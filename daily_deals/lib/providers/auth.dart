@@ -28,7 +28,7 @@ class Auth extends ChangeNotifier {
       if (data['success'] == false) {
         return Future.value(false);
       } else {
-        await Utils.storeUserDetails(data);
+        await Utils.storeUserDetails(data, null);
         return Future.value(true);
       }
     } else {
@@ -58,7 +58,7 @@ class Auth extends ChangeNotifier {
           toastLength: Toast.LENGTH_LONG,
         );
       } else {
-        await Utils.storeUserDetails(data);
+        await Utils.storeUserDetails(data, null);
       }
       return Future.value(data['success']);
     } else {

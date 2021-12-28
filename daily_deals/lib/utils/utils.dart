@@ -145,12 +145,14 @@ class Utils {
     await Share.share(productLink, subject: productDetails);
   }
 
-  static Future<void> storeUserDetails(var data) async {
+  static Future<void> storeUserDetails(var data, String? provider) async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     await preferences.setString(Constants.ACCESS_TOKEN, data['access_token']);
     await preferences.setString(Constants.USER_ID, data['customer_id']);
     await preferences.setString(Constants.USER_NAME, data['customer_name']);
     await preferences.setString(Constants.PHONE_NUMBER, data['phonenumber']);
     await preferences.setString(Constants.EMAIL, data['email']);
+    if (provider != null)
+      await preferences.setString(Constants.SOCIAL_LOGIN_PROVIDER, provider);
   }
 }

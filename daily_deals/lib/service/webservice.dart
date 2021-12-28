@@ -6,6 +6,7 @@ import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/modals/single_product_modal.dart';
+import 'package:daily_deals/modals/social_login_modal.dart';
 import 'package:daily_deals/service/network_handler.dart';
 import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
@@ -120,15 +121,13 @@ class WebService {
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      // Obtain the auth details from the request
-      final GoogleSignInAuthentication? googleAuth =
-          await googleUser?.authentication;
-      // Create a new credential
-      final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth?.accessToken,
-        idToken: googleAuth?.idToken,
-      );
-      return await _socialLogin(googleUser, credential);
+      List<String> name = googleUser!.displayName!.split(" ");
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? rId = preferences.getString(Constants.FCM_TOKEN);
+      return await _socialLogin(
+          new SocialLoginModal(name.first, name.last, googleUser.email,
+              googleUser.photoUrl, rId),
+          "google");
     } catch (error) {
       return Future.value(false);
     }
@@ -145,32 +144,29 @@ class WebService {
       // Once signed in, return the UserCredential
       UserCredential credential = await FirebaseAuth.instance
           .signInWithCredential(facebookAuthCredential);
-      print(credential);
-      return Future.value(false);
+      List<String> name = credential.user!.displayName!.split(" ");
+      SharedPreferences preferences = await SharedPreferences.getInstance();
+      String? rId = preferences.getString(Constants.FCM_TOKEN);
+      return await _socialLogin(
+          new SocialLoginModal(name.first, name.last, credential.user!.email!,
+              credential.user!.photoURL, rId),
+          "facebook");
     } catch (error) {
       return Future.value(false);
     }
   }
 
   static Future<bool> _socialLogin(
-    GoogleSignInAccount? googleUser,
-    OAuthCredential credential,
-  ) async {
+      SocialLoginModal modal, String provider) async {
     NetworkHandler handler = NetworkHandler(endPoint: '/auth/sociallogin');
     var response = await http.post(
       Uri.parse(handler.getUrl),
-      body: {
-        'firstname': googleUser!.displayName,
-        'laststname': "",
-        'email': googleUser.email,
-        'image': googleUser.photoUrl,
-        'deviceToken': credential.accessToken,
-      },
+      body: jsonEncode(modal),
     );
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json['success']) {
-        await Utils.storeUserDetails(json);
+        await Utils.storeUserDetails(json, provider);
         return Future.value(true);
       } else {
         return Future.value(false);
@@ -286,7 +282,8 @@ class WebService {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? userId = preferences.getString(Constants.USER_ID);
     String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
-    String endPointWithParam = addTo ? "/home/addfavourite" : "/home/removefavourite";
+    String endPointWithParam =
+        addTo ? "/home/addfavourite" : "/home/removefavourite";
     NetworkHandler handler = NetworkHandler(endPoint: endPointWithParam);
     var response = await http.post(
       Uri.parse(handler.getUrl),
