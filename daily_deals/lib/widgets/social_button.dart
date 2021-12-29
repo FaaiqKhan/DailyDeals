@@ -1,20 +1,21 @@
+import 'package:daily_deals/screens/enter_phone_number_screen.dart';
+import 'package:daily_deals/screens/parent_screen.dart';
+import 'package:daily_deals/service/webservice.dart';
+import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hexcolor/hexcolor.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SocialButton extends StatelessWidget {
-  final String? iconPath;
-  final String? text;
   final BuildContext? context;
-  final Function? functionality;
-  final Color? color;
+  final int identifier;
 
   SocialButton({
     @required this.context,
-    @required this.iconPath,
-    @required this.text,
-    @required this.functionality,
-    @required this.color,
+    this.identifier = 0,
   });
 
   @override
@@ -24,15 +25,40 @@ class SocialButton extends StatelessWidget {
       width: calculateSocialButtonWidth(screenWidth),
       height: Utils.calculateButtonHeight(screenWidth),
       child: OutlinedButton(
-        onPressed: () => {
-          functionality!()
+        onPressed: () async {
+          bool isLoggedIn = false;
+          WidgetUtils.showLoaderDialog(context, "Signing In...");
+          if (this.identifier == 0)
+            isLoggedIn = await WebService.signInWithFacebook();
+          else if (this.identifier == 1)
+            isLoggedIn = await WebService.signInWithGoogle();
+          if (isLoggedIn) {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
+            String? phoneNumber = preferences.getString(Constants.PHONE_NUMBER);
+            Navigator.of(context).pop();
+            if (phoneNumber == null || phoneNumber.isEmpty) {
+              Navigator.pushReplacementNamed(
+                  context, EnterPhoneNumberScreen.routeName);
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, ParentScreen.routeName, (route) => false);
+            }
+          } else {
+            Navigator.of(context).pop();
+            WidgetUtils.showToast(
+              "Sign-In failed! try again later",
+            );
+          }
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Image.asset(iconPath!),
+            Image.asset(identifier == 0
+                ? "assets/images/facebook_f.png"
+                : "assets/images/google_g.png"),
             Text(
-              text!,
+              identifier == 0 ? "Facebook" : "Google",
               style: TextStyle(
                 color: Colors.white,
                 fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
@@ -43,10 +69,7 @@ class SocialButton extends StatelessWidget {
         ),
         style: OutlinedButton.styleFrom(
           primary: Colors.white,
-          backgroundColor: color,
-          side: BorderSide(
-            color: color!,
-          ),
+          backgroundColor: identifier == 0 ? HexColor("#3C5A99") : HexColor("#EC462D"),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),

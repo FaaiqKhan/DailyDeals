@@ -6,7 +6,6 @@ import 'package:daily_deals/widgets/sign_up_form.dart';
 import 'package:daily_deals/widgets/social_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:hexcolor/hexcolor.dart';
 
 class SignUpScreen extends StatelessWidget {
   static const String routeName = "/sign-up";
@@ -51,21 +50,9 @@ class SignUpScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       // Facebook button
-                      SocialButton(
-                        context: context,
-                        iconPath: "assets/images/facebook_f.png",
-                        text: "Facebook",
-                        color: HexColor("#3C5A99"),
-                        functionality: () {},
-                      ),
+                      SocialButton(context: context, identifier: 0),
                       // Google button
-                      SocialButton(
-                        context: context,
-                        iconPath: "assets/images/google_g.png",
-                        text: "Google",
-                        color: HexColor("#EC462D"),
-                        functionality: () {},
-                      )
+                      SocialButton(context: context, identifier: 1),
                     ],
                   ),
                 ),

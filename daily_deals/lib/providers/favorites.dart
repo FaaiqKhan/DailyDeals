@@ -1,5 +1,4 @@
 import 'package:daily_deals/service/webservice.dart';
-import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
 

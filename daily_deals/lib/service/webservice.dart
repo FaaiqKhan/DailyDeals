@@ -121,12 +121,23 @@ class WebService {
     try {
       // Trigger the authentication flow
       final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-      List<String> name = googleUser!.displayName!.split(" ");
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      List<String> name = userCredential.user!.displayName!.split(" ");
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String? rId = preferences.getString(Constants.FCM_TOKEN);
       return await _socialLogin(
-          new SocialLoginModal(name.first, name.last, googleUser.email,
-              googleUser.photoUrl, rId),
+          new SocialLoginModal(name.first, name.last,
+              userCredential.user!.email!, userCredential.user!.photoURL, rId),
           "google");
     } catch (error) {
       return Future.value(false);
@@ -161,7 +172,7 @@ class WebService {
     NetworkHandler handler = NetworkHandler(endPoint: '/auth/sociallogin');
     var response = await http.post(
       Uri.parse(handler.getUrl),
-      body: jsonEncode(modal),
+      body: modal.toJson(),
     );
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
