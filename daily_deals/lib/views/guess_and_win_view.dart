@@ -91,7 +91,13 @@ class GuessAndWin extends StatelessWidget {
           ),
           SizedBox(height: elementSpacing),
           TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                ProductDetails.routeName,
+                arguments: _modal.dealId,
+              );
+            },
             child: Text(
               "Click Here",
               style: TextStyle(
@@ -182,7 +188,8 @@ class GuessAndWin extends StatelessWidget {
               color: HexColor("#707070"),
             ),
           ),
-          PriceDetailsAndAddToCartButtons(),
+          // One is identifier that shows these buttons are of current deals
+          PriceDetailsAndAddToCartButtons(_modal, 1),
         ],
       ),
     );

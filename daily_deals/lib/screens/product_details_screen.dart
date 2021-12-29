@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
-import 'package:daily_deals/providers/cart_cost_provider.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/service/webservice.dart';
+import 'package:daily_deals/utils/common/utilities.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
@@ -17,8 +17,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
-import 'package:provider/provider.dart';
 
 class ProductDetails extends StatefulWidget {
   static const String routeName = "/product-details";
@@ -419,7 +417,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         _modal!.type != "2") {
                                       bool isValid = validateProductType();
                                       if (isValid) {
-                                        await populateData();
+                                        await Utilities().populateData(
+                                          context,
+                                          _modal!,
+                                          _productCount,
+                                          _mySequence,
+                                          productPrice,
+                                        );
                                         Fluttertoast.showToast(
                                           msg: "Product added into cart",
                                           gravity: ToastGravity.BOTTOM,
@@ -506,26 +510,6 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         ],
       ),
-    );
-  }
-
-  Future<void> populateData() async {
-    CartItemModal cartModal = CartItemModal(
-      _modal!.dealId!,
-      _modal!.productImage!,
-      _modal!.price!,
-      _modal!.description!,
-      _productCount,
-      _modal!.price!,
-      _modal!.type!,
-      _mySequence,
-    );
-    var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
-    await cartItemBox.put(_modal!.dealId, cartModal);
-    await cartItemBox.close();
-    Provider.of<CartCostProvider>(context, listen: false).updateCartValue(
-      productPrice * _productCount,
-      _productCount,
     );
   }
 

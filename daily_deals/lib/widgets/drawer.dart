@@ -47,7 +47,7 @@ class MyDrawer extends StatelessWidget {
             children: [
               // Title
               Text(
-                "Profile Setting",
+                "Profile Settings",
                 style: TextStyle(
                   fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
                   fontSize: 22,
@@ -130,7 +130,6 @@ class MyDrawer extends StatelessWidget {
                   Navigator.pushNamed(context, DrawsScreen.routeName);
                 },
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset(
                       "assets/images/drawer/draws_icon.png",

@@ -1,6 +1,7 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:daily_deals/widgets/add_to_favorites.dart';
+import 'package:daily_deals/widgets/price_details_and_add_to_cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -90,48 +91,8 @@ class CurrentDeals extends StatelessWidget {
               color: Colors.white,
             ),
           ),
-          // Buttons
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Prize Details",
-                  style: TextStyle(
-                    fontFamily:
-                        Theme.of(context).textTheme.subtitle2!.fontFamily,
-                    color: Colors.white,
-                    fontStyle: FontStyle.italic,
-                    fontSize: 10,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    HexColor("#303030"),
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () {},
-                child: Text(
-                  "Add to Cart",
-                  style: TextStyle(
-                    fontFamily:
-                        Theme.of(context).textTheme.subtitle2!.fontFamily,
-                    color: Colors.white,
-                    fontStyle: FontStyle.italic,
-                    fontSize: 10,
-                  ),
-                ),
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(
-                    HexColor("#DA2B0E"),
-                  ),
-                ),
-              ),
-            ],
-          ),
+          // Zero is identifier that shows these buttons are of current deals
+          PriceDetailsAndAddToCartButtons(_modal, 0),
         ],
       ),
     );
