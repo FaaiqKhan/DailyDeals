@@ -5,18 +5,21 @@ import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/modals/notification_modal.dart';
 import 'package:daily_deals/modals/single_product_modal.dart';
 import 'package:daily_deals/modals/social_login_modal.dart';
 import 'package:daily_deals/service/network_handler.dart';
 import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
+import 'package:daily_deals/views/notification_view.dart';
 import 'package:daily_deals/views/single_product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:intl/intl.dart';
 
 class WebService {
   static Future<HomeDataModal?> fetchData() async {
@@ -312,6 +315,59 @@ class WebService {
       }
     } else {
       return Future.value(false);
+    }
+  }
+
+  static Future<List<NotificationView>?> fetchNotifications() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    if (userId != null) {
+      String endPoint = "/home/notifications?userid=$userId";
+      NetworkHandler handler = NetworkHandler(endPoint: endPoint);
+      var response = await http.get(
+        Uri.parse(handler.getUrl),
+        headers: {
+          HttpHeaders.authorizationHeader: "Bearer $accessToken",
+        },
+      );
+      if (response.statusCode == 200) {
+        var json = jsonDecode(response.body);
+        if (json['success']) {
+          print(json['data']['notifucations']);
+          List<NotificationView> notificationView = [];
+          List<NotificationModal> notifications =
+              (json['data']['notifucations'] as List)
+                  .map((e) => NotificationModal.fromJson(e))
+                  .toList();
+          for (NotificationModal modal in notifications) {
+            notificationView.add(
+              NotificationView(modal, formatDateTime(modal.createdOn)),
+            );
+          }
+          return Future.value(notificationView);
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    } else {
+      return null;
+    }
+  }
+
+  static String formatDateTime(String createDateTime) {
+    DateTime current = DateTime.now();
+    DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(createDateTime);
+    if (dateTime.year == current.year &&
+        dateTime.month == current.month &&
+        dateTime.day == current.day) {
+      DateFormat timeFormat = DateFormat("HH:mm a");
+      return timeFormat.format(dateTime);
+    } else {
+      DateFormat dateTimeFormat = new DateFormat("dd MMM");
+      return dateTimeFormat.format(dateTime);
     }
   }
 }
