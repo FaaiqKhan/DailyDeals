@@ -25,7 +25,7 @@ class _GuessAndWinSequenceState extends State<GuessAndWinSequence> {
 
   void onSelect(int number) {
     for (int i = 0; i < 6; i++) {
-      if (_focusNodes[i].hasFocus) {
+      if (_focusNodes[i].hasFocus || (sequence[0].isEmpty && !_focusNodes[0].hasFocus)) {
         setState(() {
           if (sequence[i].isNotEmpty) {
             int num = int.parse(sequence[i]);

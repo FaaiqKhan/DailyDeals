@@ -131,7 +131,7 @@ class _CartCardViewState extends State<CartCardView> {
                         ),
                       ),
                       Text(
-                        "You will get 2 coupons pet unit if donate",
+                        "You will get 2 coupons per unit if donate",
                         style: TextStyle(
                           fontSize: 10,
                           fontFamily:
