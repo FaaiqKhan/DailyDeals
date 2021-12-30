@@ -10,15 +10,18 @@ import 'multiple_digit_counter.dart';
 
 class ClosingTimer extends StatelessWidget {
   final Duration endingTime;
+  final bool useExtendedForm;
 
-  ClosingTimer(this.endingTime);
+  ClosingTimer(this.endingTime, {this.useExtendedForm = false});
 
   @override
   Widget build(BuildContext context) {
-    final MultipleDigitCounter digitCounter =
-        MultipleDigitCounter(8, false, 253, endingTime);
+    final MultipleDigitCounter digitCounter = MultipleDigitCounter(8, false, 253, endingTime);
     return Container(
-      padding: const EdgeInsets.only(left: 5.0, top: 5.0, right: 5.0, bottom: 5.0),
+      // height: 50,
+      // alignment: Alignment.center,
+      // width: MediaQuery.of(context).size.width * 0.7,
+      padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         color: HexColor("#F22806"),
         border: Border.all(color: HexColor("#F22806")),

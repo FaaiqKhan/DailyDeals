@@ -456,7 +456,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                         width: screenWidth * 0.7,
                         child: ClosingTimer(
                           Duration(
-                              days: 6, hours: 16, minutes: 26, seconds: 46),
+                            days: 6,
+                            hours: 16,
+                            minutes: 26,
+                            seconds: 46,
+                          ),
+                          useExtendedForm: true,
                         ),
                       ),
                     ],
