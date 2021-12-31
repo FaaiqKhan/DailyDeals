@@ -1,26 +1,17 @@
 import 'package:flutter/material.dart';
-
-_SingleDigitState? _state;
+import 'package:hexcolor/hexcolor.dart';
 
 class SingleDigit extends StatefulWidget {
-  final TextStyle textStyle;
-  final BoxDecoration boxDecoration;
   final int initialValue;
+  final bool showSeparator;
 
-  SingleDigit({
-    this.boxDecoration: const BoxDecoration(color: Colors.black),
-    this.textStyle: const TextStyle(color: Colors.white),
-    this.initialValue: 0,
-  });
+  _SingleDigitState? _state;
+
+  SingleDigit({required this.initialValue, required this.showSeparator});
 
   @override
   State<StatefulWidget> createState() {
-    _state = new _SingleDigitState(
-      textStyle,
-      boxDecoration,
-      0,
-      this.initialValue,
-    );
+    _state = new _SingleDigitState(0, this.initialValue);
     return _state!;
   }
 
@@ -33,15 +24,11 @@ class SingleDigit extends StatefulWidget {
 
 class _SingleDigitState extends State<SingleDigit>
     with TickerProviderStateMixin {
-  _SingleDigitState(this._textStyle, this._boxDecoration, this.previousValue,
-      this.currentValue);
+  _SingleDigitState(this.previousValue, this.currentValue);
 
-  final TextStyle _textStyle;
-  final BoxDecoration _boxDecoration;
+  int previousValue, currentValue;
 
-  int previousValue;
-  int currentValue;
-
+  TextStyle? digitStyle;
   Animation<double>? animation;
   AnimationController? controller;
 
@@ -51,11 +38,20 @@ class _SingleDigitState extends State<SingleDigit>
     _initAnimation();
   }
 
+  @override
+  didChangeDependencies() {
+    if (digitStyle == null) {
+      digitStyle = TextStyle(
+        color: Colors.white,
+        fontFamily: Theme.of(context).textTheme.bodyText2!.fontFamily,
+      );
+    }
+    super.didChangeDependencies();
+  }
+
   _initAnimation() {
     controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      vsync: this,
-    );
+        duration: const Duration(milliseconds: 300), vsync: this);
     animation = Tween<double>(
       begin: previousValue.toDouble(),
       end: currentValue.toDouble(),
@@ -68,8 +64,8 @@ class _SingleDigitState extends State<SingleDigit>
 
   @override
   void dispose() {
-    super.dispose();
     controller!.dispose();
+    super.dispose();
   }
 
   _setValue(int newValue) {
@@ -81,40 +77,50 @@ class _SingleDigitState extends State<SingleDigit>
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> digits = [];
     final Size digitSize = _getSingleDigitSize();
 
-    return Container(
-      padding: const EdgeInsets.all(8.0),
-      decoration: _boxDecoration,
-      child: SizedOverflowBox(
-        alignment: Alignment.topCenter,
-        size: digitSize,
-        child: ClipRect(
-          clipper: CustomDigitClipper(digitSize),
-          child: Transform.translate(
-            offset: Offset(0, -this.animation!.value * digitSize.height),
-            child: Column(
-              children: <Widget>[
-                for (var i = 0; i < 10; i++)
-                  Text(i.toString(), style: _textStyle)
-                // ADD STYLE TO THE TEXT
-              ],
+    for (var i = 0; i < 10; i++) {
+      digits.add(Text(i.toString(), style: digitStyle));
+    }
+
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8.0),
+          margin: const EdgeInsets.all(2.0),
+          decoration: BoxDecoration(color: HexColor("#DA2B0E")),
+          child: SizedOverflowBox(
+            alignment: Alignment.topCenter,
+            size: digitSize,
+            child: ClipRect(
+              clipper: CustomDigitClipper(digitSize),
+              child: Transform.translate(
+                offset: Offset(0, -this.animation!.value * digitSize.height),
+                child: Column(children: digits),
+              ),
             ),
           ),
         ),
-      ),
+        Visibility(
+          visible: widget.showSeparator,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 2.5, right: 2.5),
+            child: Text(":", style: TextStyle(color: Colors.white)),
+          ),
+        ),
+      ],
     );
   }
 
-  ///
-  /// Calculates the size of a single digit based on the current text style
-  ///
+  // Calculates the size of a single digit based on the current text style
   _getSingleDigitSize() {
-    final painter = TextPainter();
-    painter.text = TextSpan(style: _textStyle, text: '0');
+    final TextPainter painter = TextPainter();
+    painter.text = TextSpan(style: digitStyle, text: '0');
     painter.textDirection = TextDirection.ltr;
     painter.textAlign = TextAlign.center;
-    painter.textScaleFactor = 0.5;
+    painter.textScaleFactor = 1;
     painter.layout();
     return painter.size;
   }

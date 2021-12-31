@@ -1,90 +1,56 @@
-import 'dart:async';
-
-import 'package:daily_deals/providers/timer_value.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 import 'multiple_digit_counter.dart';
 
-class ClosingTimer extends StatelessWidget {
-  final Duration endingTime;
-  final bool useExtendedForm;
+final counterKey = GlobalKey();
 
-  ClosingTimer(this.endingTime, {this.useExtendedForm = false});
+class ClosingTimer extends StatelessWidget {
+  final int timeStamp;
+  final bool useShrinkForm;
+
+  ClosingTimer(this.timeStamp, {this.useShrinkForm = true});
 
   @override
   Widget build(BuildContext context) {
-    final MultipleDigitCounter digitCounter = MultipleDigitCounter(8, false, 253, endingTime);
+    AlignmentGeometry? alignment = Alignment.center;
+    double? containerWidth = MediaQuery.of(context).size.width * 0.7;
+    if (useShrinkForm) {
+      alignment = null;
+      containerWidth = null;
+    }
+    DateFormat format = DateFormat("ddHHmmss");
+    String d = format.format(DateTime.fromMillisecondsSinceEpoch(timeStamp));
+    final MultipleDigitCounter digitCounter = MultipleDigitCounter(
+      d,
+      useShrinkForm: useShrinkForm,
+      key: counterKey,
+    );
     return Container(
-      // height: 50,
-      // alignment: Alignment.center,
-      // width: MediaQuery.of(context).size.width * 0.7,
+      alignment: alignment,
+      width: containerWidth,
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(
         color: HexColor("#F22806"),
         border: Border.all(color: HexColor("#F22806")),
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
+      child: Column(
         children: [
-          DigitDisplayDemo(digitCounter),
+          digitCounter,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Text("Days", style: TextStyle(color: Colors.white)),
+              Text("Hours", style: TextStyle(color: Colors.white)),
+              Text("Min", style: TextStyle(color: Colors.white)),
+              Text("Sec", style: TextStyle(color: Colors.white)),
+            ],
+          )
         ],
       ),
-    );
-  }
-}
-
-Timer? _timer;
-int _start = 10;
-
-class DigitDisplayDemo extends StatelessWidget {
-  final MultipleDigitCounter digitCounter;
-
-  DigitDisplayDemo(this.digitCounter);
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (BuildContext context) {
-        return TimerValueProvider();
-      },
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            this.digitCounter,
-            Consumer<TimerValueProvider>(
-              builder: (_, sliderValueProvider, __) {
-                return SizedBox.shrink();
-                // return TextButton(
-                //   onPressed: () {
-                //     startTimer(sliderValueProvider);
-                //   },
-                //   child: Text("Start timer"),
-                // );
-              },
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  void startTimer(var sliderValueProvider) {
-    const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
-      oneSec,
-      (Timer timer) {
-        if (_start == 0) {
-          _timer!.cancel();
-        } else {
-          _start--;
-          sliderValueProvider.setValue(_start);
-          // (counterKey.currentState as MultipleDigitCounterState).value = _start;
-        }
-      },
     );
   }
 }

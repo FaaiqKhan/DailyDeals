@@ -7,8 +7,8 @@ import 'utils.dart';
 
 class TextFormUtils {
   static InputDecoration textFieldDecoration({
-    @required String? prefixIcon,
-    @required String? title,
+    required String? prefixIcon,
+    required String? title,
     bool isNumberField = false,
     bool isPassword = false,
     bool showPassword = false,

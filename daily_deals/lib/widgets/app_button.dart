@@ -11,9 +11,9 @@ class AppButton extends StatelessWidget {
   final bool lightBlackColor;
 
   AppButton({
-    @required this.context,
-    @required this.text,
-    @required this.functionality,
+    required this.context,
+    required this.text,
+    required this.functionality,
     this.isFilled = true,
     this.lightBlackColor = false,
   });

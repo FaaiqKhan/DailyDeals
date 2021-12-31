@@ -163,9 +163,7 @@ class CurrentDeals extends StatelessWidget {
             ),
           ),
           // Timer
-          ClosingTimer(
-            Duration(days: 24, hours: 26, minutes: 25, seconds: 30),
-          ),
+          // ClosingTimer(_modal.timeStamp),
         ],
       ),
     );

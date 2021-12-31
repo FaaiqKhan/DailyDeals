@@ -14,7 +14,7 @@ class SocialButton extends StatelessWidget {
   final int identifier;
 
   SocialButton({
-    @required this.context,
+    required this.context,
     this.identifier = 0,
   });
 

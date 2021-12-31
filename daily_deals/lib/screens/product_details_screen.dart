@@ -451,18 +451,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
                       // Timer container
-                      Container(
-                        alignment: Alignment.center,
-                        width: screenWidth * 0.7,
-                        child: ClosingTimer(
-                          Duration(
-                            days: 6,
-                            hours: 16,
-                            minutes: 26,
-                            seconds: 46,
-                          ),
-                          useExtendedForm: true,
-                        ),
+                      ClosingTimer(
+                        _modal!.timeStamp,
+                        useShrinkForm: false,
                       ),
                     ],
                   )
