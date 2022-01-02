@@ -210,10 +210,10 @@ class _ParentScreenState extends State<ParentScreen> {
   }
 
   void _handleMessage(RemoteMessage message) {
-    try {
-      setState(() {
-        _currentIndex = 2;
-      });
-    } catch (e) {}
+    // try {
+    //   setState(() {
+    //     _currentIndex = 2;
+    //   });
+    // } catch (e) {}
   }
 }
