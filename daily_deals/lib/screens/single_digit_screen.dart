@@ -96,7 +96,7 @@ class _SingleDigitState extends State<SingleDigit>
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: EdgeInsets.all(widget.useShrinkForm ? 4.0 : 8.0),
+          padding: EdgeInsets.all(widget.useShrinkForm ? 4.0 : 6.0),
           margin: EdgeInsets.all(widget.useShrinkForm ? 0.8 : 2.0),
           decoration: BoxDecoration(color: HexColor("#DA2B0E")),
           child: SizedOverflowBox(

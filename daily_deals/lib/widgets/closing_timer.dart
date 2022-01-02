@@ -13,12 +13,6 @@ class ClosingTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    AlignmentGeometry? alignment = Alignment.center;
-    double? fontSize;
-    if (useShrinkForm) {
-      alignment = null;
-      fontSize = 10;
-    }
     DateFormat format = DateFormat("ddHHmmss");
     String time = format.format(DateTime.fromMillisecondsSinceEpoch(timeStamp));
     final MultipleDigitCounter digitCounter =

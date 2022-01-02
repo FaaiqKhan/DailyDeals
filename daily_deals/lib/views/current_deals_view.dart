@@ -164,8 +164,7 @@ class CurrentDeals extends StatelessWidget {
           ),
           // Timer
           Container(
-            width: (screenWidth / 2 - 10),
-            padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+            width: (screenWidth / 2 - 5),
             child: ClosingTimer(_modal.timeStamp),
           ),
         ],

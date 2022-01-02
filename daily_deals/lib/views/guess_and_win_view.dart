@@ -32,8 +32,7 @@ class GuessAndWin extends StatelessWidget {
           ),
           SizedBox(height: elementSpacing),
           Container(
-            padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-            width: (screenWidth / 2) - 10,
+            width: (screenWidth / 2) - 5,
             child: ClosingTimer(_modal.timeStamp),
           ),
           SizedBox(height: elementSpacing),
