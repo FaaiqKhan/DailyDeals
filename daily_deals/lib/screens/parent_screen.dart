@@ -9,6 +9,7 @@ import 'package:daily_deals/views/app_bar_title.dart';
 import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:daily_deals/widgets/bottom_navigation_bar_item.dart';
 import 'package:daily_deals/widgets/drawer.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -26,6 +27,7 @@ class ParentScreen extends StatefulWidget {
 
 var scaffoldKey;
 PersistentBottomSheetController? controller;
+
 class _ParentScreenState extends State<ParentScreen> {
   int _currentIndex = 0;
   bool _containsItem = false;
@@ -35,6 +37,7 @@ class _ParentScreenState extends State<ParentScreen> {
   @override
   void initState() {
     scaffoldKey = GlobalKey<ScaffoldState>();
+    setupInteractedMessage();
     _screens = {
       0: HomeScreen(),
       1: CouponScreen(),
@@ -82,7 +85,9 @@ class _ParentScreenState extends State<ParentScreen> {
         child: MyDrawer(screenWidth),
       ),
       bottomNavigationBar: Container(
-        color: _currentIndex == 3 && _containsItem ? HexColor("#F83615") : Colors.white,
+        color: _currentIndex == 3 && _containsItem
+            ? HexColor("#F83615")
+            : Colors.white,
         child: ClipRRect(
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(25.0),
@@ -188,5 +193,24 @@ class _ParentScreenState extends State<ParentScreen> {
     setState(() {
       _currentIndex = index;
     });
+  }
+
+  Future<void> setupInteractedMessage() async {
+    RemoteMessage? initialMessage =
+        await FirebaseMessaging.instance.getInitialMessage();
+    if (initialMessage != null) {
+      _handleMessage(initialMessage);
+    }
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+  }
+
+  void _handleMessage(RemoteMessage message) {
+    try {
+      setState(() {
+        _currentIndex = 2;
+      });
+    } catch (e) {
+
+    }
   }
 }
