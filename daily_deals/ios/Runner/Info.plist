@@ -27,7 +27,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>app-1-937209823504-ios-393333386927bc49a9e595</string>
+				<string>com.googleusercontent.apps.937209823504-vrvp82v81cbfmpp50hoc7qslf1gucc0n</string>
 			</array>
 		</dict>
         <dict>
@@ -47,6 +47,11 @@
     <string>DailyDeals</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
