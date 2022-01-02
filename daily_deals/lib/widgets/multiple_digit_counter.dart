@@ -17,6 +17,12 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
   int numberOfDigits = 8;
   int? timeStamp;
   List<SingleDigit> animatedDigits = [];
+  Map<int, String> timeId = {
+    0: "Day",
+    2: "Hours",
+    4: "Min",
+    6: "Sec",
+  };
 
   int _value = 253;
   String? _oldValue;
@@ -62,7 +68,7 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
       if (i == 1 || i == 3 || i == 5) {
         animatedDigits.add(SingleDigit(
           initialValue: int.parse(digits[i]),
-          showSeparator: true,
+          showSeparator: false,
           useShrinkForm: widget.useShrinkForm,
         ));
       } else {
@@ -88,24 +94,40 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
 
   @override
   Widget build(BuildContext context) {
-    if (animatedDigits.isEmpty) {
-      String newValue = getValueAsString();
-
-      for (var i = 0; i < newValue.length; i++) {
-        var initialDigit = 0;
-        if (_oldValue != null && _oldValue!.length > i) {
-          initialDigit = int.parse(_oldValue![i]);
-        }
-        animatedDigits.add(SingleDigit(
-          initialValue: initialDigit,
-          showSeparator: false,
-          useShrinkForm: widget.useShrinkForm,
-        ));
-      }
+    List<Widget> compiledForm = [];
+    for (int i = 0; i < numberOfDigits; i = i + 2) {
+      compiledForm.add(Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Row(
+            children: [
+              animatedDigits[i],
+              animatedDigits[i + 1],
+              Visibility(
+                visible: i != 6,
+                child: Text(
+                  ":",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: widget.useShrinkForm ? 8 : null,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          Text(
+            timeId[i] ?? "",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: widget.useShrinkForm ? 8 : null,
+            ),
+          ),
+        ],
+      ));
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
-      children: animatedDigits,
+      children: compiledForm,
     );
   }
 
@@ -115,7 +137,7 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
     try {
       _timer = new Timer.periodic(
         oneSec,
-            (Timer timer) {
+        (Timer timer) {
           if (_start == 0) {
             _timer!.cancel();
           } else {
@@ -124,9 +146,8 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
           }
         },
       );
-    } catch(e) {
-      if (_timer != null)
-        _timer!.cancel();
+    } catch (e) {
+      if (_timer != null) _timer!.cancel();
       _timer = null;
     }
   }

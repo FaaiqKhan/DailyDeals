@@ -30,24 +30,7 @@ class ClosingTimer extends StatelessWidget {
         border: Border.all(color: HexColor("#F22806")),
         borderRadius: BorderRadius.all(Radius.circular(5)),
       ),
-      child: Column(
-        children: [
-          digitCounter,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Text("Days",
-                  style: TextStyle(color: Colors.white, fontSize: fontSize)),
-              Text("Hours",
-                  style: TextStyle(color: Colors.white, fontSize: fontSize)),
-              Text("Min",
-                  style: TextStyle(color: Colors.white, fontSize: fontSize)),
-              Text("Sec",
-                  style: TextStyle(color: Colors.white, fontSize: fontSize)),
-            ],
-          )
-        ],
-      ),
+      child: digitCounter,
     );
   }
 }
