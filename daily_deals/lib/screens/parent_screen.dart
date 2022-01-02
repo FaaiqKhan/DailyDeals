@@ -202,6 +202,11 @@ class _ParentScreenState extends State<ParentScreen> {
       _handleMessage(initialMessage);
     }
     FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
+    await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      announcement: true,
+      sound: true,
+    );
   }
 
   void _handleMessage(RemoteMessage message) {
@@ -209,8 +214,6 @@ class _ParentScreenState extends State<ParentScreen> {
       setState(() {
         _currentIndex = 2;
       });
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 }
