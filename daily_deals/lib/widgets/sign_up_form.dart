@@ -5,6 +5,7 @@ import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import 'app_button.dart';
@@ -151,7 +152,7 @@ class SignUpForm extends StatelessWidget {
           StatefulBuilder(
             builder: (ctx, checkBoxState) {
               return CheckboxListTile(
-                title: Row(
+                title: Wrap(
                   children: [
                     Text(
                       "I agree to all ",
@@ -161,7 +162,7 @@ class SignUpForm extends StatelessWidget {
                       "Terms ",
                       style: TextStyle(
                         fontFamily:
-                            Theme.of(context).textTheme.bodyText2!.fontFamily,
+                        Theme.of(context).textTheme.bodyText2!.fontFamily,
                         color: Theme.of(context).primaryColor,
                         fontSize: 13,
                       ),
@@ -174,7 +175,7 @@ class SignUpForm extends StatelessWidget {
                       "Conditions",
                       style: TextStyle(
                         fontFamily:
-                            Theme.of(context).textTheme.bodyText2!.fontFamily,
+                        Theme.of(context).textTheme.bodyText2!.fontFamily,
                         color: Theme.of(context).primaryColor,
                         fontSize: 13,
                       ),
@@ -184,6 +185,7 @@ class SignUpForm extends StatelessWidget {
                 activeColor: Theme.of(context).primaryColor,
                 controlAffinity: ListTileControlAffinity.leading,
                 value: isTermsAndConditionsAccepted,
+                contentPadding: EdgeInsets.zero,
                 onChanged: (value) {
                   checkBoxState(() {
                     isTermsAndConditionsAccepted = value!;

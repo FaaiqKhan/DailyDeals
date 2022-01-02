@@ -216,28 +216,29 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
                   ),
                 ),
                 // Save address checkbox
-                Theme(
-                  data: ThemeData(unselectedWidgetColor: Colors.white),
-                  child: CheckboxListTile(
-                    value: saveAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        saveAddress = value as bool;
-                      });
-                    },
-                    title: Text(
-                      "Save this address",
-                      style: TextStyle(
-                          fontFamily:
-                          Theme.of(context).textTheme.bodyText1!.fontFamily,
-                          color: Colors.white,
-                          fontSize: 12.0
-                      ),
-                    ),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding: const EdgeInsets.all(0.0),
-                  ),
-                )
+                // Theme(
+                //   data: ThemeData(unselectedWidgetColor: Colors.white),
+                //   child: CheckboxListTile(
+                //     value: saveAddress,
+                //     onChanged: (value) {
+                //       setState(() {
+                //         saveAddress = value as bool;
+                //       });
+                //     },
+                //     title: Text(
+                //       "Save this address",
+                //       style: TextStyle(
+                //           fontFamily:
+                //           Theme.of(context).textTheme.bodyText1!.fontFamily,
+                //           color: Colors.white,
+                //           fontSize: 12.0
+                //       ),
+                //     ),
+                //     controlAffinity: ListTileControlAffinity.leading,
+                //     contentPadding: const EdgeInsets.all(0.0),
+                //   ),
+                // )
+                SizedBox(height: 15),
               ],
             ),
           )
