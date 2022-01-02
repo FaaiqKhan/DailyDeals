@@ -51,8 +51,10 @@ class NotificationView extends StatelessWidget {
                     ),
                   ],
                 ),
+                SizedBox(height: 5,),
                 Expanded(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(

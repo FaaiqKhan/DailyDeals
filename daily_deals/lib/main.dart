@@ -42,7 +42,6 @@ void main() async {
     String? fcmToken = preferences.getString(Constants.FCM_TOKEN) ?? "";
     if (fcmToken.isEmpty)
       FirebaseMessaging.instance.getToken().then((token) {
-        print("FCM token: $token");
         preferences.setString(Constants.FCM_TOKEN, token ?? "");
       });
   });
