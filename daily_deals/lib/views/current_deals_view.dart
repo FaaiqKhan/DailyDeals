@@ -183,8 +183,8 @@ class CurrentDeals extends StatelessWidget {
         height: cardHeight,
         child: CardView(
           data,
-          totalItems: 1024,
-          remainingItems: 800,
+          totalItems: _modal.total ?? 0,
+          remainingItems: _modal.soldOut ?? 0,
         ),
       ),
     );
