@@ -7,8 +7,7 @@ class MultipleDigitCounter extends StatefulWidget {
   final String timeStamp;
   final bool useShrinkForm;
 
-  MultipleDigitCounter(this.timeStamp, {Key? key, this.useShrinkForm = true})
-      : super(key: key);
+  MultipleDigitCounter(this.timeStamp, {this.useShrinkForm = true});
 
   @override
   MultipleDigitCounterState createState() => MultipleDigitCounterState();
@@ -64,11 +63,13 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
         animatedDigits.add(SingleDigit(
           initialValue: int.parse(digits[i]),
           showSeparator: true,
+          useShrinkForm: widget.useShrinkForm,
         ));
       } else {
         animatedDigits.add(SingleDigit(
           initialValue: int.parse(digits[i]),
           showSeparator: false,
+          useShrinkForm: widget.useShrinkForm,
         ));
       }
     }
@@ -98,6 +99,7 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
         animatedDigits.add(SingleDigit(
           initialValue: initialDigit,
           showSeparator: false,
+          useShrinkForm: widget.useShrinkForm,
         ));
       }
     }
@@ -108,7 +110,7 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
   }
 
   void startTimer() {
-    int _start = 100;
+    int _start = 1000;
     const oneSec = const Duration(seconds: 1);
     try {
       _timer = new Timer.periodic(

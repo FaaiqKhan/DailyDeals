@@ -163,7 +163,10 @@ class CurrentDeals extends StatelessWidget {
             ),
           ),
           // Timer
-          // ClosingTimer(_modal.timeStamp),
+          Container(
+            width: (screenWidth / 2 - 10),
+            child: ClosingTimer(_modal.timeStamp),
+          ),
         ],
       ),
     );

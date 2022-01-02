@@ -255,7 +255,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                     alignment: Alignment.topCenter,
                     children: [
                       Container(
-                        margin: const EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 30),
                         decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey),
                           borderRadius: BorderRadius.only(
@@ -451,9 +451,12 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                       ),
                       // Timer container
-                      ClosingTimer(
-                        _modal!.timeStamp,
-                        useShrinkForm: false,
+                      Container(
+                        width: screenWidth * 0.7,
+                        child: ClosingTimer(
+                          _modal!.timeStamp,
+                          useShrinkForm: false,
+                        ),
                       ),
                     ],
                   )

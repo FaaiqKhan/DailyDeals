@@ -3,11 +3,15 @@ import 'package:hexcolor/hexcolor.dart';
 
 class SingleDigit extends StatefulWidget {
   final int initialValue;
-  final bool showSeparator;
+  final bool showSeparator, useShrinkForm;
 
   _SingleDigitState? _state;
 
-  SingleDigit({required this.initialValue, required this.showSeparator});
+  SingleDigit({
+    required this.initialValue,
+    required this.showSeparator,
+    this.useShrinkForm = true,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -28,6 +32,7 @@ class _SingleDigitState extends State<SingleDigit>
 
   int previousValue, currentValue;
 
+  double separatorPadding = 2.5;
   TextStyle? digitStyle;
   Animation<double>? animation;
   AnimationController? controller;
@@ -36,6 +41,9 @@ class _SingleDigitState extends State<SingleDigit>
   void initState() {
     super.initState();
     _initAnimation();
+    if (widget.useShrinkForm) {
+      separatorPadding = 0.5;
+    }
   }
 
   @override
@@ -88,8 +96,8 @@ class _SingleDigitState extends State<SingleDigit>
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          padding: const EdgeInsets.all(8.0),
-          margin: const EdgeInsets.all(2.0),
+          padding: EdgeInsets.all(widget.useShrinkForm ? 4.0 : 8.0),
+          margin: EdgeInsets.all(widget.useShrinkForm ? 0.8 : 2.0),
           decoration: BoxDecoration(color: HexColor("#DA2B0E")),
           child: SizedOverflowBox(
             alignment: Alignment.topCenter,
@@ -106,8 +114,11 @@ class _SingleDigitState extends State<SingleDigit>
         Visibility(
           visible: widget.showSeparator,
           child: Padding(
-            padding: const EdgeInsets.only(left: 2.5, right: 2.5),
-            child: Text(":", style: TextStyle(color: Colors.white)),
+            padding: EdgeInsets.only(
+              left: separatorPadding,
+              right: separatorPadding,
+            ),
+            child: Text(":", style: digitStyle),
           ),
         ),
       ],
