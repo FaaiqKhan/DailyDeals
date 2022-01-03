@@ -24,7 +24,7 @@ class CouponModal {
 }
 
 CouponModal _$CouponModalFromJson(Map<String, dynamic> json) {
-  List<dynamic> dynamicNumbers = json['sufflfe_number'];
+  List<dynamic> dynamicNumbers = json['sufflfe_number'] ?? [];
   List<String> numbers = [];
   for (dynamic num in dynamicNumbers) {
     numbers.add(num as String);
