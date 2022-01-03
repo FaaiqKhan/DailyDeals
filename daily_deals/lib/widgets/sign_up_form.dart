@@ -59,6 +59,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 prefixIcon: "assets/images/email_icon.png",
                 title: "Enter email",
               ),
+              keyboardType: TextInputType.emailAddress,
               validator: (value) {
                 if (value == null || value.isEmpty)
                   return "Please enter you email";
@@ -158,7 +159,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   "Terms ",
                   style: TextStyle(
                     fontFamily:
-                    Theme.of(context).textTheme.bodyText2!.fontFamily,
+                        Theme.of(context).textTheme.bodyText2!.fontFamily,
                     color: Theme.of(context).primaryColor,
                     fontSize: 13,
                   ),
@@ -171,7 +172,7 @@ class _SignUpFormState extends State<SignUpForm> {
                   "Conditions",
                   style: TextStyle(
                     fontFamily:
-                    Theme.of(context).textTheme.bodyText2!.fontFamily,
+                        Theme.of(context).textTheme.bodyText2!.fontFamily,
                     color: Theme.of(context).primaryColor,
                     fontSize: 13,
                   ),
@@ -201,10 +202,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     _userDetails.setNumber =
                         countryCode + _userDetails.getNumber;
                     FocusScope.of(context).requestFocus(FocusNode());
-                    Utils.requestOtp(
-                      context,
-                      _userDetails,
-                    );
+                    Utils.requestOtp(context, _userDetails);
                   }
                 } else {
                   WidgetUtils.showToast(

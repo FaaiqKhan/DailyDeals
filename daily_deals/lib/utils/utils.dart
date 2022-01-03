@@ -47,8 +47,11 @@ class Utils {
     return screenWidth - (screenWidth * 0.50);
   }
 
-  static void requestOtp(BuildContext context, UserDetails userDetails,
-      {Function? timer, bool forgotPassword = false}) async {
+  static void requestOtp(
+    BuildContext context,
+    UserDetails userDetails, {
+    Function? timer,
+  }) async {
     WidgetUtils.showLoaderDialog(context, "Please wait...");
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
@@ -57,18 +60,6 @@ class Utils {
         timeout: Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) {
           print("verificationCompleted");
-          // if (forgotPassword) {
-          //   Timer(Duration(seconds: 2), () {
-          //     WidgetUtils.showLoaderDialog(context, "Verifying code...");
-          //     Timer(Duration(seconds: 2), () {
-          //       Navigator.pushReplacementNamed(
-          //         context,
-          //         CreatePassword.routeName,
-          //         arguments: userDetails.getUserId,
-          //       );
-          //     });
-          //   });
-          // }
         },
         verificationFailed: (FirebaseAuthException e) {
           Navigator.of(context).pop();
@@ -84,8 +75,7 @@ class Utils {
               CodeVerificationScreen.routeName,
               arguments: {
                 "userDetails": userDetails,
-                "verificationId": verificationId,
-                "forgotPassword": forgotPassword,
+                "verificationId": verificationId
               },
             );
           } else {
@@ -166,5 +156,15 @@ class Utils {
     await preferences.setString(Constants.EMAIL, data['email']);
     if (provider != null)
       await preferences.setString(Constants.SOCIAL_LOGIN_PROVIDER, provider);
+  }
+
+  static Future<bool> requestPasswordReset(String email) async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    try {
+      await auth.sendPasswordResetEmail(email: email);
+      return Future.value(true);
+    } catch (e) {
+      return Future.value(false);
+    }
   }
 }

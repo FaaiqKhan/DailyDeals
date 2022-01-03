@@ -102,12 +102,14 @@ class WebService {
     String? accessToken = preferences.getString("access_token");
     String endPoint = '/home/checkout';
     NetworkHandler handler = NetworkHandler(endPoint: endPoint);
-    var response = await http.post(Uri.parse(handler.getUrl),
-        headers: {
-          HttpHeaders.authorizationHeader: "Bearer $accessToken",
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(items));
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(items),
+    );
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (json['success']) {

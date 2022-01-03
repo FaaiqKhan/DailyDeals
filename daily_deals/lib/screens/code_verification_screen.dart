@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/providers/auth.dart';
 import 'package:daily_deals/providers/user_details.dart';
-import 'package:daily_deals/screens/create_password_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -29,7 +28,6 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
   int _start = 0;
   String _smsCode = "";
   bool hasData = false;
-  bool forgotPassword = false;
   Map? data;
   UserDetails? _userDetails;
   TextEditingController? _controller;
@@ -45,7 +43,6 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
     if (data == null) {
       data = ModalRoute.of(context)!.settings.arguments as Map;
       _userDetails = data!['userDetails'];
-      forgotPassword = data!['forgotPassword'];
     }
     super.didChangeDependencies();
   }
@@ -135,11 +132,8 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                         _controller!.clear();
                         _smsCode = "";
                       });
-                      Utils.requestOtp(
-                        context,
-                        data!['userDetails'],
-                        timer: _startTimer,
-                      );
+                      Utils.requestOtp(context, data!['userDetails'],
+                          timer: _startTimer);
                     },
                     child: Text(
                       "Resend",
@@ -176,30 +170,22 @@ class _CodeVerificationScreenState extends State<CodeVerificationScreen> {
                     _smsCode,
                   );
                   if (isValid) {
-                    if (forgotPassword) {
+                    bool userCreated = await Provider.of<Auth>(
+                      context,
+                      listen: false,
+                    ).signUp(_userDetails!);
+                    if (userCreated) {
                       Navigator.of(context).pop();
-                      Navigator.popAndPushNamed(
-                        context,
-                        CreatePassword.routeName,
-                      );
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          ParentScreen.routeName, (route) => false);
                     } else {
-                      bool userCreated = await Provider.of<Auth>(
-                        context,
-                        listen: false,
-                      ).signUp(_userDetails!);
-                      if (userCreated) {
-                        Navigator.of(context).pop();
-                        Navigator.of(context).pushNamedAndRemoveUntil(
-                            ParentScreen.routeName, (route) => false);
-                      } else {
-                        Navigator.of(context).pop();
-                        Fluttertoast.showToast(
-                          msg:
-                              "Cannot create user please contact to service provider",
-                          gravity: ToastGravity.BOTTOM,
-                          toastLength: Toast.LENGTH_LONG,
-                        );
-                      }
+                      Navigator.of(context).pop();
+                      Fluttertoast.showToast(
+                        msg:
+                        "Cannot create user please contact to service provider",
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_LONG,
+                      );
                     }
                   } else {
                     Navigator.of(context).pop();

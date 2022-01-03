@@ -251,9 +251,11 @@ class CartScreen extends StatelessWidget {
                         item.productId,
                         item.itemCount.toString(),
                         item.price,
-                        isAddressRequired.containsValue(0)
+                        isAddressRequired.isEmpty
                             ? "Donate"
-                            : "Normal",
+                            : isAddressRequired.containsValue(0)
+                                ? "Donate"
+                                : "Normal",
                         item.mySequence.values.toList(),
                       ),
                     );
