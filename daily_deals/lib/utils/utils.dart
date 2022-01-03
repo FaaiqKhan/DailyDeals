@@ -109,7 +109,7 @@ class Utils {
       List<Object> modal, bool isForWinner) {
     List<Widget> data = [];
     int dataLength = modal.length;
-    int halfOfList = dataLength ~/ 2;
+    int halfOfList = (dataLength / 2).ceil();
     int endIndex = dataLength - 1;
     for (int i = 0; i <= halfOfList; i = i + 2) {
       data.add(
@@ -123,6 +123,18 @@ class Utils {
               isForWinner
                   ? WinnerCard(modal[i + 1] as WinnerModal)
                   : ClosingSoon(modal.elementAt(i + 1) as ProductModal),
+          ],
+        ),
+      );
+    }
+    if (dataLength % 2 != 0) {
+      data.add(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            isForWinner
+                ? WinnerCard(modal.last as WinnerModal)
+                : ClosingSoon(modal.last as ProductModal)
           ],
         ),
       );

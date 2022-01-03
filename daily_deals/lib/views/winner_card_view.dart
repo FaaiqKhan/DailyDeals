@@ -12,6 +12,11 @@ class WinnerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    Widget imageView = Image.network(
+      modal.image,
+      fit: fullScreenView ? BoxFit.fitWidth : BoxFit.fill,
+      height: fullScreenView ? null : 150,
+    );
     return Container(
       width: fullScreenView ? screenWidth : screenWidth * 0.45,
       child: Card(
@@ -22,13 +27,10 @@ class WinnerCard extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 5.0),
-            Container(
-              width: screenWidth - 50,
-              child: Image.network(
-                modal.image,
-                fit: fullScreenView ? BoxFit.fitWidth : BoxFit.fill,
-                height: fullScreenView ? null : 150,
-              ),
+            Visibility(
+              visible: fullScreenView,
+              child: Container(width: screenWidth - 50, child: imageView),
+              replacement: imageView,
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),
