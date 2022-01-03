@@ -87,6 +87,7 @@ class Utils {
         },
       );
     } catch (e) {
+      WidgetUtils.showToast("request otp: " + e.toString());
       Navigator.of(context).pop();
     }
   }
