@@ -92,33 +92,10 @@ class _ProductDetailsState extends State<ProductDetails> {
             : Future.value(_modal),
         builder: (ctx, snapShot) {
           if (snapShot.hasData) {
-            _modal = snapShot.data as DetailedProductModal;
-            if (!isGenerated) {
-              productPrice = double.parse(_modal!.price!);
-              if (productId == null) {
-                _productCount = _productCount + item!.itemCount;
-                productPrice = productPrice + double.parse(item!.price);
-                for (int i = 0; i < item!.itemCount; i++) {
-                  sequenceAdderView.add(
-                    GuessAndWinSequence(
-                      _productCount,
-                      saveSequence,
-                      preDefinedSequence: item!.mySequence.values.elementAt(i),
-                    ),
-                  );
-                  _mySequence[i + 1] = item!.mySequence.values.elementAt(i);
-                }
-                sequenceAdderView
-                    .add(GuessAndWinSequence(_productCount, saveSequence));
-                showSequence = true;
-              } else {
-                sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
-              }
-              isGenerated = true;
-            }
-            return SingleChildScrollView(
-              child: Container(
-                height: MediaQuery.of(context).size.height - 80,
+            prepareModal(snapShot);
+            return Container(
+              height: MediaQuery.of(context).size.height,
+              child: SingleChildScrollView(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -530,6 +507,33 @@ class _ProductDetailsState extends State<ProductDetails> {
       return false;
     } else {
       return true;
+    }
+  }
+
+  void prepareModal(var snapShot) {
+    _modal = snapShot.data as DetailedProductModal;
+    if (!isGenerated) {
+      productPrice = double.parse(_modal!.price!);
+      if (productId == null) {
+        _productCount = _productCount + item!.itemCount;
+        productPrice = productPrice + double.parse(item!.price);
+        for (int i = 0; i < item!.itemCount; i++) {
+          sequenceAdderView.add(
+            GuessAndWinSequence(
+              _productCount,
+              saveSequence,
+              preDefinedSequence: item!.mySequence.values.elementAt(i),
+            ),
+          );
+          _mySequence[i + 1] = item!.mySequence.values.elementAt(i);
+        }
+        sequenceAdderView
+            .add(GuessAndWinSequence(_productCount, saveSequence));
+        showSequence = true;
+      } else {
+        sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
+      }
+      isGenerated = true;
     }
   }
 }
