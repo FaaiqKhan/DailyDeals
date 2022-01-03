@@ -22,10 +22,13 @@ class WinnerCard extends StatelessWidget {
         child: Column(
           children: [
             const SizedBox(height: 5.0),
-            Image.network(
-              modal.image,
-              fit: fullScreenView ? BoxFit.fitWidth : BoxFit.fill,
-              height: fullScreenView ? null : 150,
+            Container(
+              width: screenWidth - 50,
+              child: Image.network(
+                modal.image,
+                fit: fullScreenView ? BoxFit.fitWidth : BoxFit.fill,
+                height: fullScreenView ? null : 150,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 8.0, right: 8.0),

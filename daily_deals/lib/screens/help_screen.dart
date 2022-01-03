@@ -109,78 +109,78 @@ class HelpScreen extends StatelessWidget {
                 ],
               ),
               SizedBox(height: 20.0),
-              CustomDropdown<int>(
-                child: iconAndText(
-                  context,
-                  "assets/images/referral_icon.png",
-                  "Referral Program Terms & Condition",
-                  17,
-                ),
-                onChange: (int value, int index) => print(value),
-                dropdownButtonStyle: DropdownButtonStyle(
-                  width: screenWidth,
-                  height: 50,
-                  elevation: 1,
-                  backgroundColor: [
-                    Theme.of(context).primaryColor,
-                    HexColor("#313030")
-                  ],
-                ),
-                dropdownStyle: DropdownStyle(padding: EdgeInsets.all(5)),
-                items: [
-                  const SizedBox(height: 20.0),
-                  // Image with title
-                  Row(
-                    children: [
-                      Image.asset("assets/images/agreement_icon.png", scale: 8),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 200),
-                        child: Text(
-                          "Terms & Condition",
-                          style: TextStyle(
-                            fontFamily: Theme.of(context)
-                                .textTheme
-                                .headline6!
-                                .fontFamily,
-                            fontSize:
-                                Theme.of(context).textTheme.subtitle2!.fontSize,
-                            color: Colors.black,
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  const SizedBox(height: 20.0),
-                  // Terms and condition text
-                  Text(
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillu dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
-                    style: Theme.of(context).textTheme.bodyText1,
-                  ),
-                  const SizedBox(height: 20.0),
-                  // Accept terms and condition
-                  TextButton(
-                    style: ButtonStyle(
-                      minimumSize: MaterialStateProperty.all(
-                        Size(screenWidth, buttonHeight),
-                      ),
-                      backgroundColor: MaterialStateProperty.all(
-                        Theme.of(context).primaryColor,
-                      ),
-                    ),
-                    child: Text(
-                      "I ACCEPT TERMS & CONDITION",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontFamily:
-                            Theme.of(context).textTheme.subtitle2!.fontFamily,
-                      ),
-                    ),
-                    onPressed: () {},
-                  ),
-                  const SizedBox(height: 30.0),
-                ],
-              ),
-              SizedBox(height: 20.0),
+              // CustomDropdown<int>(
+              //   child: iconAndText(
+              //     context,
+              //     "assets/images/referral_icon.png",
+              //     "Referral Program Terms & Condition",
+              //     17,
+              //   ),
+              //   onChange: (int value, int index) => print(value),
+              //   dropdownButtonStyle: DropdownButtonStyle(
+              //     width: screenWidth,
+              //     height: 50,
+              //     elevation: 1,
+              //     backgroundColor: [
+              //       Theme.of(context).primaryColor,
+              //       HexColor("#313030")
+              //     ],
+              //   ),
+              //   dropdownStyle: DropdownStyle(padding: EdgeInsets.all(5)),
+              //   items: [
+              //     const SizedBox(height: 20.0),
+              //     // Image with title
+              //     Row(
+              //       children: [
+              //         Image.asset("assets/images/agreement_icon.png", scale: 8),
+              //         ConstrainedBox(
+              //           constraints: BoxConstraints(maxWidth: 200),
+              //           child: Text(
+              //             "Terms & Condition",
+              //             style: TextStyle(
+              //               fontFamily: Theme.of(context)
+              //                   .textTheme
+              //                   .headline6!
+              //                   .fontFamily,
+              //               fontSize:
+              //                   Theme.of(context).textTheme.subtitle2!.fontSize,
+              //               color: Colors.black,
+              //             ),
+              //           ),
+              //         )
+              //       ],
+              //     ),
+              //     const SizedBox(height: 20.0),
+              //     // Terms and condition text
+              //     Text(
+              //       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostru exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillu dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum",
+              //       style: Theme.of(context).textTheme.bodyText1,
+              //     ),
+              //     const SizedBox(height: 20.0),
+              //     // Accept terms and condition
+              //     TextButton(
+              //       style: ButtonStyle(
+              //         minimumSize: MaterialStateProperty.all(
+              //           Size(screenWidth, buttonHeight),
+              //         ),
+              //         backgroundColor: MaterialStateProperty.all(
+              //           Theme.of(context).primaryColor,
+              //         ),
+              //       ),
+              //       child: Text(
+              //         "I ACCEPT TERMS & CONDITION",
+              //         style: TextStyle(
+              //           color: Colors.white,
+              //           fontFamily:
+              //               Theme.of(context).textTheme.subtitle2!.fontFamily,
+              //         ),
+              //       ),
+              //       onPressed: () {},
+              //     ),
+              //     const SizedBox(height: 30.0),
+              //   ],
+              // ),
+              // SizedBox(height: 20.0),
               CustomDropdown<int>(
                 child: iconAndText(
                   context,
@@ -357,6 +357,8 @@ class HelpScreen extends StatelessWidget {
                                   color: textFieldBorderColor,
                                 ),
                               ),
+                              hintText: "Email",
+                              hintStyle: TextStyle(color: textAndIconColor),
                               prefixIcon: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -394,6 +396,8 @@ class HelpScreen extends StatelessWidget {
                                   color: textFieldBorderColor,
                                 ),
                               ),
+                              hintText: "Phone",
+                              hintStyle: TextStyle(color: textAndIconColor),
                               prefixIcon: Row(
                                 children: [
                                   SizedBox(width: 10.0),

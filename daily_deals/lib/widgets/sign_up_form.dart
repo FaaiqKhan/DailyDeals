@@ -10,16 +10,22 @@ import 'package:flutter/services.dart';
 
 import 'app_button.dart';
 
-bool showPassword = false;
-bool showConfirmPassword = false;
-Function passwordState = () {};
-String countryCode = "+971";
-
-class SignUpForm extends StatelessWidget {
+class SignUpForm extends StatefulWidget {
   static final GlobalKey<FormState> _form = GlobalKey<FormState>();
   final double screenWidth;
 
   SignUpForm(this.screenWidth);
+
+  @override
+  State<SignUpForm> createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
+  bool isTermsAndConditionsAccepted = false;
+  bool showPassword = false;
+  bool showConfirmPassword = false;
+  String countryCode = "+971";
+  final UserDetails _userDetails = UserDetails("", "", "", "");
 
   void updateCountryCode(CountryCode code) {
     countryCode = code.dialCode!;
@@ -27,11 +33,8 @@ class SignUpForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final UserDetails _userDetails = UserDetails("", "", "", "");
-    bool isTermsAndConditionsAccepted = false;
-
     return Form(
-      key: _form,
+      key: SignUpForm._form,
       child: Column(
         children: [
           Padding(
@@ -94,104 +97,95 @@ class SignUpForm extends StatelessWidget {
               },
             ),
           ),
-          StatefulBuilder(
-            builder: (cxt, state) {
-              passwordState = state;
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: TextFormUtils.textFieldSpacing(),
-                    child: TextFormField(
-                      decoration: TextFormUtils.textFieldDecoration(
-                        prefixIcon: "assets/images/password_icon.png",
-                        title: "Enter password",
-                        isPassword: true,
-                        showPassword: showPassword,
-                        visibilityFunc: passwordVisibility,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please set your password";
-                        }
-                        return null;
-                      },
-                      onSaved: (value) => _userDetails.setPassword = value!,
-                      obscureText: !showPassword,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                    ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                padding: TextFormUtils.textFieldSpacing(),
+                child: TextFormField(
+                  decoration: TextFormUtils.textFieldDecoration(
+                    prefixIcon: "assets/images/password_icon.png",
+                    title: "Enter password",
+                    isPassword: true,
+                    showPassword: showPassword,
+                    visibilityFunc: passwordVisibility,
                   ),
-                  Padding(
-                    padding: TextFormUtils.textFieldSpacing(),
-                    child: TextFormField(
-                      decoration: TextFormUtils.textFieldDecoration(
-                        prefixIcon: "assets/images/password_icon.png",
-                        title: "Enter confirm password",
-                        isPassword: true,
-                        showPassword: showConfirmPassword,
-                        visibilityFunc: confirmPasswordVisibility,
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please re-enter your password";
-                        } else if (value != _userDetails.getPassword) {
-                          return "Password does not match";
-                        }
-                        return null;
-                      },
-                      obscureText: !showConfirmPassword,
-                      enableSuggestions: false,
-                      autocorrect: false,
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          StatefulBuilder(
-            builder: (ctx, checkBoxState) {
-              return CheckboxListTile(
-                title: Wrap(
-                  children: [
-                    Text(
-                      "I agree to all ",
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    Text(
-                      "Terms ",
-                      style: TextStyle(
-                        fontFamily:
-                        Theme.of(context).textTheme.bodyText2!.fontFamily,
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 13,
-                      ),
-                    ),
-                    Text(
-                      "and ",
-                      style: Theme.of(context).textTheme.bodyText2,
-                    ),
-                    Text(
-                      "Conditions",
-                      style: TextStyle(
-                        fontFamily:
-                        Theme.of(context).textTheme.bodyText2!.fontFamily,
-                        color: Theme.of(context).primaryColor,
-                        fontSize: 13,
-                      ),
-                    ),
-                  ],
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please set your password";
+                    }
+                    return null;
+                  },
+                  onSaved: (value) => _userDetails.setPassword = value!,
+                  obscureText: !showPassword,
+                  enableSuggestions: false,
+                  autocorrect: false,
                 ),
-                activeColor: Theme.of(context).primaryColor,
-                controlAffinity: ListTileControlAffinity.leading,
-                value: isTermsAndConditionsAccepted,
-                contentPadding: EdgeInsets.zero,
-                onChanged: (value) {
-                  checkBoxState(() {
-                    isTermsAndConditionsAccepted = value!;
-                  });
-                },
-              );
+              ),
+              Padding(
+                padding: TextFormUtils.textFieldSpacing(),
+                child: TextFormField(
+                  decoration: TextFormUtils.textFieldDecoration(
+                    prefixIcon: "assets/images/password_icon.png",
+                    title: "Enter confirm password",
+                    isPassword: true,
+                    showPassword: showConfirmPassword,
+                    visibilityFunc: confirmPasswordVisibility,
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Please re-enter your password";
+                    } else if (value != _userDetails.getPassword) {
+                      return "Password does not match";
+                    }
+                    return null;
+                  },
+                  obscureText: !showConfirmPassword,
+                  enableSuggestions: false,
+                  autocorrect: false,
+                ),
+              ),
+            ],
+          ),
+          CheckboxListTile(
+            title: Wrap(
+              children: [
+                Text(
+                  "I agree to all ",
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                Text(
+                  "Terms ",
+                  style: TextStyle(
+                    fontFamily:
+                    Theme.of(context).textTheme.bodyText2!.fontFamily,
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 13,
+                  ),
+                ),
+                Text(
+                  "and ",
+                  style: Theme.of(context).textTheme.bodyText2,
+                ),
+                Text(
+                  "Conditions",
+                  style: TextStyle(
+                    fontFamily:
+                    Theme.of(context).textTheme.bodyText2!.fontFamily,
+                    color: Theme.of(context).primaryColor,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+            activeColor: Theme.of(context).primaryColor,
+            controlAffinity: ListTileControlAffinity.leading,
+            value: isTermsAndConditionsAccepted,
+            contentPadding: EdgeInsets.zero,
+            onChanged: (value) {
+              setState(() {
+                isTermsAndConditionsAccepted = value!;
+              });
             },
           ),
           // Sign Up button
@@ -202,8 +196,8 @@ class SignUpForm extends StatelessWidget {
               text: "Sign Up",
               functionality: () async {
                 if (isTermsAndConditionsAccepted) {
-                  _form.currentState!.save();
-                  if (_form.currentState!.validate()) {
+                  SignUpForm._form.currentState!.save();
+                  if (SignUpForm._form.currentState!.validate()) {
                     _userDetails.setNumber =
                         countryCode + _userDetails.getNumber;
                     FocusScope.of(context).requestFocus(FocusNode());
@@ -221,7 +215,7 @@ class SignUpForm extends StatelessWidget {
           ),
           Visibility(
             visible: Utils.isKeyboardVisible(context),
-            child: SizedBox(height: screenWidth * 0.2),
+            child: SizedBox(height: widget.screenWidth * 0.2),
           ),
         ],
       ),
@@ -229,13 +223,13 @@ class SignUpForm extends StatelessWidget {
   }
 
   void passwordVisibility() {
-    passwordState(() {
+    setState(() {
       showPassword = !showPassword;
     });
   }
 
   void confirmPasswordVisibility() {
-    passwordState(() {
+    setState(() {
       showConfirmPassword = !showConfirmPassword;
     });
   }

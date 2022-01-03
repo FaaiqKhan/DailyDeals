@@ -117,38 +117,7 @@ class CurrentDeals extends StatelessWidget {
               AddToFavorites(_modal.dealId!, _modal.isFavorite),
             ],
           ),
-          // Runner image and date
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset("assets/images/timer_icon.png", scale: 7),
-              SizedBox(width: 10),
-              Container(
-                padding: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  color: HexColor("#303030"),
-                  border: Border.all(
-                    color: HexColor("#303030"),
-                  ),
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 20),
-                  child: Text(
-                    "End on 26 Nov",
-                    style: TextStyle(
-                      fontFamily:
-                          Theme.of(context).textTheme.subtitle2!.fontFamily,
-                      color: Colors.white,
-                      fontSize: 6,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          Image.asset("assets/images/timer_icon.png", scale: 7),
           // Clock image
           Opacity(
             opacity: 0.25882352941176473,
