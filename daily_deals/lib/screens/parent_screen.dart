@@ -81,9 +81,7 @@ class _ParentScreenState extends State<ParentScreen> {
                   Platform.isIOS ? SystemUiOverlayStyle.dark : null,
             )
           : null,
-      drawer: ColorfulSafeArea(
-        child: MyDrawer(screenWidth),
-      ),
+      drawer: ColorfulSafeArea(child: MyDrawer(screenWidth)),
       bottomNavigationBar: Container(
         color: _currentIndex == 3 && _containsItem
             ? HexColor("#F83615")
@@ -174,6 +172,7 @@ class _ParentScreenState extends State<ParentScreen> {
               onTap: _onItemTap,
               currentIndex: _currentIndex,
               type: BottomNavigationBarType.fixed,
+              selectedFontSize: 12,
             ),
           ),
         ),

@@ -14,8 +14,9 @@ class WinnerCard extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     Widget imageView = Image.network(
       modal.image,
-      fit: fullScreenView ? BoxFit.fitWidth : BoxFit.fill,
+      fit: BoxFit.fitWidth,
       height: fullScreenView ? null : 150,
+      width: screenWidth * 0.39,
     );
     return Container(
       width: fullScreenView ? screenWidth : screenWidth * 0.45,

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class CouponScreen extends StatelessWidget {
   Widget prepareView(List<CouponModal> modal) {
     List<Widget> data = [];
-    for (CouponModal cm in modal.reversed) data.add(CouponView(cm));
+    for (CouponModal cm in modal) data.add(CouponView(cm));
 
     return SingleChildScrollView(
       child: Padding(

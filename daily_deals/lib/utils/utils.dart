@@ -118,7 +118,7 @@ class Utils {
         ),
       );
     }
-    if (dataLength % 2 != 0) {
+    if (dataLength > 1 && dataLength % 2 != 0) {
       data.add(
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
