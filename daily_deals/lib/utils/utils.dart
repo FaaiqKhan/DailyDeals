@@ -121,7 +121,6 @@ class Utils {
     if (dataLength > 1 && dataLength % 2 != 0) {
       data.add(
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             isForWinner
                 ? WinnerCard(modal.last as WinnerModal)
