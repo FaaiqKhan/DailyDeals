@@ -5,6 +5,7 @@ import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/modals/detailed_product_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
+import 'package:daily_deals/modals/inquiry_form_modal.dart';
 import 'package:daily_deals/modals/notification_modal.dart';
 import 'package:daily_deals/modals/single_product_modal.dart';
 import 'package:daily_deals/modals/social_login_modal.dart';
@@ -370,6 +371,32 @@ class WebService {
     } else {
       DateFormat dateTimeFormat = new DateFormat("dd MMM");
       return dateTimeFormat.format(dateTime);
+    }
+  }
+
+  static Future<bool> submitInquiryForm(InquiryFormModal inquiryForm) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    NetworkHandler handler = NetworkHandler(endPoint: "/home/sendinquiry");
+    inquiryForm.userId = userId!;
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+      body: jsonEncode(inquiryForm),
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        WidgetUtils.showToast(json['data']);
+      } else {
+        WidgetUtils.showToast(json['errorMessage']);
+      }
+      return Future.value(json['success']);
+    } else {
+      return Future.value(false);
     }
   }
 }

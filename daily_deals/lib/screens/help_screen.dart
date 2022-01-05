@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:daily_deals/modals/inquiry_form_modal.dart';
+import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/viewhelper/dropdown_action.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -10,6 +12,8 @@ import 'package:hexcolor/hexcolor.dart';
 
 class HelpScreen extends StatelessWidget {
   static const String routeName = "/help-screen";
+  final _formKey = GlobalKey<FormState>();
+  final InquiryFormModal _inquiryForm = InquiryFormModal();
 
   @override
   Widget build(BuildContext context) {
@@ -17,16 +21,12 @@ class HelpScreen extends StatelessWidget {
     double buttonHeight = 50.0;
     Color textFieldBorderColor = HexColor("#E4E6E8");
     Color textAndIconColor = HexColor("#A8B2BD");
-    TextEditingController nameController = TextEditingController();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController phoneController = TextEditingController();
-    TextEditingController subjectController = TextEditingController();
-    TextEditingController messageController = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: AppBarTitle("Help"),
+        automaticallyImplyLeading: false,
         leading: Platform.isIOS ? WidgetUtils.tabBarBackButton(context) : null,
         backgroundColor: Theme.of(context).primaryColor,
       ),
@@ -299,178 +299,226 @@ class HelpScreen extends StatelessWidget {
                     const SizedBox(height: 20.0),
                     Padding(
                       padding: EdgeInsets.only(left: 20.0, right: 20.0),
-                      child: Column(
-                        children: [
-                          // Name
-                          TextFormField(
-                            controller: nameController,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            // Name
+                            TextFormField(
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                hintText: "Name",
+                                hintStyle: TextStyle(color: textAndIconColor),
+                                prefixIcon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(width: 10.0),
+                                    const Opacity(
+                                      opacity: 0.0,
+                                      child: Icon(
+                                        Icons.email_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 10.0,
+                                        right: 10.0,
+                                      ),
+                                      width: 2,
+                                      height: buttonHeight - 10,
+                                      color: textFieldBorderColor,
+                                    )
+                                  ],
                                 ),
                               ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
+                              cursorColor: textAndIconColor,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your name";
+                                }
+                                return null;
+                              },
+                              onSaved: (value) => _inquiryForm.name = value,
+                            ),
+                            const SizedBox(height: 10.0),
+                            // Email
+                            TextFormField(
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
                                 ),
-                              ),
-                              hintText: "Name",
-                              hintStyle: TextStyle(color: textAndIconColor),
-                              prefixIcon: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(width: 10.0),
-                                  Opacity(
-                                    opacity: 0.0,
-                                    child: Icon(
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                hintText: "Email",
+                                hintStyle: TextStyle(color: textAndIconColor),
+                                prefixIcon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(width: 10.0),
+                                    Icon(
                                       Icons.email_outlined,
                                       color: textAndIconColor,
                                     ),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                    ),
-                                    width: 2,
-                                    height: buttonHeight - 10,
-                                    color: textFieldBorderColor,
-                                  )
-                                ],
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 10.0,
+                                        right: 10.0,
+                                      ),
+                                      width: 2,
+                                      height: buttonHeight - 10,
+                                      color: textFieldBorderColor,
+                                    )
+                                  ],
+                                ),
                               ),
+                              cursorColor: textAndIconColor,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your email";
+                                }
+                                return null;
+                              },
+                              onSaved: (value) => _inquiryForm.email = value,
                             ),
-                            cursorColor: textAndIconColor,
-                          ),
-                          SizedBox(height: 10.0),
-                          // Email
-                          TextFormField(
-                            controller: emailController,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              hintText: "Email",
-                              hintStyle: TextStyle(color: textAndIconColor),
-                              prefixIcon: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  SizedBox(width: 10.0),
-                                  Icon(
-                                    Icons.email_outlined,
-                                    color: textAndIconColor,
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                    ),
-                                    width: 2,
-                                    height: buttonHeight - 10,
-                                    color: textFieldBorderColor,
-                                  )
-                                ],
-                              ),
-                            ),
-                            cursorColor: textAndIconColor,
-                          ),
-                          SizedBox(height: 10.0),
-                          // Phone
-                          TextFormField(
-                            controller: phoneController,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              hintText: "Phone",
-                              hintStyle: TextStyle(color: textAndIconColor),
-                              prefixIcon: Row(
-                                children: [
-                                  SizedBox(width: 10.0),
-                                  Opacity(
-                                    opacity: 0.0,
-                                    child: Icon(Icons.email),
-                                  ),
-                                  Container(
-                                    margin: const EdgeInsets.only(
-                                      left: 10.0,
-                                      right: 10.0,
-                                    ),
-                                    width: 2,
-                                    height: buttonHeight - 10,
-                                    color: textFieldBorderColor,
-                                  )
-                                ],
-                              ),
-                            ),
-                            cursorColor: textAndIconColor,
-                          ),
-                          SizedBox(height: 10.0),
-                          // Subject
-                          TextFormField(
-                            controller: subjectController,
-                            decoration: InputDecoration(
-                              focusedBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: textFieldBorderColor,
-                                ),
-                              ),
-                              hintText: "Subject",
-                              hintStyle: TextStyle(color: textAndIconColor),
-                            ),
-                            cursorColor: textAndIconColor,
-                          ),
-                          SizedBox(height: 10.0),
-                          // Message
-                          Container(
-                            height: 200,
-                            padding:
-                                const EdgeInsets.only(left: 8.0, right: 8.0),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: textFieldBorderColor,
-                                width: 1.0,
-                              ),
-                            ),
-                            child: TextFormField(
-                              controller: messageController,
+                            const SizedBox(height: 10.0),
+                            // Phone
+                            TextFormField(
                               decoration: InputDecoration(
-                                border: InputBorder.none,
-                                hintText: "Write your Message",
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                hintText: "Phone Number",
+                                hintStyle: TextStyle(color: textAndIconColor),
+                                prefixIcon: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const SizedBox(width: 10.0),
+                                    const Opacity(
+                                      opacity: 0.0,
+                                      child: Icon(
+                                        Icons.email_outlined,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Container(
+                                      margin: const EdgeInsets.only(
+                                        left: 10.0,
+                                        right: 10.0,
+                                      ),
+                                      width: 2,
+                                      height: buttonHeight - 10,
+                                      color: textFieldBorderColor,
+                                    )
+                                  ],
+                                ),
+                              ),
+                              cursorColor: textAndIconColor,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter your phone number";
+                                }
+                                return null;
+                              },
+                              onSaved: (value) =>
+                                  _inquiryForm.phoneNumber = value!,
+                            ),
+                            const SizedBox(height: 10.0),
+                            // Subject
+                            TextFormField(
+                              decoration: InputDecoration(
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: textFieldBorderColor,
+                                  ),
+                                ),
+                                hintText: "Subject",
                                 hintStyle: TextStyle(color: textAndIconColor),
                               ),
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
                               cursorColor: textAndIconColor,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return "Please enter subject";
+                                }
+                                return null;
+                              },
+                              onSaved: (value) => _inquiryForm.subject = value,
                             ),
-                          ),
-                        ],
+                            const SizedBox(height: 10.0),
+                            // Message
+                            Container(
+                              height: 200,
+                              padding:
+                                  const EdgeInsets.only(left: 8.0, right: 8.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: textFieldBorderColor,
+                                  width: 1.0,
+                                ),
+                              ),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: "Write your Message",
+                                  hintStyle: TextStyle(color: textAndIconColor),
+                                ),
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                cursorColor: textAndIconColor,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return "Please write your message";
+                                  }
+                                  return null;
+                                },
+                                onSaved: (value) =>
+                                    _inquiryForm.message = value,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                     const SizedBox(height: 20.0),
                     Padding(
                       padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          _formKey.currentState!.save();
+                          if (_formKey.currentState!.validate()) {
+                            bool isSubmitted =
+                                await WebService.submitInquiryForm(
+                                    _inquiryForm);
+                            if (isSubmitted)
+                              _formKey.currentState!.reset();
+                          }
+                        },
                         child: Text(
                           "Send Message",
                           style: TextStyle(
