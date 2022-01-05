@@ -140,8 +140,15 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ClosingSoonSlider(Utils.homeDataModal!.closingSoon!),
-                SizedBox(height: elementsDistance),
+                Visibility(
+                  visible: Utils.homeDataModal!.closingSoon!.isNotEmpty,
+                  child: Column(
+                    children: [
+                      ClosingSoonSlider(Utils.homeDataModal!.closingSoon!),
+                      SizedBox(height: elementsDistance),
+                    ],
+                  ),
+                ),
                 Column(
                   children: [
                     CurrentDealsSlider(Utils.homeDataModal!.currentDeals!),
