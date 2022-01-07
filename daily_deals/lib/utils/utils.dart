@@ -1,16 +1,18 @@
 import 'dart:async';
 
+import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/home_data_modal.dart';
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/modals/winner_modal.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
-import 'package:daily_deals/service/network_handler.dart';
+import 'package:daily_deals/screens/sign_in_up_screen.dart';
 import 'package:daily_deals/views/winner_card_view.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:share/share.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -157,5 +159,20 @@ class Utils {
     await preferences.setString(Constants.EMAIL, data['email']);
     if (provider != null)
       await preferences.setString(Constants.SOCIAL_LOGIN_PROVIDER, provider);
+  }
+
+  static Future<void> logout(BuildContext context) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
+    await preferences.clear();
+    await cartItemBox.clear();
+    await cartItemBox.close();
+    await FirebaseAuth.instance.signOut();
+    Utils.homeDataModal = null;
+    Navigator.of(context).pushNamedAndRemoveUntil(
+      SignInUpScreen.routeName,
+      (route) => false,
+      arguments: true,
+    );
   }
 }
