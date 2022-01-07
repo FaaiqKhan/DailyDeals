@@ -2,9 +2,8 @@ import 'dart:io';
 
 import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:country_code_picker/country_code.dart';
-import 'package:daily_deals/providers/auth.dart';
 import 'package:daily_deals/providers/user_details.dart';
-import 'package:daily_deals/screens/sign_in_screen.dart';
+import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -13,7 +12,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:provider/provider.dart';
 
 String countryCode = "+971";
 
@@ -104,18 +102,21 @@ class ForgotPasswordScreen extends StatelessWidget {
                           FocusScope.of(context).requestFocus(FocusNode());
                           WidgetUtils.showLoaderDialog(
                               context, "Please wait...");
-                          bool requested = await Utils.requestPasswordReset(
-                              _userDetails.getEmail);
+                          bool requested =
+                              await WebService.requestPasswordReset(
+                                  _userDetails.getEmail);
                           Navigator.of(context).pop();
                           if (requested) {
                             Navigator.of(context).pop();
-                            WidgetUtils.showToast("We have just sent an email. Please check inbox/spam and complete the process.");
+                            WidgetUtils.showToast(
+                                "We have just sent an email. Please check inbox/spam and complete the process.");
                           } else {
-                            WidgetUtils.showToast("Something went wrong. Please contact to provider");
+                            WidgetUtils.showToast(
+                                "Something went wrong. Please contact to provider");
                           }
                         } else {
                           Fluttertoast.showToast(
-                            msg: "Email does not exist",
+                            msg: "Enter a valid email address",
                             gravity: ToastGravity.BOTTOM,
                             toastLength: Toast.LENGTH_LONG,
                           );

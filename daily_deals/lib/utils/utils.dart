@@ -5,6 +5,7 @@ import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/modals/winner_modal.dart';
 import 'package:daily_deals/providers/user_details.dart';
 import 'package:daily_deals/screens/code_verification_screen.dart';
+import 'package:daily_deals/service/network_handler.dart';
 import 'package:daily_deals/views/winner_card_view.dart';
 import 'package:daily_deals/widgets/closing_soon.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -156,15 +157,5 @@ class Utils {
     await preferences.setString(Constants.EMAIL, data['email']);
     if (provider != null)
       await preferences.setString(Constants.SOCIAL_LOGIN_PROVIDER, provider);
-  }
-
-  static Future<bool> requestPasswordReset(String email) async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    try {
-      await auth.sendPasswordResetEmail(email: email);
-      return Future.value(true);
-    } catch (e) {
-      return Future.value(false);
-    }
   }
 }

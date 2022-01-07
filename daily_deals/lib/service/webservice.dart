@@ -399,4 +399,23 @@ class WebService {
       return Future.value(false);
     }
   }
+
+  static Future<bool> requestPasswordReset(String email) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    NetworkHandler handler = NetworkHandler(endPoint: "/auth/resetPwd");
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+      body: {"email": email},
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      return json['status'] == 200;
+    } else {
+      return Future.value(false);
+    }
+  }
 }

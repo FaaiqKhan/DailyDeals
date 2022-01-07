@@ -19,4 +19,5 @@ Map<String, dynamic> _$InquiryFormToJson(InquiryFormModal instance) => <String, 
   "email": instance.email,
   "phone": instance.phoneNumber,
   "subject": instance.subject,
+  "message": instance.message,
 };
