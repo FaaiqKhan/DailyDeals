@@ -60,17 +60,14 @@ class Utils {
     try {
       await auth.verifyPhoneNumber(
         phoneNumber: userDetails.getNumber,
-        timeout: Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) {
           print("verificationCompleted");
         },
         verificationFailed: (FirebaseAuthException e) {
           Navigator.of(context).pop();
-          // TODO show toast
-          print("verificationFailed: $e");
+          WidgetUtils.showToast(e.toString());
         },
         codeSent: (String verificationId, int? resendToken) async {
-          print("codeSent");
           Navigator.of(context).pop();
           if (timer == null) {
             Navigator.pushNamed(
