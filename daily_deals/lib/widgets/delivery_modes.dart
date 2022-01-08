@@ -69,7 +69,12 @@ class _DeliveryModesState extends State<DeliveryModes> {
                   setState(() {
                     deliveryMode = value as int;
                   });
-                  widget.updateDeliveryMode!(value, couponCount != 2 ? 1 : 0);
+                  if (this.couponCount < 2) {
+                    this.couponCount++;
+                    widget.updateDeliveryMode!(value, 1);
+                  } else {
+                    widget.updateDeliveryMode!(value, 0);
+                  }
                 },
                 fillColor: MaterialStateColor.resolveWith(
                   (states) => deliveryMode == 0

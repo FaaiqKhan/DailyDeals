@@ -51,8 +51,8 @@ class CartScreen extends StatelessWidget {
     productCount = 0;
     itemCount = 0;
     Map<String, Widget> data = {};
-    productCount = items.length - 1;
-    for (int i = 0; i < productCount + 1; i++) {
+    productCount = items.length;
+    for (int i = 0; i < productCount; i++) {
       CartItemModal m = items[i];
       data[m.productId] = CartCardView(
         items[i],
@@ -174,6 +174,7 @@ class CartScreen extends StatelessWidget {
       else
         itemsView.add(CheckoutItemView(item, checkAddressRequired));
       this.couponCount = item.itemCount * cartItems.length * 2;
+      isAddressRequired[item.productId] = 0;
     }
     guessAndWin.addAll(itemsView);
     return guessAndWin;
@@ -246,16 +247,17 @@ class CartScreen extends StatelessWidget {
                       await SharedPreferences.getInstance();
                   List<CheckoutItemModal> checkoutItems = [];
                   for (CartItemModal item in cartItems) {
+                    String ty = "Donate";
+                    if (isAddressRequired.isNotEmpty && isAddressRequired.containsKey(item.productId)) {
+                      if (isAddressRequired[item.productId] != 0)
+                        ty = "Normal";
+                    }
                     checkoutItems.add(
                       CheckoutItemModal(
                         item.productId,
                         item.itemCount.toString(),
                         item.price,
-                        isAddressRequired.isEmpty
-                            ? "Donate"
-                            : isAddressRequired.containsValue(0)
-                                ? "Donate"
-                                : "Normal",
+                        ty,
                         item.mySequence.values.toList(),
                       ),
                     );
@@ -269,19 +271,19 @@ class CartScreen extends StatelessWidget {
                     checkoutItems,
                     "Work",
                   );
-                  List<dynamic> response =
-                      await WebService.checkoutProduct(checkoutItem);
-                  if (response[0]) {
-                    await clearCart();
-                    this.cartCost!.itemCount = 0;
-                    Utils.moveToNextScreenAfterCertainTime(2, () {
-                      Navigator.pushReplacementNamed(
-                        context,
-                        OrderConfirmationScreen.routeName,
-                      );
-                    });
-                  }
-                  WidgetUtils.showToast(response[1]);
+                  // List<dynamic> response =
+                  //     await WebService.checkoutProduct(checkoutItem);
+                  // if (response[0]) {
+                  //   await clearCart();
+                  //   this.cartCost!.itemCount = 0;
+                  //   Utils.moveToNextScreenAfterCertainTime(2, () {
+                  //     Navigator.pushReplacementNamed(
+                  //       context,
+                  //       OrderConfirmationScreen.routeName,
+                  //     );
+                  //   });
+                  // }
+                  // WidgetUtils.showToast(response[1]);
                 })
               ],
             ),
