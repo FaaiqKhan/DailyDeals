@@ -236,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: SingleChildScrollView(
               child: FutureBuilder(
-                future: WebService.fetchData(),
+                future: WebService.fetchData(context),
                 builder: (ctx, snapShot) {
                   if (snapShot.hasData) {
                     Utils.homeDataModal = snapShot.data as HomeDataModal;

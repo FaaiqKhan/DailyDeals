@@ -1,15 +1,10 @@
-import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/screens/draws_screen.dart';
 import 'package:daily_deals/screens/help_screen.dart';
-import 'package:daily_deals/screens/sign_in_up_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/screens/products_showcase_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
-import 'package:hive/hive.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyDrawer extends StatelessWidget {
   final double screenWidth;
@@ -192,22 +187,7 @@ class MyDrawer extends StatelessWidget {
               SizedBox(height: elementHeight),
               // Log out
               GestureDetector(
-                onTap: () async {
-                  SharedPreferences preferences =
-                      await SharedPreferences.getInstance();
-                  var cartItemBox =
-                      await Hive.openBox<CartItemModal>('cartItem');
-                  await preferences.clear();
-                  await cartItemBox.clear();
-                  await cartItemBox.close();
-                  await FirebaseAuth.instance.signOut();
-                  Utils.homeDataModal = null;
-                  Navigator.of(context).pushNamedAndRemoveUntil(
-                    SignInUpScreen.routeName,
-                    (route) => false,
-                    arguments: true,
-                  );
-                },
+                onTap: () async => Utils.logout(context),
                 child: Row(
                   children: [
                     Image.asset(

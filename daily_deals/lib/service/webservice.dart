@@ -16,6 +16,7 @@ import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/notification_view.dart';
 import 'package:daily_deals/views/single_product_view.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +24,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class WebService {
-  static Future<HomeDataModal?> fetchData() async {
+  static Future<HomeDataModal?> fetchData(BuildContext context) async {
     if (Utils.homeDataModal == null) {
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String? userId = preferences.getString(Constants.USER_ID);
@@ -43,6 +44,10 @@ class WebService {
         } else {
           return null;
         }
+      } else if (response.statusCode == 401) {
+        WidgetUtils.showToast("Session timeout please login again.");
+        Utils.logout(context);
+        return null;
       } else {
         return null;
       }
