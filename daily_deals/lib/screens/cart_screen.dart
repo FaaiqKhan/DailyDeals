@@ -248,9 +248,9 @@ class CartScreen extends StatelessWidget {
                   List<CheckoutItemModal> checkoutItems = [];
                   for (CartItemModal item in cartItems) {
                     String ty = "Donate";
-                    if (isAddressRequired.isNotEmpty && isAddressRequired.containsKey(item.productId)) {
-                      if (isAddressRequired[item.productId] != 0)
-                        ty = "Normal";
+                    if (isAddressRequired.isNotEmpty &&
+                        isAddressRequired.containsKey(item.productId)) {
+                      if (isAddressRequired[item.productId] != 0) ty = "Normal";
                     }
                     checkoutItems.add(
                       CheckoutItemModal(
@@ -271,19 +271,19 @@ class CartScreen extends StatelessWidget {
                     checkoutItems,
                     "Work",
                   );
-                  // List<dynamic> response =
-                  //     await WebService.checkoutProduct(checkoutItem);
-                  // if (response[0]) {
-                  //   await clearCart();
-                  //   this.cartCost!.itemCount = 0;
-                  //   Utils.moveToNextScreenAfterCertainTime(2, () {
-                  //     Navigator.pushReplacementNamed(
-                  //       context,
-                  //       OrderConfirmationScreen.routeName,
-                  //     );
-                  //   });
-                  // }
-                  // WidgetUtils.showToast(response[1]);
+                  List<dynamic> response =
+                      await WebService.checkoutProduct(checkoutItem);
+                  if (response[0]) {
+                    await clearCart();
+                    this.cartCost!.itemCount = 0;
+                    Utils.moveToNextScreenAfterCertainTime(2, () {
+                      Navigator.pushReplacementNamed(
+                        context,
+                        OrderConfirmationScreen.routeName,
+                      );
+                    });
+                  }
+                  WidgetUtils.showToast(response[1]);
                 })
               ],
             ),

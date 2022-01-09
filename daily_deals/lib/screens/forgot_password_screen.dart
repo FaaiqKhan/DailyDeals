@@ -63,7 +63,7 @@ class ForgotPasswordScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                     child: Text(
-                      "Enter your mobile number to reset your password.",
+                      "Enter your email to reset your password.",
                       textAlign: TextAlign.center,
                       style: Theme.of(context).textTheme.bodyText1,
                     ),

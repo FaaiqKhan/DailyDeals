@@ -66,10 +66,33 @@ class ClosingSoonSlider extends StatelessWidget {
     );
   }
 
-  Widget scrollTypeView(List<Widget> data) {
-    return SingleChildScrollView(
-      scrollDirection: scrollDirection,
-      child: Column(children: data),
+  Widget scrollTypeView(List<Widget> data, BuildContext context) {
+    return Visibility(
+      visible: data.isNotEmpty,
+      child: SingleChildScrollView(
+        scrollDirection: scrollDirection,
+        child: Column(children: data),
+      ),
+      replacement: Column(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          SizedBox(height: 100),
+          Text(
+            "No Deals in closing soon",
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.bodyText2!.fontFamily,
+              color: Colors.black,
+            ),
+          ),
+          Text(
+            "You still have time, participate now!",
+            style: TextStyle(
+              fontFamily: Theme.of(context).textTheme.bodyText2!.fontFamily,
+              color: Colors.black,
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -79,6 +102,6 @@ class ClosingSoonSlider extends StatelessWidget {
     return scrollDirection == Axis.horizontal
         ? pageTypeView(
             context, screenWidth, Utils.prepareListDataForView(_modal, false))
-        : scrollTypeView(prepareData());
+        : scrollTypeView(prepareData(), context);
   }
 }
