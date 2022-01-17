@@ -32,6 +32,7 @@ class CartScreen extends StatelessWidget {
   ScrollController _scrollController = ScrollController();
   bool showAddressDetails = false;
   int couponCount = 0;
+  List<String> suffix = ["a", "b", "c"];
 
   Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
@@ -174,7 +175,9 @@ class CartScreen extends StatelessWidget {
       else
         itemsView.add(CheckoutItemView(item, checkAddressRequired));
       this.couponCount = item.itemCount * cartItems.length * 2;
-      isAddressRequired[item.productId] = 0;
+      for (int i = 0; i < item.itemCount; i++) {
+        isAddressRequired[item.productId + suffix[i]] = 0;
+      }
     }
     guessAndWin.addAll(itemsView);
     return guessAndWin;
@@ -246,19 +249,33 @@ class CartScreen extends StatelessWidget {
                   SharedPreferences preferences =
                       await SharedPreferences.getInstance();
                   List<CheckoutItemModal> checkoutItems = [];
+                  List<CodeSequence> codeSequence = [];
                   for (CartItemModal item in cartItems) {
-                    String ty = "Donate";
-                    if (isAddressRequired.isNotEmpty &&
-                        isAddressRequired.containsKey(item.productId)) {
-                      if (isAddressRequired[item.productId] != 0) ty = "Normal";
+                    for (int index = 0; index < item.itemCount; index++) {
+                      if (isAddressRequired
+                          .containsKey(item.productId + suffix[index])) {
+                        String ty =
+                            isAddressRequired[item.productId + suffix[index]] ==
+                                    0
+                                ? "Donate"
+                                : "Normal";
+                        codeSequence.add(
+                          CodeSequence(
+                            ty,
+                            sequence: item.mySequence.isNotEmpty
+                                ? item.mySequence[index + 1]
+                                : null,
+                          ),
+                        );
+                      }
                     }
                     checkoutItems.add(
                       CheckoutItemModal(
                         item.productId,
                         item.itemCount.toString(),
                         item.price,
-                        ty,
-                        item.mySequence.values.toList(),
+                        item.mySequence.isEmpty ? 1 : 2,
+                        codeSequence,
                       ),
                     );
                   }
