@@ -8,15 +8,20 @@ import 'multiple_digit_counter.dart';
 class ClosingTimer extends StatelessWidget {
   final int timeStamp;
   final bool useShrinkForm;
+  final DateFormat format = DateFormat("ddHHmmss");
 
   ClosingTimer(this.timeStamp, {this.useShrinkForm = true});
 
   @override
   Widget build(BuildContext context) {
-    DateFormat format = DateFormat("ddHHmmss");
-    String time = format.format(DateTime.fromMillisecondsSinceEpoch(timeStamp));
-    final MultipleDigitCounter digitCounter =
-        MultipleDigitCounter(time, useShrinkForm: useShrinkForm);
+    DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+    String time = format.format(dateTime);
+    final MultipleDigitCounter digitCounter = MultipleDigitCounter(
+      dateTime,
+      format,
+      time,
+      useShrinkForm: useShrinkForm,
+    );
     return Container(
       padding: const EdgeInsets.all(5.0),
       decoration: BoxDecoration(

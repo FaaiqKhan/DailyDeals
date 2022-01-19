@@ -35,14 +35,15 @@ Map<String, dynamic> _$CheckoutModalToJson(CheckoutModal instance) =>
     };
 
 class CheckoutItemModal {
-  String id, quantity, subTotal, deliveryType;
-  List<dynamic> sequence;
+  String id, quantity, subTotal;
+  List<CodeSequence> sequence;
+  int dealType;
 
   CheckoutItemModal(
     this.id,
     this.quantity,
     this.subTotal,
-    this.deliveryType,
+    this.dealType,
     this.sequence,
   );
 
@@ -54,6 +55,20 @@ Map<dynamic, dynamic> _$itemToJson(CheckoutItemModal instance) =>
       "id": instance.id,
       "qty": instance.quantity,
       "subtotal": instance.subTotal,
-      "delivery_type": instance.deliveryType,
-      "code_sequence": instance.sequence,
+      "deal_type": instance.dealType,
+      "code_sequence": instance.sequence.map((e) => e.toJson()).toList(),
     };
+
+class CodeSequence {
+  List<dynamic>? sequence;
+  String donationType;
+
+  CodeSequence(this.donationType, {this.sequence});
+
+  Map<dynamic, dynamic> toJson() => _$SequenceToJson(this);
+}
+
+Map<dynamic, dynamic> _$SequenceToJson(CodeSequence instance) => <dynamic, dynamic> {
+  "sequence": instance.sequence,
+  "donation_type": instance.donationType,
+};

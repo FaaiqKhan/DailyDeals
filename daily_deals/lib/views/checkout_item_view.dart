@@ -21,9 +21,11 @@ class CheckoutItemView extends StatelessWidget {
 
   List<Widget> generateItemsView(BuildContext context, CartItemModal modal) {
     List<Widget> items = [];
+    List<String> suffix = ["a", "b", "c"];
     for (int i = 1; i <= modal.itemCount; i++) {
       items.add(CartCardView(modal, isFromCheckout: true));
       items.add(DeliveryModes(
+        modal.productId + suffix[i-1],
         deliveryPrice: "35.0",
         updateDeliveryMode: updateDeliveryStatus,
       ));
@@ -55,7 +57,7 @@ class CheckoutItemView extends StatelessWidget {
     return items;
   }
 
-  void updateDeliveryStatus(int statusCode, int couponCount) {
-    addressRequired(item.productId, statusCode, couponCount);
+  void updateDeliveryStatus(String id, int statusCode, int couponCount) {
+    addressRequired(id, statusCode, couponCount);
   }
 }
