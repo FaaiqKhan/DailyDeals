@@ -1,13 +1,21 @@
 import 'dart:async';
 
+import 'package:intl/intl.dart';
 import 'package:daily_deals/screens/single_digit_screen.dart';
 import 'package:flutter/material.dart';
 
 class MultipleDigitCounter extends StatefulWidget {
   final String timeStamp;
   final bool useShrinkForm;
+  final DateTime dateTime;
+  final DateFormat dateFormat;
 
-  MultipleDigitCounter(this.timeStamp, {this.useShrinkForm = true});
+  MultipleDigitCounter(
+    this.dateTime,
+    this.dateFormat,
+    this.timeStamp, {
+    this.useShrinkForm = true,
+  });
 
   @override
   MultipleDigitCounterState createState() => MultipleDigitCounterState();
@@ -24,15 +32,16 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
     6: "Sec",
   };
 
-  int _value = 253;
+  String _value = "0";
   String? _oldValue;
   String? _newValue;
   Timer? _timer;
+  DateTime? dt;
 
-  int get value => _value;
+  String get value => _value;
 
-  set value(int newValue) {
-    _oldValue = value.toString();
+  set value(String newValue) {
+    _oldValue = value;
     while (_oldValue!.length < numberOfDigits) {
       _oldValue = '0$_oldValue';
     }
@@ -79,6 +88,7 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
         ));
       }
     }
+    dt = widget.dateTime;
     startTimer();
     super.initState();
   }
@@ -142,7 +152,8 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
             _timer!.cancel();
           } else {
             _start--;
-            value = _start;
+            dt = dt!.subtract(Duration(seconds: 1));
+            value = widget.dateFormat.format(dt!);
           }
         },
       );
