@@ -27,24 +27,24 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.937209823504-vrvp82v81cbfmpp50hoc7qslf1gucc0n</string>
+				<string>com.googleusercontent.apps.937209823504-lp983d6d7682de6mlnsi5i67er849i89</string>
 			</array>
 		</dict>
-        <dict>
-            <key>CFBundleTypeRole</key>
-        	<string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb1299407640572604</string>
-            </array>
-        </dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb1299407640572604</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>FacebookAppID</key>
-    <string>1299407640572604</string>
-    <key>FacebookDisplayName</key>
-    <string>DailyDeals</string>
+	<string>1299407640572604</string>
+	<key>FacebookDisplayName</key>
+	<string>DailyDeals</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIBackgroundModes</key>
