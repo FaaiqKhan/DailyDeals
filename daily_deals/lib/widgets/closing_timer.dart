@@ -14,7 +14,14 @@ class ClosingTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime dateTime = DateTime.fromMicrosecondsSinceEpoch(timeStamp);
+    DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
+    DateTime current = DateTime.now();
+    dateTime = dateTime.subtract(Duration(
+      days: current.day,
+      hours: current.hour,
+      minutes: current.minute,
+      seconds: current.second,
+    ));
     String time = format.format(dateTime);
     final MultipleDigitCounter digitCounter = MultipleDigitCounter(
       dateTime,
