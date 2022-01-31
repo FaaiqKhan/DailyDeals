@@ -18,7 +18,7 @@ class ClosingTimer extends StatelessWidget {
     DateTime current = DateTime.now();
     dateTime = dateTime.subtract(Duration(
       days: current.day,
-      hours: current.hour,
+      hours: (current.hour + 10),
       minutes: current.minute,
       seconds: current.second,
     ));

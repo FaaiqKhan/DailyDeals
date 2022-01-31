@@ -13,7 +13,6 @@ import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:daily_deals/widgets/guess_and_sequence.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -120,8 +119,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     return Container(
                                       width: screenWidth,
                                       height: screenWidth / 2,
-                                      child:
-                                          WidgetUtils.progressIndicator(context),
+                                      child: WidgetUtils.progressIndicator(
+                                          context),
                                     );
                                   }
                                 },
@@ -140,8 +139,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     return Container(
                                       width: screenWidth,
                                       height: screenWidth / 2,
-                                      child:
-                                          WidgetUtils.progressIndicator(context),
+                                      child: WidgetUtils.progressIndicator(
+                                          context),
                                     );
                                   }
                                 },
@@ -167,8 +166,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       },
                                       child: Opacity(
                                         opacity: 0.6509803921568628,
-                                        child:
-                                            Icon(Icons.share_outlined, size: 28),
+                                        child: Icon(Icons.share_outlined,
+                                            size: 28),
                                       ),
                                     ),
                                     SizedBox(height: screenWidth * 0.04),
@@ -195,8 +194,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         isPrizeDetailsSelected
                                             ? _modal!.productImage!
                                             : _modal!.prizeImage!,
-                                        fit: BoxFit.fill,
-                                        loadingBuilder: (ctx, widget, progress) {
+                                        fit: BoxFit.fill, loadingBuilder:
+                                            (ctx, widget, progress) {
                                       if (progress == null) {
                                         return widget;
                                       } else {
@@ -218,16 +217,18 @@ class _ProductDetailsState extends State<ProductDetails> {
                         // Timer image
                         Opacity(
                           opacity: 0.25882352941176473,
-                          child:
-                          Image.asset('assets/images/clock_icon.png', scale: 10),
+                          child: Image.asset('assets/images/clock_icon.png',
+                              scale: 10),
                         ),
                         SizedBox(height: 10.0),
                         // Watch tag line
                         Text(
                           "Closing in",
                           style: TextStyle(
-                            fontFamily:
-                            Theme.of(context).textTheme.subtitle2!.fontFamily,
+                            fontFamily: Theme.of(context)
+                                .textTheme
+                                .subtitle2!
+                                .fontFamily,
                             color: HexColor("#5F5C5C"),
                             fontStyle: FontStyle.italic,
                           ),
@@ -273,7 +274,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         height: countContainerHeight,
                                         decoration: BoxDecoration(
                                           color: HexColor("#303030"),
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         child: Text(
                                           _productCount.toString(),
@@ -286,7 +288,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       SizedBox(width: 40),
                                       InkWell(
                                         onTap: () => setState(
-                                              () {
+                                          () {
                                             if (_productCount < 3) {
                                               _productCount++;
                                               sequenceAdderView.add(
@@ -296,11 +298,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                 ),
                                               );
                                             } else {
-                                              WidgetUtils.showCountAlert(context);
+                                              WidgetUtils.showCountAlert(
+                                                  context);
                                             }
                                           },
                                         ),
-                                        child: Icon(Icons.add, color: Colors.red),
+                                        child:
+                                            Icon(Icons.add, color: Colors.red),
                                       ),
                                     ],
                                   ),
@@ -374,10 +378,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         screenWidth,
                                         _productCount * productPrice,
                                       ),
-                                      AddToCartButton(
-                                        screenWidth,
-                                        "Add to cart",
-                                            () async {
+                                      AddToCartButton(screenWidth, "Add to cart", () async {
+                                        bool canBuy = await WebService
+                                            .checkUserProducts(productId);
+                                        if (canBuy) {
                                           bool proceedToCheckout = true;
                                           if (_modal!.type == "2") {
                                             setState(() {
@@ -411,11 +415,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                                                 gravity: ToastGravity.BOTTOM,
                                                 toastLength: Toast.LENGTH_LONG,
                                               );
-                                              Utils.moveToNextScreenAfterCertainTime(
+                                              Utils
+                                                  .moveToNextScreenAfterCertainTime(
                                                 2,
                                                     () {
                                                   Fluttertoast.cancel();
-                                                  Navigator.pushNamedAndRemoveUntil(
+                                                  Navigator
+                                                      .pushNamedAndRemoveUntil(
                                                     context,
                                                     ParentScreen.routeName,
                                                         (route) => false,
@@ -425,8 +431,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                                               );
                                             }
                                           }
-                                        },
-                                      ),
+                                        }
+                                      }),
                                     ],
                                   ),
                                 ],
@@ -527,8 +533,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           );
           _mySequence[i + 1] = item!.mySequence.values.elementAt(i);
         }
-        sequenceAdderView
-            .add(GuessAndWinSequence(_productCount, saveSequence));
+        sequenceAdderView.add(GuessAndWinSequence(_productCount, saveSequence));
         showSequence = true;
       } else {
         sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));

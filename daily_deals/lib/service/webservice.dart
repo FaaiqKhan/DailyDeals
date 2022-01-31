@@ -423,4 +423,32 @@ class WebService {
       return Future.value(false);
     }
   }
+
+  static Future<bool> checkUserProducts(String? productId) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String? userId = preferences.getString(Constants.USER_ID);
+    String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
+    NetworkHandler handler = NetworkHandler(endPoint: "/home/checkuserproduct");
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      headers: {
+        HttpHeaders.authorizationHeader: "Bearer $accessToken",
+      },
+      body: {
+        "userid": userId,
+        "product_id": productId,
+      }
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (!json['success']) {
+        return Future.value(true);
+      } else {
+        WidgetUtils.showToast(json['data']);
+        return Future.value(false);
+      }
+    } else {
+      return Future.value(false);
+    }
+  }
 }
