@@ -14,29 +14,46 @@ class ClosingTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isExpired = false;
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     DateTime current = DateTime.now();
-    dateTime = dateTime.subtract(Duration(
-      days: current.day,
-      hours: (current.hour + 10),
-      minutes: current.minute,
-      seconds: current.second,
-    ));
-    String time = format.format(dateTime);
-    final MultipleDigitCounter digitCounter = MultipleDigitCounter(
-      dateTime,
-      format,
-      time,
-      useShrinkForm: useShrinkForm,
-    );
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        color: HexColor("#F22806"),
-        border: Border.all(color: HexColor("#F22806")),
-        borderRadius: BorderRadius.all(Radius.circular(5)),
-      ),
-      child: digitCounter,
-    );
+    if (dateTime.isBefore(current)) {
+      isExpired = true;
+    }
+    if (!isExpired) {
+      dateTime = dateTime.subtract(Duration(
+        days: current.day,
+        hours: (current.hour + 10),
+        minutes: current.minute,
+        seconds: current.second,
+      ));
+      String time = format.format(dateTime);
+      final MultipleDigitCounter digitCounter = MultipleDigitCounter(
+        dateTime,
+        format,
+        time,
+        useShrinkForm: useShrinkForm,
+      );
+      return Container(
+        padding: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: HexColor("#F22806"),
+          border: Border.all(color: HexColor("#F22806")),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
+        child: digitCounter,
+      );
+    } else {
+      return Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          color: HexColor("#F22806"),
+          border: Border.all(color: HexColor("#F22806")),
+          borderRadius: BorderRadius.all(Radius.circular(5)),
+        ),
+        child: Text("Expired", style: TextStyle(color: Colors.white)),
+      );
+    }
   }
 }

@@ -37,6 +37,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool showSequence = false;
   CartItemModal? item;
   bool isGenerated = false;
+  bool isExpired = false;
 
   void saveSequence(int sequenceKey, List<String> sequence) {
     if (sequence.length == 6) {
@@ -92,6 +93,12 @@ class _ProductDetailsState extends State<ProductDetails> {
         builder: (ctx, snapShot) {
           if (snapShot.hasData) {
             prepareModal(snapShot);
+            DateTime dateTime =
+                DateTime.fromMillisecondsSinceEpoch(_modal!.timeStamp * 1000);
+            DateTime now = DateTime.now();
+            if (dateTime.isBefore(now)) {
+              isExpired = true;
+            }
             return Container(
               height: MediaQuery.of(context).size.height,
               child: SingleChildScrollView(
@@ -378,61 +385,71 @@ class _ProductDetailsState extends State<ProductDetails> {
                                         screenWidth,
                                         _productCount * productPrice,
                                       ),
-                                      AddToCartButton(screenWidth, "Add to cart", () async {
-                                        bool canBuy = await WebService
-                                            .checkUserProducts(productId);
-                                        if (canBuy) {
-                                          bool proceedToCheckout = true;
-                                          if (_modal!.type == "2") {
-                                            setState(() {
-                                              showSequence = true;
-                                            });
+                                      AddToCartButton(
+                                        screenWidth,
+                                        "Add to cart",
+                                        () async {
+                                          if (isExpired) {
+                                            return;
                                           }
-                                          if (showSequence &&
-                                              _mySequence.length !=
-                                                  sequenceAdderView.length) {
-                                            Fluttertoast.showToast(
-                                              msg:
-                                              "Please complete your sequences to proceed towards checkout",
-                                              gravity: ToastGravity.BOTTOM,
-                                              toastLength: Toast.LENGTH_LONG,
-                                            );
-                                            proceedToCheckout = false;
-                                          }
-                                          if (proceedToCheckout ||
-                                              _modal!.type != "2") {
-                                            bool isValid = validateProductType();
-                                            if (isValid) {
-                                              await Utilities().populateData(
-                                                context,
-                                                _modal!,
-                                                _productCount,
-                                                _mySequence,
-                                                productPrice,
-                                              );
+                                          bool canBuy = await WebService
+                                              .checkUserProducts(productId);
+                                          if (canBuy) {
+                                            bool proceedToCheckout = true;
+                                            if (_modal!.type == "2") {
+                                              setState(() {
+                                                showSequence = true;
+                                              });
+                                            }
+                                            if (showSequence &&
+                                                _mySequence.length !=
+                                                    sequenceAdderView.length) {
                                               Fluttertoast.showToast(
-                                                msg: "Product added into cart",
+                                                msg:
+                                                    "Please complete your sequences to proceed towards checkout",
                                                 gravity: ToastGravity.BOTTOM,
                                                 toastLength: Toast.LENGTH_LONG,
                                               );
-                                              Utils
-                                                  .moveToNextScreenAfterCertainTime(
-                                                2,
-                                                    () {
-                                                  Fluttertoast.cancel();
-                                                  Navigator
-                                                      .pushNamedAndRemoveUntil(
-                                                    context,
-                                                    ParentScreen.routeName,
-                                                        (route) => false,
-                                                    arguments: 3,
-                                                  );
-                                                },
-                                              );
+                                              proceedToCheckout = false;
+                                            }
+                                            if (proceedToCheckout ||
+                                                _modal!.type != "2") {
+                                              bool isValid =
+                                                  validateProductType();
+                                              if (isValid) {
+                                                await Utilities().populateData(
+                                                  context,
+                                                  _modal!,
+                                                  _productCount,
+                                                  _mySequence,
+                                                  productPrice,
+                                                );
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      "Product added into cart",
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  toastLength:
+                                                      Toast.LENGTH_LONG,
+                                                );
+                                                Utils
+                                                    .moveToNextScreenAfterCertainTime(
+                                                  2,
+                                                  () {
+                                                    Fluttertoast.cancel();
+                                                    Navigator
+                                                        .pushNamedAndRemoveUntil(
+                                                      context,
+                                                      ParentScreen.routeName,
+                                                      (route) => false,
+                                                      arguments: 3,
+                                                    );
+                                                  },
+                                                );
+                                              }
                                             }
                                           }
-                                        }
-                                      }),
+                                        },
+                                      ),
                                     ],
                                   ),
                                 ],
