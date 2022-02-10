@@ -2,7 +2,6 @@ import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
 import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +14,21 @@ class ClosingSoon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
+    bool isExpired = false;
+    DateTime dateTime =
+        DateTime.fromMillisecondsSinceEpoch(_modal.timeStamp * 1000);
+    DateTime current = DateTime.now();
+    if (dateTime.isBefore(current)) {
+      isExpired = true;
+    }
+    if (!isExpired) {
+      dateTime = dateTime.subtract(Duration(
+        days: current.day,
+        hours: (current.hour + 10),
+        minutes: current.minute,
+        seconds: current.second,
+      ));
+    }
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
         context,
@@ -130,8 +144,13 @@ class ClosingSoon extends StatelessWidget {
                   scale: 25,
                   color: Colors.white,
                 ),
-                Consumer<ClosingSoonTimerProvider>(
-                    builder: (_, ClosingSoonTimerProvider provider, __) {
+                Consumer<ClosingSoonTimerProvider>(builder: (_, provider, __) {
+                  if (provider.isNotSet) {
+                    provider.dateTime = dateTime;
+                    provider.isNotSet = false;
+                    provider.startTimer();
+                  }
+                  print(provider.time);
                   return FittedBox(
                     fit: BoxFit.scaleDown,
                     child: Text(

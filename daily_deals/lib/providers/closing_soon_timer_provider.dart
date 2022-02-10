@@ -3,34 +3,37 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class ClosingSoonTimerProvider with ChangeNotifier {
-  DateTime _now = DateTime.now();
+  DateTime? _dateTime;
   Timer? _timer;
+  bool isNotSet = true;
 
-  String get time {
-    this.startTimer();
-    return "${_now.hour} Hours ${_now.minute} Min ${_now.second} Sec";
+  set dateTime(DateTime time) {
+    this._dateTime = time;
   }
 
-  void updateDuration() {
-    _now = _now.subtract(Duration(seconds: 1));
-    notifyListeners();
+  String get time {
+    return "${_dateTime!.hour} Hours ${_dateTime!.minute} Min ${_dateTime!.second} Sec";
   }
 
   void startTimer() {
-    if (_now.hour == 0 &&
-        _now.minute == 0 &&
-        _now.second == 0) {
-      if (_timer != null) {
-        _timer!.cancel();
-        _timer = null;
-      }
-    } else {
-      if (_timer == null) {
-        const oneSec = const Duration(seconds: 1);
-        _timer = new Timer.periodic(oneSec, (Timer timer) {
-          this.updateDuration();
-        });
-      }
+    int _start = 1000;
+    const oneSec = const Duration(seconds: 1);
+    try {
+      _timer = new Timer.periodic(
+        oneSec,
+        (Timer timer) {
+          if (_start == 0) {
+            _timer!.cancel();
+          } else {
+            _start--;
+            _dateTime = _dateTime!.subtract(Duration(seconds: 1));
+            notifyListeners();
+          }
+        },
+      );
+    } catch (e) {
+      if (_timer != null) _timer!.cancel();
+      _timer = null;
     }
   }
 }
