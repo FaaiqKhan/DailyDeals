@@ -6,13 +6,21 @@ class ClosingSoonTimerProvider with ChangeNotifier {
   DateTime? _dateTime;
   Timer? _timer;
   bool isNotSet = true;
+  bool _setZero = false;
 
   set dateTime(DateTime time) {
     this._dateTime = time;
   }
 
+  set setZero(bool val) {
+    this._setZero = val;
+  }
+
   String get time {
-    return "${_dateTime!.hour} Hours ${_dateTime!.minute} Min ${_dateTime!.second} Sec";
+    if (_setZero) {
+      return "0 Days ${_dateTime!.hour} Hours ${_dateTime!.minute} Min ${_dateTime!.second} Sec";
+    }
+    return "${_dateTime!.day} Days ${_dateTime!.hour} Hours ${_dateTime!.minute} Min ${_dateTime!.second} Sec";
   }
 
   void startTimer() {

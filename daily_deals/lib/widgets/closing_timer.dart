@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:daily_deals/utils/common/utilities.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:intl/intl.dart';
@@ -14,26 +14,25 @@ class ClosingTimer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isExpired = false;
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     DateTime current = DateTime.now();
-    if (dateTime.isBefore(current)) {
-      isExpired = true;
-    }
-    if (!isExpired) {
-      dateTime = dateTime.subtract(Duration(
-        days: current.day,
-        hours: (current.hour + 10),
-        minutes: current.minute,
-        seconds: current.second,
-      ));
-      String time = format.format(dateTime);
-      final MultipleDigitCounter digitCounter = MultipleDigitCounter(
-        dateTime,
-        format,
-        time,
-        useShrinkForm: useShrinkForm,
+    if (dateTime.isAfter(current)) {
+      Duration diffDuration = dateTime.difference(current);
+      List<String> vaSplit = Utilities().formatDuration(diffDuration);
+      List<int> data = [];
+      for (String d in vaSplit) {
+        data.add(int.parse(d));
+      }
+      DateTime dt = DateTime(
+        current.year,
+        current.month,
+        data[0],
+        data[1],
+        data[2],
+        data[3],
       );
+      final MultipleDigitCounter digitCounter = MultipleDigitCounter(dt, format,
+          useShrinkForm: useShrinkForm, setZero: current.day == dateTime.day);
       return Container(
         padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(

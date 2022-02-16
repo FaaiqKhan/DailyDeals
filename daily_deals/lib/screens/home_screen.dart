@@ -230,28 +230,34 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          topBarWidget(),
-          Expanded(
-            child: SingleChildScrollView(
-              child: FutureBuilder(
-                future: WebService.fetchData(context),
-                builder: (ctx, snapShot) {
-                  if (snapShot.hasData) {
-                    Utils.homeDataModal = snapShot.data as HomeDataModal;
-                    return showSelectedView(screenWidth);
-                  } else {
-                    return Container(
-                      height: screenWidth,
-                      child: WidgetUtils.progressIndicator(context),
-                    );
-                  }
-                },
+      body: RefreshIndicator(
+        onRefresh: () async {
+          Utils.homeDataModal = await WebService.fetchData(context, true);
+          setState(() { });
+        },
+        child: Column(
+          children: [
+            topBarWidget(),
+            Expanded(
+              child: SingleChildScrollView(
+                child: FutureBuilder(
+                  future: WebService.fetchData(context, false),
+                  builder: (ctx, snapShot) {
+                    if (snapShot.hasData) {
+                      Utils.homeDataModal = snapShot.data as HomeDataModal;
+                      return showSelectedView(screenWidth);
+                    } else {
+                      return Container(
+                        height: screenWidth,
+                        child: WidgetUtils.progressIndicator(context),
+                      );
+                    }
+                  },
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }

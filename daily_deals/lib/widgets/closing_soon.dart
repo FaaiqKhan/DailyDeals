@@ -1,5 +1,6 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/providers/closing_soon_timer_provider.dart';
+import 'package:daily_deals/utils/common/utilities.dart';
 import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:flutter/material.dart';
@@ -13,21 +14,32 @@ class ClosingSoon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isExpired = true;
+    bool setZero = false;
     double screenWidth = MediaQuery.of(context).size.width;
-    bool isExpired = false;
-    DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(_modal.timeStamp * 1000);
+    var dateTime = DateTime.fromMillisecondsSinceEpoch(_modal.timeStamp * 1000);
     DateTime current = DateTime.now();
-    if (dateTime.isBefore(current)) {
-      isExpired = true;
-    }
-    if (!isExpired) {
-      dateTime = dateTime.subtract(Duration(
-        days: current.day,
-        hours: (current.hour + 10),
-        minutes: current.minute,
-        seconds: current.second,
-      ));
+    if (dateTime.isAfter(current)) {
+      Duration diffDuration = dateTime.difference(current);
+      List<String> vaSplit = Utilities().formatDuration(diffDuration);
+      List<int> data = [];
+      for (String d in vaSplit) {
+        data.add(int.parse(d));
+      }
+      isExpired = false;
+      setZero = dateTime.day <= current.day;
+      if (!setZero) {
+        dateTime = dateTime.subtract(Duration(days: current.day));
+      }
+      setZero = setZero;
+      dateTime = DateTime(
+        current.year,
+        current.month,
+        data[0],
+        data[1],
+        data[2],
+        data[3],
+      );
     }
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
@@ -90,7 +102,7 @@ class ClosingSoon extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: Text(
-                          "AED 7.500 WORTH OF GOLD",
+                          "AED ${_modal.price} WORTH OF GOLD",
                           style: TextStyle(
                             fontFamily: Theme.of(context)
                                 .textTheme
@@ -122,13 +134,10 @@ class ClosingSoon extends StatelessWidget {
           ),
           // Timer view
           Container(
+            alignment: Alignment.center,
             width: screenWidth * 0.43,
             padding: const EdgeInsets.only(
-              left: 8.0,
-              top: 4.0,
-              bottom: 4.0,
-              right: 8.0,
-            ),
+                left: 4.0, top: 4.0, bottom: 4.0, right: 4.0),
             decoration: BoxDecoration(
               color: HexColor("#F83615"),
               border: Border.all(
@@ -144,26 +153,34 @@ class ClosingSoon extends StatelessWidget {
                   scale: 25,
                   color: Colors.white,
                 ),
-                Consumer<ClosingSoonTimerProvider>(builder: (_, provider, __) {
-                  if (provider.isNotSet) {
-                    provider.dateTime = dateTime;
-                    provider.isNotSet = false;
-                    provider.startTimer();
-                  }
-                  print(provider.time);
-                  return FittedBox(
-                    fit: BoxFit.scaleDown,
-                    child: Text(
-                      provider.time,
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontFamily:
-                            Theme.of(context).textTheme.bodyText1!.fontFamily,
-                        color: Colors.white,
+                Visibility(
+                  visible: !isExpired,
+                  child: Consumer<ClosingSoonTimerProvider>(
+                      builder: (_, provider, __) {
+                    if (provider.isNotSet) {
+                      provider.dateTime = dateTime;
+                      provider.isNotSet = false;
+                      provider.setZero = setZero;
+                      provider.startTimer();
+                    }
+                    return FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        provider.time,
+                        style: TextStyle(
+                          fontSize: 8,
+                          fontFamily:
+                              Theme.of(context).textTheme.bodyText1!.fontFamily,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  }),
+                  replacement: Text(
+                    "Expired",
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
               ],
             ),
           )

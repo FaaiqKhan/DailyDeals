@@ -31,4 +31,25 @@ class Utilities {
       productCount,
     );
   }
+
+  List<String> formatDuration(Duration d) {
+    var seconds = d.inSeconds;
+    final days = seconds ~/ Duration.secondsPerDay;
+    seconds -= days * Duration.secondsPerDay;
+    final hours = seconds ~/ Duration.secondsPerHour;
+    seconds -= hours * Duration.secondsPerHour;
+    final minutes = seconds ~/ Duration.secondsPerMinute;
+    seconds -= minutes * Duration.secondsPerMinute;
+
+    final List<String> tokens = [];
+    tokens.add('$days');
+    if (tokens.isNotEmpty) {
+      tokens.add('$hours');
+    }
+    if (tokens.isNotEmpty) {
+      tokens.add('$minutes');
+    }
+    tokens.add('$seconds');
+    return tokens;
+  }
 }

@@ -5,16 +5,16 @@ import 'package:daily_deals/screens/single_digit_screen.dart';
 import 'package:flutter/material.dart';
 
 class MultipleDigitCounter extends StatefulWidget {
-  final String timeStamp;
   final bool useShrinkForm;
   final DateTime dateTime;
   final DateFormat dateFormat;
+  final bool setZero;
 
   MultipleDigitCounter(
     this.dateTime,
-    this.dateFormat,
-    this.timeStamp, {
+    this.dateFormat, {
     this.useShrinkForm = true,
+    this.setZero = false,
   });
 
   @override
@@ -72,7 +72,11 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
 
   @override
   void initState() {
-    List<String> digits = widget.timeStamp.split("");
+    List<String> digits = widget.dateFormat.format(widget.dateTime).split("");
+    if (widget.setZero) {
+      digits[0] = "0";
+      digits[1] = "0";
+    }
     for (int i = 0; i < digits.length; i++) {
       if (i == 1 || i == 3 || i == 5) {
         animatedDigits.add(SingleDigit(
@@ -153,7 +157,9 @@ class MultipleDigitCounterState extends State<MultipleDigitCounter> {
           } else {
             _start--;
             dt = dt!.subtract(Duration(seconds: 1));
-            value = widget.dateFormat.format(dt!);
+            String temp = widget.dateFormat.format(dt!);
+            value = temp.replaceRange(0, 2, "0");
+            // value = widget.dateFormat.format(dt!);
           }
         },
       );

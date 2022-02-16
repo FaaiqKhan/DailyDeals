@@ -24,8 +24,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/intl.dart';
 
 class WebService {
-  static Future<HomeDataModal?> fetchData(BuildContext context) async {
-    if (Utils.homeDataModal == null) {
+  static Future<HomeDataModal?> fetchData(
+    BuildContext context,
+    bool forceRefresh,
+  ) async {
+    if (Utils.homeDataModal == null || forceRefresh) {
+      print(forceRefresh);
       SharedPreferences preferences = await SharedPreferences.getInstance();
       String? userId = preferences.getString(Constants.USER_ID);
       String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
@@ -429,16 +433,12 @@ class WebService {
     String? userId = preferences.getString(Constants.USER_ID);
     String? accessToken = preferences.getString(Constants.ACCESS_TOKEN);
     NetworkHandler handler = NetworkHandler(endPoint: "/home/checkuserproduct");
-    var response = await http.post(
-      Uri.parse(handler.getUrl),
-      headers: {
-        HttpHeaders.authorizationHeader: "Bearer $accessToken",
-      },
-      body: {
-        "userid": userId,
-        "product_id": productId,
-      }
-    );
+    var response = await http.post(Uri.parse(handler.getUrl), headers: {
+      HttpHeaders.authorizationHeader: "Bearer $accessToken",
+    }, body: {
+      "userid": userId,
+      "product_id": productId,
+    });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
       if (!json['success']) {
