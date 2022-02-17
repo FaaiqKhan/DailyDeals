@@ -23,16 +23,20 @@ class ClosingTimer extends StatelessWidget {
       for (String d in vaSplit) {
         data.add(int.parse(d));
       }
-      DateTime dt = DateTime(
+      dateTime = DateTime(
         current.year,
         current.month,
-        data[0],
+        data[0] == 0 ? current.day : data[0],
         data[1],
         data[2],
         data[3],
       );
-      final MultipleDigitCounter digitCounter = MultipleDigitCounter(dt, format,
-          useShrinkForm: useShrinkForm, setZero: current.day == dateTime.day);
+      final digitCounter = MultipleDigitCounter(
+        dateTime,
+        format,
+        useShrinkForm: useShrinkForm,
+        setZero: dateTime.day <= current.day,
+      );
       return Container(
         padding: const EdgeInsets.all(5.0),
         decoration: BoxDecoration(
