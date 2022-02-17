@@ -495,6 +495,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   Widget addToCart(double screenWidth, bool isExpired) {
     return AddToCartButton(screenWidth, "Add to cart", () async {
       if (isExpired) {
+        WidgetUtils.showToast("Deal Expired. Please look for other deals");
         return;
       }
       bool canBuy = await WebService.checkUserProducts(productId);

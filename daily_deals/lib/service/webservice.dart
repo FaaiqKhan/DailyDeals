@@ -441,12 +441,7 @@ class WebService {
     });
     if (response.statusCode == 200) {
       var json = jsonDecode(response.body);
-      if (!json['success']) {
-        return Future.value(true);
-      } else {
-        WidgetUtils.showToast(json['data']);
-        return Future.value(false);
-      }
+      return json['success'];
     } else {
       return Future.value(false);
     }
