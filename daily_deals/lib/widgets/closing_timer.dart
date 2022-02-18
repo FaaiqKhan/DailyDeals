@@ -17,6 +17,7 @@ class ClosingTimer extends StatelessWidget {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     DateTime current = DateTime.now();
     if (dateTime.isAfter(current)) {
+      bool setZero = dateTime.day <= current.day;
       Duration diffDuration = dateTime.difference(current);
       List<String> vaSplit = Utilities().formatDuration(diffDuration);
       List<int> data = [];
@@ -35,7 +36,7 @@ class ClosingTimer extends StatelessWidget {
         dateTime,
         format,
         useShrinkForm: useShrinkForm,
-        setZero: dateTime.day <= current.day,
+        setZero: setZero,
       );
       return Container(
         padding: const EdgeInsets.all(5.0),

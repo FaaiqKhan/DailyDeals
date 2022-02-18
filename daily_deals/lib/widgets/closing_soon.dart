@@ -18,19 +18,15 @@ class ClosingSoon extends StatelessWidget {
     bool setZero = false;
     double screenWidth = MediaQuery.of(context).size.width;
     var dateTime = DateTime.fromMillisecondsSinceEpoch(_modal.timeStamp * 1000);
-    print("dateTime: $dateTime");
     DateTime current = DateTime.now();
-    print("current: $current");
     if (dateTime.isAfter(current)) {
       isExpired = false;
       Duration diffDuration = dateTime.difference(current);
-      print(diffDuration);
       List<String> vaSplit = Utilities().formatDuration(diffDuration);
       List<int> data = [];
       for (String d in vaSplit) {
         data.add(int.parse(d));
       }
-      print(data);
       dateTime = DateTime(
         current.year,
         current.month,
@@ -39,9 +35,7 @@ class ClosingSoon extends StatelessWidget {
         data[2],
         data[3],
       );
-      print(dateTime);
       setZero = dateTime.day <= current.day;
-      print(setZero);
     }
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
