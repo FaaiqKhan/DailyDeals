@@ -488,6 +488,7 @@ class HelpScreen extends StatelessWidget {
                                   hintStyle: TextStyle(color: textAndIconColor),
                                 ),
                                 keyboardType: TextInputType.multiline,
+                                textInputAction: TextInputAction.done,
                                 maxLines: null,
                                 cursorColor: textAndIconColor,
                                 validator: (value) {
