@@ -13,7 +13,6 @@ import 'package:daily_deals/widgets/add_to_cart_button.dart';
 import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/widgets/closing_timer.dart';
 import 'package:daily_deals/widgets/guess_and_sequence.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -31,13 +30,14 @@ class _ProductDetailsState extends State<ProductDetails> {
   String? productId;
   bool isPrizeDetailsSelected = true;
   int _productCount = 1;
-  DetailedProductModal? _modal;
+  DetailedProductModal? _detailedProductModel;
   double productPrice = 0.0;
   List<Widget> sequenceAdderView = [];
   Map<dynamic, dynamic> _mySequence = {};
   bool showSequence = false;
   CartItemModal? item;
   bool isGenerated = false;
+  bool isExpired = false;
 
   void saveSequence(int sequenceKey, List<String> sequence) {
     if (sequence.length == 6) {
@@ -75,6 +75,226 @@ class _ProductDetailsState extends State<ProductDetails> {
     super.didChangeDependencies();
   }
 
+  Future<DetailedProductModal?> getFutureModel() {
+    if (_detailedProductModel == null) {
+      return WebService.fetchProductDetails(productId ?? item!.productId);
+    }
+    return Future.value(_detailedProductModel);
+  }
+
+  Widget header(double screenWidth, DetailedProductModal productModel) {
+    String topRightImage = isPrizeDetailsSelected
+        ? productModel.productImage!
+        : productModel.prizeImage!;
+    return Container(
+      width: screenWidth,
+      child: Stack(
+        children: [
+          Visibility(
+            visible: isPrizeDetailsSelected,
+            child: Container(
+              color: Theme.of(context).primaryColor,
+              padding: const EdgeInsets.only(top: 0.0),
+              alignment: Alignment.bottomCenter,
+              child: Image.network(
+                productModel.prizeImage!,
+                scale: 3.3,
+                loadingBuilder: (ctx, widget, progress) {
+                  if (progress == null) {
+                    return widget;
+                  } else {
+                    return Container(
+                      width: screenWidth,
+                      height: screenWidth / 2,
+                      child: WidgetUtils.progressIndicator(context),
+                    );
+                  }
+                },
+              ),
+            ),
+            replacement: Container(
+              padding: const EdgeInsets.only(top: 30.0),
+              alignment: Alignment.center,
+              child: Image.network(
+                productModel.productImage!,
+                scale: 3.3,
+                loadingBuilder: (ctx, widget, progress) {
+                  if (progress == null) {
+                    return widget;
+                  } else {
+                    return Container(
+                      width: screenWidth,
+                      height: screenWidth / 2,
+                      child: WidgetUtils.progressIndicator(context),
+                    );
+                  }
+                },
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                // Top features
+                Column(
+                  children: [
+                    // Shared and favorite icons
+                    GestureDetector(
+                      onTap: () {
+                        Utils.shareProduct(
+                          'https://flutter.dev/',
+                          productModel.title ?? "",
+                        );
+                      },
+                      child: Opacity(
+                        opacity: 0.6509803921568628,
+                        child: Icon(Icons.share_outlined, size: 28),
+                      ),
+                    ),
+                    SizedBox(height: screenWidth * 0.04),
+                    AddToFavorites(productModel.dealId!, false),
+                  ],
+                ),
+                // Top right image
+                Container(
+                  width: sizeOfProduct,
+                  height: sizeOfProduct,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: Image.network(topRightImage, fit: BoxFit.fill,
+                        loadingBuilder: (ctx, widget, progress) {
+                      if (progress == null) {
+                        return widget;
+                      } else {
+                        return WidgetUtils.progressIndicator(context);
+                      }
+                    }),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buttons() {
+    return Row(
+      children: [
+        Expanded(
+          child: GestureDetector(
+            onTap: () => setState(() {
+              isPrizeDetailsSelected = true;
+              showSequence = false;
+            }),
+            child: Container(
+              alignment: Alignment.center,
+              color: isPrizeDetailsSelected
+                  ? HexColor("#F83615")
+                  : HexColor("#444343"),
+              height: screenWidth * 0.11,
+              child: Text(
+                "Prize Details",
+                style: TextStyle(
+                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+          child: GestureDetector(
+            onTap: () => setState(() {
+              isPrizeDetailsSelected = false;
+              showSequence = false;
+            }),
+            child: Container(
+              alignment: Alignment.center,
+              color: isPrizeDetailsSelected
+                  ? HexColor("#444343")
+                  : HexColor("#F83615"),
+              height: screenWidth * 0.11,
+              child: Text(
+                "Product Details",
+                style: TextStyle(
+                  fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget productCounts() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          onTap: () => setState(() {
+            if (_productCount > 1) {
+              _mySequence.remove(_productCount);
+              _productCount--;
+              sequenceAdderView.removeLast();
+            }
+          }),
+          child: Icon(
+            Icons.remove,
+            color: Colors.black,
+          ),
+        ),
+        SizedBox(width: 40),
+        Container(
+          alignment: Alignment.center,
+          width: countContainerWidth,
+          height: countContainerHeight,
+          decoration: BoxDecoration(
+            color: HexColor("#303030"),
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(
+            _productCount.toString(),
+            style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+        SizedBox(width: 40),
+        InkWell(
+          onTap: () => setState(
+            () {
+              if (_productCount < 3) {
+                _productCount++;
+                sequenceAdderView.add(
+                  GuessAndWinSequence(
+                    _productCount,
+                    saveSequence,
+                  ),
+                );
+              } else {
+                WidgetUtils.showCountAlert(context);
+              }
+            },
+          ),
+          child: Icon(Icons.add, color: Colors.red),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,376 +307,117 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       backgroundColor: HexColor("#FCF4F4"),
       body: FutureBuilder(
-        future: _modal == null
-            ? WebService.fetchProductDetails(productId ?? item!.productId)
-            : Future.value(_modal),
+        future: getFutureModel(),
         builder: (ctx, snapShot) {
-          if (snapShot.hasData) {
-            prepareModal(snapShot);
-            return Container(
-              height: MediaQuery.of(context).size.height,
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // Main image with share and favorites icons
-                    Container(
-                      width: screenWidth,
-                      child: Stack(
+          if (!snapShot.hasData) {
+            return WidgetUtils.progressIndicator(context);
+          }
+          prepareModal(snapShot);
+          int timeInMillis = _detailedProductModel!.timeStamp * 1000;
+          var dateTime = DateTime.fromMillisecondsSinceEpoch(timeInMillis);
+          if (dateTime.isBefore(DateTime.now())) {
+            isExpired = true;
+          }
+          return Container(
+            height: MediaQuery.of(context).size.height,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // Main image with share and favorites icons
+                  header(screenWidth, _detailedProductModel!),
+                  SizedBox(height: 10.0),
+                  Column(
+                    children: [
+                      // Timer image
+                      Opacity(
+                        opacity: 0.25882352941176473,
+                        child: Image.asset(
+                          'assets/images/clock_icon.png',
+                          scale: 10,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      // Watch tag line
+                      Text(
+                        "Closing in",
+                        style: TextStyle(
+                          fontFamily:
+                              Theme.of(context).textTheme.subtitle2!.fontFamily,
+                          color: HexColor("#5F5C5C"),
+                          fontStyle: FontStyle.italic,
+                        ),
+                      ),
+                      SizedBox(height: 10.0),
+                      Stack(
+                        alignment: Alignment.topCenter,
                         children: [
-                          Visibility(
-                            visible: isPrizeDetailsSelected,
-                            child: Container(
-                              color: Theme.of(context).primaryColor,
-                              padding: const EdgeInsets.only(top: 0.0),
-                              alignment: Alignment.bottomCenter,
-                              child: Image.network(
-                                _modal!.prizeImage!,
-                                scale: 3.3,
-                                loadingBuilder: (ctx, widget, progress) {
-                                  if (progress == null) {
-                                    return widget;
-                                  } else {
-                                    return Container(
-                                      width: screenWidth,
-                                      height: screenWidth / 2,
-                                      child:
-                                          WidgetUtils.progressIndicator(context),
-                                    );
-                                  }
-                                },
+                          Container(
+                            margin: const EdgeInsets.only(top: 30),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(70),
+                                topRight: Radius.circular(70),
                               ),
+                              color: Colors.white,
                             ),
-                            replacement: Container(
-                              padding: const EdgeInsets.only(top: 30.0),
-                              alignment: Alignment.center,
-                              child: Image.network(
-                                _modal!.productImage!,
-                                scale: 3.3,
-                                loadingBuilder: (ctx, widget, progress) {
-                                  if (progress == null) {
-                                    return widget;
-                                  } else {
-                                    return Container(
-                                      width: screenWidth,
-                                      height: screenWidth / 2,
-                                      child:
-                                          WidgetUtils.progressIndicator(context),
-                                    );
-                                  }
-                                },
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            child: Column(
                               children: [
-                                // Top features
-                                Column(
-                                  children: [
-                                    // Shared and favorite icons
-                                    GestureDetector(
-                                      onTap: () {
-                                        Utils.shareProduct(
-                                          'https://flutter.dev/',
-                                          _modal!.title ?? "",
-                                        );
-                                      },
-                                      child: Opacity(
-                                        opacity: 0.6509803921568628,
-                                        child:
-                                            Icon(Icons.share_outlined, size: 28),
-                                      ),
-                                    ),
-                                    SizedBox(height: screenWidth * 0.04),
-                                    AddToFavorites(
-                                      _modal!.dealId!,
-                                      false,
-                                    ),
-                                  ],
+                                SizedBox(height: screenWidth * 0.1),
+                                // Product count
+                                productCounts(),
+                                SizedBox(height: elementSpacing),
+                                // Buttons
+                                buttons(),
+                                SizedBox(height: elementSpacing),
+                                // Details
+                                Visibility(
+                                  visible: showSequence,
+                                  child: Column(children: sequenceAdderView),
+                                  replacement: productDetails(
+                                    isPrizeDetailsSelected,
+                                    _detailedProductModel!,
+                                  ),
                                 ),
-                                // Top right image
-                                Container(
-                                  width: sizeOfProduct,
-                                  height: sizeOfProduct,
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey,
+                                Stack(
+                                  alignment: Alignment.bottomCenter,
+                                  children: [
+                                    ProductDetailsView(
+                                      screenWidth,
+                                      _productCount * productPrice,
                                     ),
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.white,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(20),
-                                    child: Image.network(
-                                        isPrizeDetailsSelected
-                                            ? _modal!.productImage!
-                                            : _modal!.prizeImage!,
-                                        fit: BoxFit.fill,
-                                        loadingBuilder: (ctx, widget, progress) {
-                                      if (progress == null) {
-                                        return widget;
-                                      } else {
-                                        return WidgetUtils.progressIndicator(
-                                            context);
-                                      }
-                                    }),
-                                  ),
+                                    addToCart(screenWidth, isExpired),
+                                  ],
                                 ),
                               ],
                             ),
-                          )
+                          ),
+                          // Timer container
+                          Container(
+                            width: screenWidth * 0.7,
+                            child: ClosingTimer(
+                              _detailedProductModel!.timeStamp,
+                              useShrinkForm: false,
+                            ),
+                          ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Column(
-                      children: [
-                        // Timer image
-                        Opacity(
-                          opacity: 0.25882352941176473,
-                          child:
-                          Image.asset('assets/images/clock_icon.png', scale: 10),
-                        ),
-                        SizedBox(height: 10.0),
-                        // Watch tag line
-                        Text(
-                          "Closing in",
-                          style: TextStyle(
-                            fontFamily:
-                            Theme.of(context).textTheme.subtitle2!.fontFamily,
-                            color: HexColor("#5F5C5C"),
-                            fontStyle: FontStyle.italic,
-                          ),
-                        ),
-                        SizedBox(height: 10.0),
-                        Stack(
-                          alignment: Alignment.topCenter,
-                          children: [
-                            Container(
-                              margin: const EdgeInsets.only(top: 30),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Colors.grey),
-                                borderRadius: BorderRadius.only(
-                                  topLeft: Radius.circular(70),
-                                  topRight: Radius.circular(70),
-                                ),
-                                color: Colors.white,
-                              ),
-                              child: Column(
-                                children: [
-                                  SizedBox(height: screenWidth * 0.1),
-                                  // Product count
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        onTap: () => setState(() {
-                                          if (_productCount > 1) {
-                                            _mySequence.remove(_productCount);
-                                            _productCount--;
-                                            sequenceAdderView.removeLast();
-                                          }
-                                        }),
-                                        child: Icon(
-                                          Icons.remove,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                      SizedBox(width: 40),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: countContainerWidth,
-                                        height: countContainerHeight,
-                                        decoration: BoxDecoration(
-                                          color: HexColor("#303030"),
-                                          borderRadius: BorderRadius.circular(10),
-                                        ),
-                                        child: Text(
-                                          _productCount.toString(),
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(width: 40),
-                                      InkWell(
-                                        onTap: () => setState(
-                                              () {
-                                            if (_productCount < 3) {
-                                              _productCount++;
-                                              sequenceAdderView.add(
-                                                GuessAndWinSequence(
-                                                  _productCount,
-                                                  saveSequence,
-                                                ),
-                                              );
-                                            } else {
-                                              WidgetUtils.showCountAlert(context);
-                                            }
-                                          },
-                                        ),
-                                        child: Icon(Icons.add, color: Colors.red),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: elementSpacing),
-                                  // Buttons
-                                  Row(
-                                    children: [
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () => setState(() {
-                                            isPrizeDetailsSelected = true;
-                                            showSequence = false;
-                                          }),
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            color: isPrizeDetailsSelected
-                                                ? HexColor("#F83615")
-                                                : HexColor("#444343"),
-                                            height: screenWidth * 0.11,
-                                            child: Text(
-                                              "Prize Details",
-                                              style: TextStyle(
-                                                fontFamily: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle2!
-                                                    .fontFamily,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () => setState(() {
-                                            isPrizeDetailsSelected = false;
-                                            showSequence = false;
-                                          }),
-                                          child: Container(
-                                            alignment: Alignment.center,
-                                            color: isPrizeDetailsSelected
-                                                ? HexColor("#444343")
-                                                : HexColor("#F83615"),
-                                            height: screenWidth * 0.11,
-                                            child: Text(
-                                              "Product Details",
-                                              style: TextStyle(
-                                                fontFamily: Theme.of(context)
-                                                    .textTheme
-                                                    .subtitle2!
-                                                    .fontFamily,
-                                                color: Colors.white,
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: elementSpacing),
-                                  // Details
-                                  Visibility(
-                                    visible: showSequence,
-                                    child: Column(children: sequenceAdderView),
-                                    replacement: productDetails(),
-                                  ),
-                                  Stack(
-                                    alignment: Alignment.bottomCenter,
-                                    children: [
-                                      ProductDetailsView(
-                                        screenWidth,
-                                        _productCount * productPrice,
-                                      ),
-                                      AddToCartButton(
-                                        screenWidth,
-                                        "Add to cart",
-                                            () async {
-                                          bool proceedToCheckout = true;
-                                          if (_modal!.type == "2") {
-                                            setState(() {
-                                              showSequence = true;
-                                            });
-                                          }
-                                          if (showSequence &&
-                                              _mySequence.length !=
-                                                  sequenceAdderView.length) {
-                                            Fluttertoast.showToast(
-                                              msg:
-                                              "Please complete your sequences to proceed towards checkout",
-                                              gravity: ToastGravity.BOTTOM,
-                                              toastLength: Toast.LENGTH_LONG,
-                                            );
-                                            proceedToCheckout = false;
-                                          }
-                                          if (proceedToCheckout ||
-                                              _modal!.type != "2") {
-                                            bool isValid = validateProductType();
-                                            if (isValid) {
-                                              await Utilities().populateData(
-                                                context,
-                                                _modal!,
-                                                _productCount,
-                                                _mySequence,
-                                                productPrice,
-                                              );
-                                              Fluttertoast.showToast(
-                                                msg: "Product added into cart",
-                                                gravity: ToastGravity.BOTTOM,
-                                                toastLength: Toast.LENGTH_LONG,
-                                              );
-                                              Utils.moveToNextScreenAfterCertainTime(
-                                                2,
-                                                    () {
-                                                  Fluttertoast.cancel();
-                                                  Navigator.pushNamedAndRemoveUntil(
-                                                    context,
-                                                    ParentScreen.routeName,
-                                                        (route) => false,
-                                                    arguments: 3,
-                                                  );
-                                                },
-                                              );
-                                            }
-                                          }
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
-                            // Timer container
-                            Container(
-                              width: screenWidth * 0.7,
-                              child: ClosingTimer(
-                                _modal!.timeStamp,
-                                useShrinkForm: false,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    )
-                  ],
-                ),
+                    ],
+                  )
+                ],
               ),
-            );
-          } else {
-            return WidgetUtils.progressIndicator(context);
-          }
+            ),
+          );
         },
       ),
     );
   }
 
-  Widget productDetails() {
+  Widget productDetails(bool isPrizeDetails, DetailedProductModal model) {
+    String? title = isPrizeDetails ? model.prizeName : model.title;
+    String? description =
+        isPrizeDetails ? model.priceDescription : model.description;
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Column(
@@ -466,14 +427,11 @@ class _ProductDetailsState extends State<ProductDetails> {
             visible: isPrizeDetailsSelected,
             child: Text(
               "Get a change To win",
-              style: TextStyle(
-                color: HexColor("#303030"),
-                fontSize: 17,
-              ),
+              style: TextStyle(color: HexColor("#303030"), fontSize: 17),
             ),
           ),
           Text(
-            isPrizeDetailsSelected ? _modal!.prizeName ?? "" : _modal!.title!,
+            title ?? "",
             style: TextStyle(
               fontFamily: Theme.of(context).textTheme.subtitle2!.fontFamily,
               color: HexColor("#303030"),
@@ -483,9 +441,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           ConstrainedBox(
             constraints: BoxConstraints(maxWidth: screenWidth),
             child: Text(
-              isPrizeDetailsSelected
-                  ? _modal!.priceDescription ?? ""
-                  : _modal!.description!,
+              description ?? "",
               style: TextStyle(
                 fontFamily: Theme.of(context).textTheme.bodyText1!.fontFamily,
                 color: HexColor("#303030"),
@@ -498,7 +454,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   bool validateProductType() {
-    if (_modal!.type == "2" && _mySequence.isEmpty) {
+    if (_detailedProductModel!.type == "2" && _mySequence.isEmpty) {
       Fluttertoast.showToast(
         msg: "Please select your sequence",
         gravity: ToastGravity.BOTTOM,
@@ -511,9 +467,9 @@ class _ProductDetailsState extends State<ProductDetails> {
   }
 
   void prepareModal(var snapShot) {
-    _modal = snapShot.data as DetailedProductModal;
+    _detailedProductModel = snapShot.data as DetailedProductModal;
     if (!isGenerated) {
-      productPrice = double.parse(_modal!.price!);
+      productPrice = double.parse(_detailedProductModel!.price!);
       if (productId == null) {
         _productCount = _productCount + item!.itemCount;
         productPrice = productPrice + double.parse(item!.price);
@@ -527,13 +483,64 @@ class _ProductDetailsState extends State<ProductDetails> {
           );
           _mySequence[i + 1] = item!.mySequence.values.elementAt(i);
         }
-        sequenceAdderView
-            .add(GuessAndWinSequence(_productCount, saveSequence));
+        sequenceAdderView.add(GuessAndWinSequence(_productCount, saveSequence));
         showSequence = true;
       } else {
         sequenceAdderView.add(GuessAndWinSequence(1, saveSequence));
       }
       isGenerated = true;
     }
+  }
+
+  Widget addToCart(double screenWidth, bool isExpired) {
+    return AddToCartButton(screenWidth, "Add to cart", () async {
+      if (isExpired) {
+        WidgetUtils.showToast("Deal Expired. Please look for other deals");
+        return;
+      }
+      bool canBuy = await WebService.checkUserProducts(productId);
+      if (canBuy) {
+        bool proceedToCheckout = true;
+        if (_detailedProductModel!.type == "2") {
+          setState(() {
+            showSequence = true;
+          });
+        }
+        if (showSequence && _mySequence.length != sequenceAdderView.length) {
+          Fluttertoast.showToast(
+            msg: "Please complete your sequences to proceed towards checkout",
+            gravity: ToastGravity.BOTTOM,
+            toastLength: Toast.LENGTH_LONG,
+          );
+          proceedToCheckout = false;
+        }
+        if (proceedToCheckout || _detailedProductModel!.type != "2") {
+          bool isValid = validateProductType();
+          if (isValid) {
+            await Utilities().populateData(
+              context,
+              _detailedProductModel!,
+              _productCount,
+              _mySequence,
+              productPrice,
+            );
+            Fluttertoast.showToast(
+              msg: "Product added into cart",
+              gravity: ToastGravity.BOTTOM,
+              toastLength: Toast.LENGTH_LONG,
+            );
+            Utils.moveToNextScreenAfterCertainTime(2, () {
+              Fluttertoast.cancel();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                ParentScreen.routeName,
+                (route) => false,
+                arguments: 3,
+              );
+            });
+          }
+        }
+      }
+    });
   }
 }

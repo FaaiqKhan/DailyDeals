@@ -5,6 +5,7 @@ import 'package:daily_deals/screens/language_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/utils/constants.dart';
 import 'package:daily_deals/utils/utils.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -16,23 +17,27 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Utils.moveToNextScreenAfterCertainTime(6, () {
+    Utils.moveToNextScreenAfterCertainTime(6, () async {
+      final preferences = await SharedPreferences.getInstance();
+      String fcmToken = preferences.getString(Constants.FCM_TOKEN) ?? "";
+      if (fcmToken.isEmpty) {
+        String token = await FirebaseMessaging.instance.getToken() ?? "";
+        preferences.setString(Constants.FCM_TOKEN, token);
+      }
       String routeName = LanguageSelection.routeName;
-      SharedPreferences.getInstance().then((preferences) {
-        if (preferences.get(Constants.ACCESS_TOKEN) != null) {
-          String? phoneNumber =
-              preferences.getString(Constants.PHONE_NUMBER) ?? "";
-          phoneNumber.isNotEmpty
-              ? routeName = ParentScreen.routeName
-              : routeName = EnterPhoneNumberScreen.routeName;
-        }
-        _videoPlayerController.dispose().then(
-              (value) => Navigator.pushReplacementNamed(
-                context,
-                routeName,
-              ),
-            );
-      });
+      if (preferences.get(Constants.ACCESS_TOKEN) != null) {
+        String? phoneNumber =
+            preferences.getString(Constants.PHONE_NUMBER) ?? "";
+        phoneNumber.isNotEmpty
+            ? routeName = ParentScreen.routeName
+            : routeName = EnterPhoneNumberScreen.routeName;
+      }
+      _videoPlayerController.dispose().then(
+            (value) => Navigator.pushReplacementNamed(
+          context,
+          routeName,
+        ),
+      );
     });
     return Scaffold(
       backgroundColor: Colors.red,

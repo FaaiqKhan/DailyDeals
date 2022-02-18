@@ -26,7 +26,6 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -38,13 +37,6 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
-  SharedPreferences.getInstance().then((preferences) {
-    String? fcmToken = preferences.getString(Constants.FCM_TOKEN) ?? "";
-    if (fcmToken.isEmpty)
-      FirebaseMessaging.instance.getToken().then((token) {
-        preferences.setString(Constants.FCM_TOKEN, token ?? "");
-      });
-  });
   Hive.registerAdapter(CartItemAdapter());
   HttpOverrides.global = MyHttpOverrides();
   runApp(MyApp());
