@@ -451,4 +451,41 @@ class WebService {
       return Future.value(false);
     }
   }
+
+  static Future<bool> checkEmailExist(String email) async {
+    NetworkHandler handler = NetworkHandler(endPoint: "/user/emailcheck");
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      body: {"email": email},
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      if (json['success']) {
+        return Future.value(false);
+      }
+      WidgetUtils.showToast(json['errorDetails']);
+      return Future.value(true);
+    } else {
+      return Future.value(true);
+    }
+  }
+
+  static Future<bool> checkPhoneNumberExist(String number) async {
+    NetworkHandler handler = NetworkHandler(endPoint: "/user/phonecheck");
+    var response = await http.post(
+      Uri.parse(handler.getUrl),
+      body: {"phonenumber": number},
+    );
+    if (response.statusCode == 200) {
+      var json = jsonDecode(response.body);
+      print(json);
+      if (json['success']) {
+        return Future.value(false);
+      }
+      WidgetUtils.showToast(json['errorDetails']);
+      return Future.value(true);
+    } else {
+      return Future.value(true);
+    }
+  }
 }

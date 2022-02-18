@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:daily_deals/providers/user_details.dart';
+import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
@@ -199,8 +200,23 @@ class _SignUpFormState extends State<SignUpForm> {
                 if (isTermsAndConditionsAccepted) {
                   SignUpForm._form.currentState!.save();
                   if (SignUpForm._form.currentState!.validate()) {
+                    WidgetUtils.showLoaderDialog(context, "Please wait...");
+                    bool isExist = await WebService.checkEmailExist(
+                      _userDetails.getEmail,
+                    );
+                    if (isExist) {
+                      Navigator.of(context).pop();
+                      return;
+                    }
                     _userDetails.setNumber =
                         countryCode + _userDetails.getNumber;
+                    isExist = await WebService.checkPhoneNumberExist(
+                      _userDetails.getNumber,
+                    );
+                    if (isExist) {
+                      Navigator.of(context).pop();
+                      return;
+                    }
                     FocusScope.of(context).requestFocus(FocusNode());
                     Utils.requestOtp(context, _userDetails);
                   }
