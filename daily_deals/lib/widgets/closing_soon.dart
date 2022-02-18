@@ -21,6 +21,7 @@ class ClosingSoon extends StatelessWidget {
     DateTime current = DateTime.now();
     if (dateTime.isAfter(current)) {
       isExpired = false;
+      setZero = dateTime.day <= current.day;
       Duration diffDuration = dateTime.difference(current);
       List<String> vaSplit = Utilities().formatDuration(diffDuration);
       List<int> data = [];
@@ -35,7 +36,6 @@ class ClosingSoon extends StatelessWidget {
         data[2],
         data[3],
       );
-      setZero = dateTime.day <= current.day;
     }
     return GestureDetector(
       onTap: () => Navigator.pushNamed(
