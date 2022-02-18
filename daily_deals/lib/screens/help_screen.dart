@@ -6,7 +6,6 @@ import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/utils/viewhelper/dropdown_action.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

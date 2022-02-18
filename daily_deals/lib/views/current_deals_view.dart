@@ -2,7 +2,7 @@ import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/screens/product_details_screen.dart';
 import 'package:daily_deals/widgets/add_to_favorites.dart';
 import 'package:daily_deals/widgets/price_details_and_add_to_cart.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

@@ -1,5 +1,5 @@
 import 'package:daily_deals/widgets/remaining_product_count.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

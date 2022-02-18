@@ -1,6 +1,6 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/views/current_deals_view.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class CurrentDealsSlider extends StatelessWidget {

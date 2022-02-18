@@ -1,5 +1,5 @@
 import 'package:daily_deals/screens/product_details_screen.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

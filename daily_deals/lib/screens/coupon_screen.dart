@@ -2,7 +2,6 @@ import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/coupon_view.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CouponScreen extends StatelessWidget {

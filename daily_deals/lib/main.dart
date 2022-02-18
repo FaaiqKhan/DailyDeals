@@ -20,14 +20,11 @@ import 'package:daily_deals/screens/sign_in_screen.dart';
 import 'package:daily_deals/screens/sign_up_screen.dart';
 import 'package:daily_deals/screens/splash_screen.dart';
 import 'package:daily_deals/screens/welcome_screen.dart';
-import 'package:daily_deals/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import './screens/sign_in_up_screen.dart';
 import 'providers/auth.dart';

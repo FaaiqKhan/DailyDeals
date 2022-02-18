@@ -2,7 +2,7 @@ import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/widgets/delivery_modes.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class CheckoutItemView extends StatelessWidget {

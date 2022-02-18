@@ -13,7 +13,6 @@ import 'package:daily_deals/views/cart_card_view.dart';
 import 'package:daily_deals/views/checkout_item_view.dart';
 import 'package:daily_deals/views/product_details_view.dart';
 import 'package:daily_deals/widgets/add_to_cart_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:hive/hive.dart';

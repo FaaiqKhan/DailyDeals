@@ -2,7 +2,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/screens/sign_in_up_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/welcome_note.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 

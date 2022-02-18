@@ -1,6 +1,6 @@
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 
 class GuessAndWinSequence extends StatefulWidget {

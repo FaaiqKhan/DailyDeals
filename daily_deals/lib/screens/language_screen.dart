@@ -2,7 +2,7 @@ import 'package:colorful_safe_area/colorful_safe_area.dart';
 import 'package:daily_deals/screens/welcome_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/app_button.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class LanguageSelection extends StatelessWidget {

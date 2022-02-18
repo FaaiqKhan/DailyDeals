@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:daily_deals/service/webservice.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:daily_deals/views/single_product_view.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import '../views/app_bar_title.dart';

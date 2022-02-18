@@ -1,9 +1,9 @@
 import 'package:daily_deals/modals/coupon_modal.dart';
 import 'package:daily_deals/views/digit_view.dart';
 import 'package:daily_deals/widgets/remaining_product_count.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 
 class CouponView extends StatelessWidget {

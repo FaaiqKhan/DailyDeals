@@ -1,6 +1,6 @@
 import 'package:daily_deals/utils/widget_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:hexcolor/hexcolor.dart';
 import 'package:video_player/video_player.dart';
 

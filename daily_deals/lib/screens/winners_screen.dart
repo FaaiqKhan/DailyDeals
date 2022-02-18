@@ -1,6 +1,6 @@
 import 'package:daily_deals/modals/winner_modal.dart';
 import 'package:daily_deals/views/winner_card_view.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

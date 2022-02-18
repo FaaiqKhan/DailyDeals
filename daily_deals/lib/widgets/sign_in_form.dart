@@ -4,7 +4,7 @@ import 'package:daily_deals/screens/forgot_password_screen.dart';
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/utils/form_utils.dart';
 import 'package:daily_deals/utils/widget_utils.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

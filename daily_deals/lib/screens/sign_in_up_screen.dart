@@ -1,6 +1,6 @@
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/app_button.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 import 'sign_in_screen.dart';

@@ -2,7 +2,7 @@ import 'package:daily_deals/screens/draws_screen.dart';
 import 'package:daily_deals/screens/help_screen.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/screens/products_showcase_screen.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

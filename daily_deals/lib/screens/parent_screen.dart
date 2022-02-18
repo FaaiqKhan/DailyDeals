@@ -10,9 +10,9 @@ import 'package:daily_deals/widgets/app_bar_profile_button.dart';
 import 'package:daily_deals/widgets/bottom_navigation_bar_item.dart';
 import 'package:daily_deals/widgets/drawer.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+
 import 'package:flutter/services.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:provider/provider.dart';

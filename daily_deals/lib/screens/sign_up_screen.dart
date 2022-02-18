@@ -4,7 +4,7 @@ import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/widgets/screen_title.dart';
 import 'package:daily_deals/widgets/sign_up_form.dart';
 import 'package:daily_deals/widgets/social_button.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatelessWidget {

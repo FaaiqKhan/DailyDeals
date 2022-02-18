@@ -1,6 +1,6 @@
 import 'package:daily_deals/screens/parent_screen.dart';
 import 'package:daily_deals/views/app_bar_title.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 

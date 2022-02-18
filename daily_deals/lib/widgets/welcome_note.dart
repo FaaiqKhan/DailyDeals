@@ -1,5 +1,4 @@
 import 'package:daily_deals/utils/utils.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class WelcomeNote extends StatelessWidget {

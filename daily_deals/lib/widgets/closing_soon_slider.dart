@@ -1,7 +1,7 @@
 import 'package:daily_deals/modals/product_modal.dart';
 import 'package:daily_deals/utils/utils.dart';
 import 'package:daily_deals/views/current_deals_view.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

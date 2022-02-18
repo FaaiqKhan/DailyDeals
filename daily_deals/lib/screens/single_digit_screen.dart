@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+// ignore: must_be_immutable
 class SingleDigit extends StatefulWidget {
   final int initialValue;
   final bool showSeparator, useShrinkForm;
