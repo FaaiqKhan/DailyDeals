@@ -189,6 +189,7 @@ class CartScreen extends StatelessWidget {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
     isAddressRequired = {};
+    showAddressDetails = false;
     List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
     double cartHeight = screenHeight * 0.75;
     controller = scaffoldKey.currentState!.showBottomSheet(
