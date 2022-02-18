@@ -55,7 +55,6 @@ class Utils {
     UserDetails userDetails, {
     Function? timer,
   }) async {
-    WidgetUtils.showLoaderDialog(context, "Please wait...");
     FirebaseAuth auth = FirebaseAuth.instance;
     try {
       await auth.verifyPhoneNumber(
