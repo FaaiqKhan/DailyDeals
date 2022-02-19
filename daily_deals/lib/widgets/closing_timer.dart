@@ -17,13 +17,13 @@ class ClosingTimer extends StatelessWidget {
     DateTime dateTime = DateTime.fromMillisecondsSinceEpoch(timeStamp * 1000);
     DateTime current = DateTime.now();
     if (dateTime.isAfter(current)) {
-      bool setZero = dateTime.day <= current.day;
       Duration diffDuration = dateTime.difference(current);
       List<String> vaSplit = Utilities().formatDuration(diffDuration);
       List<int> data = [];
       for (String d in vaSplit) {
         data.add(int.parse(d));
       }
+      bool setZero = data[0] == 0;
       dateTime = DateTime(
         current.year,
         current.month,

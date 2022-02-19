@@ -1,8 +1,11 @@
 
+import 'package:daily_deals/modals/address_model.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class CartAddressDetailsView extends StatefulWidget {
+  final AddressModel addressModel;
+  CartAddressDetailsView(this.addressModel);
   @override
   State<CartAddressDetailsView> createState() => _CartAddressDetailsViewState();
 }
@@ -196,21 +199,25 @@ class _CartAddressDetailsViewState extends State<CartAddressDetailsView> {
                         decoration: fieldDecoration("Villa Or Flat number"),
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
+                        onChanged: (value) => widget.addressModel.flatNumber = value,
                       ),
                       TextFormField(
                         decoration: fieldDecoration("Building Name"),
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
+                        onChanged: (value) => widget.addressModel.buildingNumber = value,
                       ),
                       TextFormField(
                         decoration: fieldDecoration("Area"),
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
+                        onChanged: (value) => widget.addressModel.area = value,
                       ),
                       TextFormField(
                         decoration: fieldDecoration("City"),
                         cursorColor: Colors.white,
                         style: TextStyle(color: Colors.white),
+                        onChanged: (value) => widget.addressModel.city = value,
                       ),
                     ],
                   ),

@@ -1,3 +1,4 @@
+import 'package:daily_deals/modals/address_model.dart';
 import 'package:daily_deals/modals/cart_item_modal.dart';
 import 'package:daily_deals/modals/checkout_modal.dart';
 import 'package:daily_deals/providers/cart_cost_provider.dart';
@@ -32,6 +33,7 @@ class CartScreen extends StatelessWidget {
   bool showAddressDetails = false;
   int couponCount = 0;
   List<String> suffix = ["a", "b", "c"];
+  late AddressModel addressModel;
 
   Future<List<CartItemModal>> getCartItem() async {
     var cartItemBox = await Hive.openBox<CartItemModal>('cartItem');
@@ -182,16 +184,14 @@ class CartScreen extends StatelessWidget {
     return guessAndWin;
   }
 
-  Future<void> checkoutView(
-    BuildContext context,
-    List<CartItemModal> cartItems,
-  ) async {
-    double screenWidth = MediaQuery.of(context).size.width;
-    double screenHeight = MediaQuery.of(context).size.height;
+  Future<void> checkoutView(BuildContext context, var cartItems) async {
     isAddressRequired = {};
     showAddressDetails = false;
-    List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
+    addressModel = AddressModel("", "", "", "");
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
     double cartHeight = screenHeight * 0.75;
+    List<Widget> checkoutItems = generateCheckoutItemsView(cartItems);
     controller = scaffoldKey.currentState!.showBottomSheet(
       (context) => Container(
         child: Column(
@@ -224,7 +224,7 @@ class CartScreen extends StatelessWidget {
                     // Address details
                     Visibility(
                       visible: showAddressDetails,
-                      child: CartAddressDetailsView(),
+                      child: CartAddressDetailsView(addressModel),
                       replacement: SizedBox.shrink(),
                     ),
                   ],
@@ -246,22 +246,19 @@ class CartScreen extends StatelessWidget {
                 ),
                 // Checkout button
                 AddToCartButton(screenWidth, "Checkout", () async {
-                  SharedPreferences preferences =
-                      await SharedPreferences.getInstance();
+                  var preferences = await SharedPreferences.getInstance();
                   List<CheckoutItemModal> checkoutItems = [];
                   List<CodeSequence> codeSequence = [];
                   for (CartItemModal item in cartItems) {
                     for (int index = 0; index < item.itemCount; index++) {
                       if (isAddressRequired
                           .containsKey(item.productId + suffix[index])) {
-                        String ty =
+                        codeSequence.add(
+                          CodeSequence(
                             isAddressRequired[item.productId + suffix[index]] ==
                                     0
                                 ? "Donate"
-                                : "Normal";
-                        codeSequence.add(
-                          CodeSequence(
-                            ty,
+                                : "Normal",
                             sequence: item.mySequence.isNotEmpty
                                 ? item.mySequence[index + 1]
                                 : null,
@@ -278,6 +275,15 @@ class CartScreen extends StatelessWidget {
                         codeSequence,
                       ),
                     );
+                  }
+                  if (showAddressDetails &&
+                      (addressModel.flatNumber.isEmpty ||
+                          addressModel.buildingNumber.isEmpty ||
+                          addressModel.area.isEmpty ||
+                          addressModel.city.isEmpty)) {
+                    WidgetUtils.showToast(
+                        "Please add all the required address details");
+                    return;
                   }
                   CheckoutModal checkoutItem = CheckoutModal(
                     preferences.getString(Constants.USER_ID)!,
@@ -357,6 +363,7 @@ class CartScreen extends StatelessWidget {
       isAddressRequired[id] = type;
       if (isAddressRequired.containsValue(1)) {
         showAddressDetails = true;
+        addressModel = AddressModel("", "", "", "");
         _scrollController.animateTo(
           _scrollController.offset + 200,
           duration: Duration(seconds: 1),
